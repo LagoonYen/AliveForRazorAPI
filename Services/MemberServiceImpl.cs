@@ -1,6 +1,9 @@
 ﻿using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Services
@@ -14,31 +17,58 @@ namespace AliveStoreTemplate.Services
             _memberRepository = memberRepository;
         }
 
-        public async Task PostMemberRegister(string ACCT, string Pwd)
+        public async Task<BaseResponseModel> PostMemberRegister(string account, string password)
         {
-            var TimeNow = DateTime.Now;
-            await _memberRepository.PostMemberRegister(ACCT, Pwd, TimeNow);
+            var memberInfo = await _memberRepository.GetMemberInfo(account);
+            try
+            {
+                if(memberInfo.Results != null)
+                {
+                    throw new Exception("此帳號已被註冊過");
+                }
+                var TimeNow = DateTime.Now;
+                MemberInfo member = new MemberInfo();
+                member.Account = account;
+                member.Password = password;
+                member.RegisterTime = member.UpdateTime = TimeNow;
+                await _memberRepository.PostMemberRegister(member);
+                return new BaseResponseModel
+                {
+                    StatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
         }
 
-        public async Task PatchPwdUpdate(int id, string Pwd)
+        public async Task PatchMemberInfo(string account, string password)
         {
-            var memberInfo = await _memberRepository.GetMemberInfo(id);
+            var memberInfo = await _memberRepository.GetMemberInfo(account);
             if (memberInfo == null)
             {
                 return;
             }
+            var memberInfoString = memberInfo.Results.FirstOrDefault();
             var DateTimeNow = DateTime.Now;
-            memberInfo.Password = Pwd;
-            memberInfo.UpdateTime = DateTimeNow;
-            await _memberRepository.PatchMemberInfo(memberInfo);
-            //var TimeNow = DateTime.Now;
-            //member.UpdateTime = TimeNow;
-            //await _memberRepository.PatchMemberUpdate(member);
+            memberInfoString.Password = password;
+            memberInfoString.UpdateTime = DateTimeNow;
+            await _memberRepository.PatchMemberInfo(memberInfoString);
         }
 
         //public async Task PostMemberResetPwdSendMail(string Account)
         //{
         //    await _memberRepository.PostMemberResetPwdSendMail(Account);
         //}
+
+        public Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
+        {
+            return _memberRepository.GetMemberInfo(account);
+        }
     }
 }

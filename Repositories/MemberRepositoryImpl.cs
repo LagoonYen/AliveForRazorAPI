@@ -1,6 +1,9 @@
 ﻿using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Repositories
@@ -14,22 +17,16 @@ namespace AliveStoreTemplate.Repositories
             _dbShop = shopContext;
         }
 
-        public async Task PostMemberRegister(string ACCT, string Pwd, DateTime TimeNow)
+        public async Task<BaseResponseModel> PostMemberRegister(MemberInfo member)
         {
             try
             {
-                var repeatAcc = _dbShop.MemberInfos.FirstOrDefault(x => x.Account.Contains(ACCT));
-                if (repeatAcc != null)
-                {
-                    throw new Exception("此帳號已被註冊過!");
-                }
-                MemberInfo member = new MemberInfo();
-                member.Account = ACCT;
-                member.Password = Pwd;
-                member.RegisterTime = TimeNow;
-                member.UpdateTime = TimeNow;
                 await _dbShop.MemberInfos.AddAsync(member);
                 await _dbShop.SaveChangesAsync();
+                return new BaseResponseModel
+                {
+                    StatusCode = (HttpStatusCode)200  //弱轉型
+                };
             }
             catch
             {
@@ -37,22 +34,33 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public async Task<MemberInfo> GetMemberInfo(string account)
+        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
         {
             try
             {
                 MemberInfo member = new MemberInfo();
-                //member = _dbShop.MemberInfos.Find(account);
                 member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
                 if (member == null)
                 {
                     throw new Exception("此帳號未被註冊!");
                 }
-                return await _dbShop.MemberInfos.FindAsync(member.Id);
+                var result = await _dbShop.MemberInfos.FindAsync(member.Id);
+                return new BaseQueryModel<MemberInfo>
+                {
+                    //初始化
+                    Results = new List<MemberInfo> { result },
+                    Message = String.Empty,
+                    StatusCode = HttpStatusCode.OK,
+                };
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
             }
         }
 

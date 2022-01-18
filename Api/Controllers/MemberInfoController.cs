@@ -1,7 +1,9 @@
 ﻿using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Repositories;
+using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Api.Controllers
@@ -10,11 +12,11 @@ namespace AliveStoreTemplate.Api.Controllers
     [ApiController]
     public class MemberInfoController : ControllerBase
     {
-        private readonly MemberRepository _memberRepository;
+        private readonly MemberService _memberService;
 
-        public MemberInfoController(MemberRepository memberRepository)
+        public MemberInfoController(MemberService memberService)
         {
-            _memberRepository = memberRepository;
+            _memberService = memberService;
         }
 
         /// <summary>
@@ -28,10 +30,10 @@ namespace AliveStoreTemplate.Api.Controllers
         //指定回傳時的型別
         //[ProducesResponseType(typeof(CardInformationProViewModel), 200)]
         [Route("PostMemberRegister")]
-        public async Task PostMemberRegister(string ACCT, string Pwd)
+        public async Task PostMemberRegister(string account, string password)
         {
             var TimeNow = DateTime.Now;
-            await _memberRepository.PostMemberRegister(ACCT, Pwd, TimeNow);
+            await _memberService.PostMemberRegister(account, password);
         }
 
         /// <summary>
@@ -41,17 +43,9 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <returns></returns>
         [HttpPatch]
         [Route("PatchPwd")]
-        public async Task PatchPwdUpdate(string account, string Pwd)
+        public async Task PatchMemberInfo(string account, string password)
         {
-            var memberInfo =  await _memberRepository.GetMemberInfo(account);
-            if (memberInfo == null)
-            {
-                return;
-            }
-            var DateTimeNow = DateTime.Now;
-            memberInfo.Password = Pwd;
-            memberInfo.UpdateTime = DateTimeNow;
-            await _memberRepository.PatchMemberInfo(memberInfo);
+            await _memberService.PatchMemberInfo(account, password);
         }
 
 
