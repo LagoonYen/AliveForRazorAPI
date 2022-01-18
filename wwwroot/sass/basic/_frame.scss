@@ -1,0 +1,217 @@
+﻿/*font 字型 --------------------*/
+/*思源黑體*/
+/*@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);*/
+/*Lato*/
+@import url(https://fonts.font.im/css?family=Lato);
+
+/*_frame 架構 --------------------*/
+
+html, body {
+    color: $color-g-l;
+    font-family: $font-main;
+    font-size: $small;
+    line-height: 1.4;
+    background-color: #ffffff;
+}
+
+body > form {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+a {
+    & {
+        color: $color-sub-m;
+        text-decoration: none;
+    }
+
+    &:hover {
+        color: $color-thr-m;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+img {
+    display: block;
+}
+
+/*structure ------------*/
+.fa-wrap {
+    overflow-x: hidden;
+    background-color: #ffffff;
+    margin-top: 158px !important;
+    height: calc(100% - 158px) !important;
+}
+
+.fa-header {
+    & {
+        background: url(../img/bg_header.png) no-repeat center center;
+        background-size: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .header-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        padding: 30px 30px 20px 30px;
+    }
+
+    .nav-main {
+        /*position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;*/
+        ul {
+            /*max-width: 65%;
+            overflow: hidden;*/
+        }
+    }
+
+    .branding {
+        position: relative;
+        z-index: 100;
+
+        a {
+            background: url(../img/logo_alive.png) no-repeat center center;
+            width: 204px;
+            height: 70px;
+            margin: .1em .7em;
+            @extend %img-btn;
+        }
+    }
+}
+
+.fa-content {
+    .content-con {
+        width: $pageW;
+        padding: 50px 30px;
+        margin: 0 auto;
+    }
+}
+
+.fa-footer {
+    & {
+        color: $color-g-lll;
+        background-color: $color-main-l;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .copyright {
+        font-size: $mini;
+        line-height: 80px;
+        height: 80px;
+        padding: 0 30px;
+
+        a {
+            color: $color-main-ll;
+
+            &:hover {
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.fa-mobile {
+    & {
+        font-size: $medium;
+        display: none;
+    }
+
+    a {
+        color: $color-g-lll;
+        display: block;
+
+        &:hover {
+            color: $color-sub-m;
+            text-decoration: none;
+        }
+    }
+
+    ul {
+        margin: 1em;
+    }
+
+    li {
+        padding: .5em 1em;
+    }
+
+    .lv2 {
+        display: none;
+    }
+}
+
+/*element ------------*/
+/*search 搜寻*/
+.search {
+    & {
+        background-color: rgba(0,0,0,.5);
+        color: #d6d5d6;
+        position: relative;
+        padding: 0.2em .6em 0.2em 1em;
+        border-radius: 50px;
+    }
+
+    & > i {
+        top: 4px !important;
+    }
+
+    input[type=text] {
+        color: $color-g-lll;
+        background-color: transparent;
+        width: 12em;
+        padding: .5em .5em;
+        border: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+/*path 路径*/
+.path {
+    & {
+        font-size: $smallest;
+        margin-bottom: 2em;
+    }
+
+    a {
+        color: #7b7b7b;
+
+        &:last-child {
+            &:after {
+                display: none;
+            }
+        }
+
+        &:hover {
+            color: $color-sub-m;
+            text-decoration: none;
+
+            &:after {
+                color: $color-g-m;
+            }
+        }
+
+        &:after {
+            font-size: 12px;
+            content: ">";
+            margin: 0 .5em;
+        }
+
+        &.active {
+            color: $color-sub-m;
+        }
+    }
+}

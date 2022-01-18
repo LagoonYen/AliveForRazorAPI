@@ -1,0 +1,118 @@
+﻿/*_nav 導覽列 -----------------------*/
+.nav- {
+    &main {
+        & {
+            font-size: $small;
+            letter-spacing: .05em;
+            text-align: center;
+            white-space: nowrap;
+            background-color: $color-main-d;
+        }
+
+        & > ul {
+            margin: 0 1em;
+            display: inline-block;
+        }
+
+        & > ul > li {
+            display: inline-block;
+            margin: 0 .1em;
+            position: relative;
+
+
+            & > a {
+                & {
+                    color: $color-main-ll;
+                    text-decoration: none;
+                    display: block;
+                    padding: 0.55em .6em;
+                    margin: 0 .5em;
+                    position: relative;
+                    border-bottom: 2px solid transparent;
+                }
+
+                &:hover, &.active {
+                    color: #fff;
+                }
+            }
+        }
+
+        .lv2 {
+            & {
+                background-color: rgba(35,72,107,.85);
+                display: none;
+                position: fixed;
+                top: 157px;
+                left: 0;
+                right: 0;
+            }
+
+            li {
+                & {
+                    display: inline-block;
+                }
+            }
+
+            a {
+                & {
+                    color: $color-main-ll;
+                    display: inline-block;
+                    padding: .4em 1em;
+                    text-decoration: none;
+                }
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    &sub {
+        font-size: $smallest;
+        height: 100%;
+        padding: 0 30px;
+        display: flex;
+        align-items: center;
+
+        a {
+            color: $color-g-lll;
+            display: inline-block;
+            margin: 0 1em;
+
+            &:hover {
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+
+    &self {
+        & {
+            font-size: 24px;
+            height: 42px;
+            padding: 5px 20px 5px 10px;
+            display: flex;
+            justify-content: space-between;
+            /*position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;*/
+        }
+
+        a {
+            color: $color-sub-l;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        i {
+            display: inline-block;
+            position: relative;
+            top: 2px;
+        }
+    }
+}

@@ -1,0 +1,182 @@
+﻿@page
+@model AliveStoreTemplate.Pages.cartModel
+@{
+    ViewData["Title"] = "cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@section HEAD{
+    <style>
+        .ico_cgpCount {
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-image: url(/img/ico_cgpCount.png);
+            padding-left: 1em;
+        }
+
+        .ico_cgpTotal {
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-image: url(/img/ico_cgpBan.png);
+            padding-left: 1em;
+        }
+
+        .td-price:before {
+            content: "" !important;
+        }
+    </style>
+}
+
+
+@*cart 购物车*@
+<article class="page cart">
+    <div class="content-con">
+        <h2 class="page-tit"><em>购物车</em><span>选购产品<em class="count spancc">3</em></span></h2>
+        @*cart-recipient 收件资料*@
+        <section class="forms-basic cart-recipient">
+            <dl class="col2">
+                <dt>收件人<em class="must">*</em></dt>
+                <dd>
+                    @*<input type="text" value="" placeholder="请填入收件人姓名" />*@
+                    <asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="请填入收件人姓名"></asp:TextBox>
+                </dd>
+                <dt>收件人手机号<em class="must">*</em></dt>
+                <dd>
+                    @*<input type="tel" value="" placeholder="请填入收件人手机号" />*@
+                    <asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="请填入收件人手机号"></asp:TextBox>
+                </dd>
+            </dl>
+            <dl>
+                <dt>收件人地址<em class="must">*</em></dt>
+                <dd>
+                    <div id="post" class="citys">
+                        @*							<asp:DropDownList runat="server" ID="province" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="city" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="area" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="town" ClientIDMode="Static" />*@
+                        <asp:HiddenField runat="server" ID="HiddenProvince" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenCity" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenArea" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenTown" ClientIDMode="Static"></asp:HiddenField>
+
+                        <select name="province" id="province"></select>
+                        <select name="city" id="city"></select>
+                        <select name="area" id="area"></select>
+                        <select name="town" id="town"></select>
+                        <asp:HiddenField runat="server" ID="addr" ClientIDMode="Static"></asp:HiddenField>
+                        @*<input class="form-control" type="text" id="addr" />*@
+                        <asp:TextBox runat="server" ID="AddrText" ClientIDMode="Static" placeholder="请填入地址"></asp:TextBox>
+                        @*<input type="text" value="" placeholder="请填入地址" />*@
+                    </div>
+                </dd>
+                <dt>备注</dt>
+                <dd>
+                    <asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>
+                    @*<textarea name cols="0" rows="3"></textarea>*@
+                </dd>
+            </dl>
+        </section>
+        @*cart-order 订单资料*@
+        <section class="cart-order">
+            <table class="forms-basic tab-basic tab-cart">
+                <thead>
+                    <tr>
+                        <th class="td-check">
+                            <a class="btn-check">
+                                <input id="clickAll" type="checkbox" /><i class="icon-check"></i>
+                            </a>
+                        </th>
+                        <th class="td-prod">商品</th>
+                        <th>单价</th>
+                        <th class="td-count">数量</th>
+                        <th>小计</th>
+                        <th class="td-action">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody id="tbOrder">
+                    <tr>
+                        <td class="td-check">
+                            <a class="btn-check">
+                                <input type="checkbox" value="1" /><i class="icon-check"></i>
+                            </a>
+                        </td>
+                        <td class="td-prod">
+                            <img src="img/ill_prod1.png" alt="" class="td-photo" />
+                            <p class="td-name">产品名称产品名称产品名称</p>
+                        </td>
+                        <td class="td-price" data-th="单价"><span>300</span></td>
+                        <td class="td-count" data-th="数量">
+                            <div class="count-bar">
+                                <a class="btn-count"><i class="icon-minus"></i></a>
+                                <input type="number" value="1" />
+                                <a class="btn-count"><i class="icon-plus"></i></a>
+                            </div>
+                        </td>
+                        <td class="td-price" data-th="小计"><span>300</span></td>
+                        <td class="td-action">
+                            <a class="btn-delete"><i class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        @*cart-total 总计*@
+        <section class="cart-total">
+            <table class="forms-basic tab-total">
+                <tr>
+                    <th>
+                        <span class="td-item">合计</span>
+                    </th>
+                    <td>
+                        <span class="ico_cgpCount " id="lbProdTPrice">720</span>
+                    </td>
+                </tr>
+                @*
+                    <tr>
+                        <th>
+                            <span class="td-coupon">
+                                <input type="text" value="" />
+                                <button class="btn-active">新增</button>
+                            </span>
+                            <span class="td-item">优惠券</span>
+                        </th>
+                        <td class="td-price td-discount">100</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span class="td-item">运费</span>
+                        </th>
+                        <td class="td-price">60</td>
+                    </tr>*@
+                <tr>
+                    <th>
+                        <span class="td-item">总计</span>
+                    </th>
+                    <td class="td-total td-price">
+                        <span class="ico_cgpTotal td-total" id="lbTPrice">780</span>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <section class="cart-action">
+            <a href="checkout" class="btn-action">我要结算</a>
+        </section>
+    </div>
+</article>
+
+
+@section FOOTER{
+
+    @*pgaeJs*@
+    <script type="text/javascript">
+        $(function () {
+            // 全选
+            $(".btn-check").click(function () {
+                $(this).toggleClass('active');
+            });
+
+        });
+    </script>
+
+
+}

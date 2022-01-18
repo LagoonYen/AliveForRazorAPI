@@ -1,0 +1,262 @@
+﻿/*_btn 按鈕 --------------------*/
+
+[class^='btn-'] {
+    font-family: $font-main;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1px 4px;
+    text-align: center;
+
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    &:focus,&:active {
+        border: none;
+        outline: none;
+    }
+}
+
+
+/*通用樣式*/
+.btn- {
+    &basic {
+        background-color: #aaa;
+        padding: .5em 2.5em;
+        border-radius: 3px;
+
+        &:hover {
+        }
+    }
+
+    &active {
+        color: #fff;
+        background-color: $color-thr-m;
+        padding: 1em 2.5em;
+        border: none;
+
+        &:hover {
+            color: #fff;
+            background-color: $color-thr-d;
+        }
+    }
+
+    &action {
+        color: #fff;
+        background-color: $color-sub-m;
+        padding: 1em 2.5em;
+        border: none;
+
+        &:hover {
+            color: #fff;
+            background-color: $color-sub-d;
+        }
+    }
+
+    &block {
+        display: block !important;
+        margin: 0;
+    }
+
+    &self {
+        & {
+            color: #d6d5d6;
+            height: 40px;
+            line-height: 40px;
+            width: 40px;
+            margin: 0;
+            position: relative;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        em {
+            display: none;
+        }
+
+        .cart-count {
+            background-color: $color-thr-m;
+            font-size: $mini;
+            color: #fff;
+            font-weight: 600;
+            line-height: 1.3;
+            min-width: 1.3em;
+            padding: 1px;
+            border-radius: 100px;
+            position: absolute;
+            top: 4px;
+            right: -5px;
+        }
+    }
+
+    &addto {
+        background-color: $color-sub-m;
+        line-height: 33px;
+        display: block;
+        width: 33px;
+        height: 33px;
+        border-radius: 3px;
+
+        &:before {
+            content: "+";
+            color: #fff;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        &:hover {
+            background-color: $color-thr-m;
+        }
+    }
+
+    &closebox {
+        color: $color-g-l;
+        font-size: 13px;
+        text-align: center;
+        display: inline-block;
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+    }
+}
+
+/*獨立樣式*/
+.btn- {
+    &cancel {
+        background-color: transparent;
+        width: 26px;
+        height: 26px;
+        position: relative;
+        border: none;
+
+        &:hover {
+            cursor: pointer;
+
+            &:before {
+                background-color: $color-sub-m;
+            }
+
+            i {
+                color: #ffffff;
+            }
+        }
+
+        &:before {
+            content: "";
+            background-color: #4c4b4c;
+            width: 80%;
+            height: 80%;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: 100px;
+        }
+
+        i {
+            color: $color-g-l;
+            font-size: 11px;
+            position: relative;
+            top: 1px;
+        }
+
+        span {
+            display: none;
+        }
+    }
+
+    &category {
+        & {
+            color: $color-g-l;
+        }
+
+        &:after {
+            content: "|";
+            font-size: 12px;
+            color: $color-g-lll;
+            margin-left: 1.5em;
+        }
+
+        &:hover {
+            color: $color-g-d;
+            cursor: pointer;
+
+            i {
+                color: $color-sub-m;
+            }
+        }
+
+        i {
+            margin: 0 .8em 0 .2em;
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    &check {
+        font-size: 20px;
+        color: #a5a5a5;
+        position: relative;
+
+        &:hover, &.active {
+            color: $color-thr-m;
+            cursor: pointer;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+    }
+
+    &delete {
+        font-size: 18px;
+        color: #a5a5a5;
+
+        &:hover {
+            color: $color-thr-m;
+            cursor: pointer;
+        }
+    }
+
+    &count {
+        font-size: 20px;
+        display: inline-block;
+        line-height: 1.5em;
+        width: 1.2em;
+    }
+
+    &search {
+        & {
+            color: $color-sub-l;
+            font-size: 19px;
+            background-color: transparent;
+            padding: 1px 4px;
+            margin: 0;
+            border: none;
+        }
+
+        &:focus {
+            outline: none;
+            border: none;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        span {
+            display: none;
+        }
+    }
+}

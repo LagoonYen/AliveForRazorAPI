@@ -1,0 +1,175 @@
+﻿/*_tab 表格 --------------------*/
+.tab- {
+    &basic {
+        & {
+            color: $color-g-m;
+            font-size: $medium;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        th {
+            color: $color-g-m;
+            background-color: #f3f3f3;
+            vertical-align: middle;
+            padding: .5em 1em;
+            border-top: 1px solid #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+        }
+
+        td {
+            background-color: #f8f8f8;
+            vertical-align: middle;
+            padding: .5em 1em;
+            border-top: 1px solid #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+        }
+
+        .td- {
+            &check {
+                text-align: center;
+                width: 2em;
+                vertical-align: middle;
+            }
+
+            &prod {
+                text-align: left;
+                padding: .5em 1em;
+
+                option {
+                    max-width: 100%;
+                }
+            }
+
+            &photo {
+                width: 80px;
+                float: left;
+                margin-right: 1.5em;
+            }
+
+            &name {
+                color: $color-g-d;
+                padding: .5em;
+                margin: .1em;
+            }
+
+            &price {
+                & {
+                    font-size: $medium;
+                    width: 5em;
+                    text-align: center;
+                }
+
+                span:before {
+                    content: "";
+                    background: url(../img/ico_cgpCount.png) no-repeat center center;
+                    background-size: contain;
+                    display: inline-block;
+                    width: 1em;
+                    height: 1em;
+                    margin-right: 3px;
+                    position: relative;
+                    top: 2px;
+                }
+            }
+
+            &trans {
+                text-align: center;
+            }
+
+            &count {
+                width: 4em;
+
+                .count-bar {
+                    font-size: 18px;
+                    display: flex;
+                    border: 1px solid #dbdbdb;
+
+                    input {
+                        text-align: center;
+                        width: 1.5em;
+                        padding: .5em .2em;
+                        border: none;
+                        flex: 1 1 auto;
+                    }
+                }
+            }
+
+            &action {
+                text-align: center;
+                width: 3em;
+            }
+        }
+    }
+
+    &total {
+        color: $color-g-m;
+        font-size: $medium;
+        text-align: right;
+        background-color: #f3f3f3;
+        width: 100%;
+
+        th {
+            color: $color-g-d;
+            font-size: $medium;
+            font-weight: 500;
+        }
+
+        td {
+            padding: .8em 0em;
+        }
+
+        .td- {
+            &item {
+                display: inline-block;
+                width: 4em;
+            }
+
+            &coupon {
+                input {
+                    margin-right: .5em;
+                }
+
+                button {
+                    padding: .69em 2em;
+                }
+            }
+
+            &price {
+                color: $color-g-m;
+                font-family: Arial,Verdana,'Times New Roman';
+                font-size: $medium;
+                font-weight: 600;
+                width: 5em;
+
+                &:before {
+                    content: "$";
+                }
+            }
+
+            &discount {
+                color: $color-thr-m;
+            }
+
+            &total {
+                color: $color-sub-m;
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    &cart {
+        td {
+            &:before {
+                content: attr(data-th);
+            }
+        }
+    }
+}
+
+.td- {
+    &left {
+        text-align: left;
+    }
+}

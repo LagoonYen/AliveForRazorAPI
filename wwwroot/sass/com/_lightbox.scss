@@ -1,0 +1,23 @@
+﻿/*_lightbox ----------------------*/
+.lightbox {
+    font-size: $small;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 3rem;
+
+    h3 {
+        color: $color-g-d;
+        font-size: $large;
+        font-weight: 500;
+        margin-bottom: 1em;
+    }
+
+    p {
+        margin-bottom: 1em;
+    }
+
+
+    .btnarea {
+        margin: 2em 1em 0em 1em;
+    }
+}

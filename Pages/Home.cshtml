@@ -1,0 +1,428 @@
+﻿@page
+@model AliveStoreTemplate.Pages.HomeModel
+@{
+    ViewData["Title"] = "home";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<article class="index">
+    <header>
+        <!--banner-slide 廣告輪播-->
+        <section class="banner-slide banner-cover">
+            <div class="slide-slick">
+                <div id="ban1" class="slick-ban" style="background-image: url(img/banner_cover1.jpg);"></div>
+                <div id="ban2" class="slick-ban" style="background-image: url(img/banner_cover2.jpg);"></div>
+                <div id="ban3" class="slick-ban" style="background-image: url(img/banner_cover3.jpg);"></div>
+            </div>
+        </section>
+        <!--/banner-slide 廣告輪播-->
+    </header>
+    <div class="content-con">
+        @*banner-prod 產品banner*@
+        <ul class="banner-prod">
+            <li>
+                <div class="prod-ban ban1">
+                    <div class="ban-info">
+                        <h3>
+                            Beats Studio3<br />
+                            Wireless
+                        </h3>
+                        <p class="ban-detial">无噪的音乐境界</p>
+                        <p class="ban-price">1,022</p>
+                    </div>
+                    <figure>
+                        <img src="img/ill_ban1.png" />
+                    </figure>
+                </div>
+            </li>
+            <li>
+                <div class="prod-ban ban2">
+                    <div class="ban-info">
+                        <h3>
+                            Pro<br />
+                            Gaming Mouse
+                        </h3>
+                        <p class="ban-detial">单纯、注重握感与游戏体验</p>
+                        <p class="ban-price">5.99</p>
+                    </div>
+                    <figure>
+                        <img src="img/ill_ban2.png" />
+                    </figure>
+                </div>
+            </li>
+
+        </ul>
+        @*/banner-prod 产品banner*@
+        <!--filter 分类筛选-->
+        <section class="filter">
+            <section class="filter-menu">
+                @*<a id="btnCategory" class="btn-category"><i class="icon-cate"></i>商品分類</a>*@
+                <ul class="menu-category">
+                    <li><a asp-page="/category" class="active"><em>热门商品</em></a></li>
+                    <li><a asp-page="/category"><em>节庆优惠</em></a></li>
+                    <li><a asp-page="/category"><em>最新上架</em></a></li>
+                </ul>
+            </section>
+            @*                <section class="filter-rank">
+                    <a href="#" class="active"><i class="icon-star"></i>新品</a><a href="#">价格<i class="icon-price"></i></a>
+                </section>*@
+            <section class="filter-category">
+                <ul>
+                    <li><a asp-page="category" class="active">SONY</a></li>
+                    <li><a asp-page="category">BOSE</a></li>
+                    <li><a asp-page="category">JBC</a></li>
+                    <li><a asp-page="category">Mi</a></li>
+                    <li><a asp-page="category">小米</a></li>
+                    <li><a asp-page="category">华为</a></li>
+                    <li><a asp-page="category">米家智能</a></li>
+                    <li><a asp-page="category">索尼</a></li>
+                </ul>
+            </section>
+        </section>
+        <!--/filter 分类筛选-->
+        <!--products 产品列表-->
+        <section class="products">
+            <ul class="list-prod">
+                <li>
+                    <div class="prod">
+                        <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
+                        <section class="prod-info">
+                            <p class="prod-cate">手机</p>
+                            <a href="product" class="prod-name">产品名称</a>
+                            <p class="prod-intro">产品说明产品说明产品说明</p>
+                            <p class="prod-price">
+                                <span class="price-orignal">500</span>
+                                <span class="price-discount">300</span>
+                            </p>
+                            <a href="#" class="btn-addto"></a>
+                        </section>
+                    </div>
+                </li>
+                <li>
+                    <div class="prod">
+                        <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
+                        <section class="prod-info">
+                            <p class="prod-cate">手机</p>
+                            <a href="product" class="prod-name">产品名称</a>
+                            <p class="prod-intro">产品说明产品说明产品说明</p>
+                            <p class="prod-price">
+                                <span class="price-orignal">500</span>
+                                <span class="price-discount">300</span>
+                            </p>
+                            <a href="#" class="btn-addto"></a>
+                        </section>
+                    </div>
+                </li>
+                <li>
+                    <div class="prod">
+                        <a href="product" class="prod-photo" style="background-image: url(img/ill_prod3.png);"></a>
+                        <section class="prod-info">
+                            <p class="prod-cate">手机</p>
+                            <a href="product" class="prod-name">产品名称</a>
+                            <p class="prod-intro">产品说明产品说明产品说明</p>
+                            <p class="prod-price">
+                                <span class="price-orignal">500</span>
+                                <span class="price-discount">300</span>
+                            </p>
+                            <a href="#" class="btn-addto"></a>
+                        </section>
+                    </div>
+                </li>
+                <li>
+                    <div class="prod">
+                        <a href="product" class="prod-photo" style="background-image: url(img/ill_prod4.png);"></a>
+                        <section class="prod-info">
+                            <p class="prod-cate">手机</p>
+                            <a href="product" class="prod-name">产品名称</a>
+                            <p class="prod-intro">产品说明产品说明产品说明</p>
+                            <p class="prod-price">
+                                <span class="price-orignal">500</span>
+                                <span class="price-discount">300</span>
+                            </p>
+                            <a href="#" class="btn-addto"></a>
+                        </section>
+                    </div>
+                </li>
+                @*
+                    <li>
+                        <div class="prod">
+                            <a href="product" class="prod-photo" style="background-image: url({image});"></a>
+                            <section class="prod-info">
+                                <p class="prod-cate">手机</p>
+                                <a href="product" class="prod-name">{Title}</a>
+                                <p class="prod-intro">{SubTitle}</p>
+                                <p class="prod-price">
+                                    <span class="price-orignal">{OriginalPrice}</span>
+                                    <span class="price-discount">{Price}</span>
+                                </p>
+                                <a href="{Id}" class="btn-addto"></a>
+                            </section>
+                        </div>
+                    </li>*@
+            </ul>
+        </section>
+        <!--/products 产品列表-->
+        @*recommend 推荐*@
+        <section class="recommend">
+            <figure class="recommend-ban">
+            </figure>
+            <section class="recommend-detial">
+                <h2 class="recommend-title">
+                    <span>家庭影院</span>
+                    <em>Home Theater</em>
+                </h2>
+                <ul class="list-prod">
+                    <li>
+                        <div class="prod">
+                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
+                            <section class="prod-info">
+                                <p class="prod-cate">手机</p>
+                                <a href="product" class="prod-name">产品名称</a>
+                                <p class="prod-intro">产品说明产品说明产品说明</p>
+                                <p class="prod-price">
+                                    <span class="price-orignal">500</span>
+                                    <span class="price-discount">300</span>
+                                </p>
+                                <a href="#" class="btn-addto"></a>
+                            </section>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="prod">
+                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
+                            <section class="prod-info">
+                                <p class="prod-cate">手机</p>
+                                <a href="product" class="prod-name">产品名称</a>
+                                <p class="prod-intro">产品说明产品说明产品说明</p>
+                                <p class="prod-price">
+                                    <span class="price-orignal">500</span>
+                                    <span class="price-discount">300</span>
+                                </p>
+                                <a href="#" class="btn-addto"></a>
+                            </section>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        @*/recommend 推荐*@
+        @*popular 热门*@
+        <section class="popular">
+            <header>
+                <h4 class="popular-tit"><span>个人视听</span></h4>
+            </header>
+            <div class="popular-slick">
+                <div>
+                    <ul class="list-prod list-popular">
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod3.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod4.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-prod list-popular">
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod3.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod4.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="list-prod list-popular">
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod3.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="prod">
+                                <a href="product" class="prod-photo" style="background-image: url(img/ill_prod4.png);"></a>
+                                <section class="prod-info">
+                                    <p class="prod-cate">手机</p>
+                                    <a href="product" class="prod-name">产品名称</a>
+                                    <p class="prod-intro">产品说明产品说明产品说明</p>
+                                    <p class="prod-price">
+                                        <span class="price-orignal">500</span>
+                                        <span class="price-discount">300</span>
+                                    </p>
+                                    <a href="#" class="btn-addto"></a>
+                                </section>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        @*/related 相关商品*@
+    </div>
+</article>
+
+@section FOOTER{
+
+    <script>
+        //banner 輪播
+        $('.slide-slick').slick({
+            autoplay: true,
+            dots: true
+        });
+
+        $('.popular-slick').slick({
+            dots: true
+        });
+    </script>
+
+}
+

@@ -1,0 +1,189 @@
+﻿/* product 产品-------------------------------*/
+.product {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product- {
+    &photo {
+        flex: 0 1 52%;
+        display: flex;
+        align-items: flex-start;
+
+        .photo- {
+            &menu {
+                & {
+                    width: 65px;
+                    margin-right: 10px;
+                }
+
+                li {
+                    & {
+                        border: 1px solid $color-g-llll;
+                        margin-bottom: 5px;
+                    }
+
+                    &:hover, &.active {
+                        border-color: $color-sub-m;
+                        cursor: pointer;
+                    }
+
+                    img {
+                        display: block;
+                        min-width: 100%;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            &view {
+                background-color: #fff;
+                flex: 1 1 auto;
+                width: 100%;
+
+                img {
+                    display: block;
+                    min-width: 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    &info {
+        flex: 1 1 48%;
+        margin-bottom: 3rem;
+
+        .info- {
+            &con {
+                margin-left: 3em;
+
+                h4 {
+                    color: $color-g-d;
+                    font-size: $big;
+                    font-weight: 500;
+                    margin-bottom: 1em;
+                }
+            }
+
+            &category {
+                line-height: 1.1;
+                margin-bottom: 1em;
+                position: relative;
+
+                &:before {
+                    content: "";
+                    background-color: $color-sub-m;
+                    width: 3px;
+                    height: 1em;
+                    position: absolute;
+                    left: -.8em;
+                    top: 1px;
+                }
+            }
+
+            &tit {
+                color: $color-g-d;
+                font-size: $largest;
+                font-weight: 500;
+                letter-spacing: 2px;
+                margin-bottom: .5em;
+            }
+
+            &intro {
+                font-size: $smallest;
+                margin-bottom: 3rem;
+            }
+
+            &price {
+                & {
+                    margin-bottom: 3rem;
+                }
+
+                span {
+                    font-size: $big;
+                    font-weight: 500;
+                    margin-right: .5em;
+                    padding-left: 1em;
+                    background-repeat: no-repeat;
+                    background-position: left center;
+                }
+
+                .price- {
+                    &orignal {
+                        background-image: url(../../img/ico_cgpOrignal.png);
+                        text-decoration: line-through;
+                    }
+
+                    &discount {
+                        color: $color-thr-m;
+                        font-size: $large;
+                        background-image: url(../../img/ico_cgpDiscountB.png);
+                    }
+
+                    &count {
+                        color: $color-g-d;
+                        background-image: url(../../img/ico_cgpCount.png);
+                    }
+                }
+            }
+
+            &spec {
+                margin-bottom: 3rem;
+
+                select {
+                    padding: 1em;
+                    padding-right: 2.5em;
+                }
+
+                select, option {
+                    width: 100%;
+                    word-wrap: break-word;
+                    text-overflow: inherit;
+                    white-space: normal;
+                }
+            }
+
+            &action {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 3rem;
+
+                button {
+                    font-size: $medium;
+                    flex: 1 1 45%;
+
+                    &:first-child {
+                        margin-right: .8em;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
+    &intro {
+        & {
+            flex: 1 1 100%;
+        }
+
+        img {
+            display: block;
+            margin: 1rem auto;
+            max-width: 100%;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+    }
+
+    &related {
+        & {
+            flex: 1 1 100%;
+        }
+    }
+}

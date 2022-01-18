@@ -1,0 +1,156 @@
+﻿/*_index 首頁內容 ----------------------*/
+.index {
+    & {
+        text-align: center;
+    }
+
+    .banner-prod {
+        margin-bottom: 4em;
+    }
+
+    .products {
+        margin-bottom: 5rem;
+    }
+}
+
+.index- {
+    &tit {
+        font-size: $largest;
+        font-weight: normal;
+    }
+
+    &ill {
+        background: url(../img/ill_index_gift.png) no-repeat center top;
+        height: 345px;
+        margin: 30px 0;
+    }
+
+    &btn {
+        margin: 40px 0;
+    }
+}
+/*recommend 推荐 ----------*/
+.recommend {
+    & {
+        background: url(../img/bg_recommend.png) no-repeat 0 0;
+        background-size: cover;
+        display: flex;
+        margin: 0 15px 3rem 15px;
+    }
+
+    .recommend- {
+        &ban {
+            background: url(../img/ill_banRecommend.png) no-repeat right center;
+            background-size: auto 100%;
+            flex: 0 1 50%;
+        }
+
+        &detial {
+            padding: 2rem 3rem 1rem 3rem;
+        }
+
+        &title {
+            & {
+                color: #5b5a5a;
+                text-align: left;
+                position: relative;
+            }
+
+            &:before {
+                content: "";
+                height: 1.2rem;
+                border-left: 3px solid $color-thr-m;
+                position: absolute;
+                top: 1.5rem;
+                left: -2rem;
+            }
+
+            span {
+                font-size: $big;
+                font-weight: normal;
+                line-height: 1.1;
+                display: block;
+            }
+
+            em {
+                font-family: Helvetica,Arial;
+                font-size: 36px;
+                font-weight: 600;
+                font-style: normal;
+            }
+        }
+    }
+
+    .list-prod {
+        & {
+            margin: 0 -10px;
+        }
+
+        li {
+            flex-basis: 50%;
+        }
+
+        .prod {
+            & {
+                margin: 10px 10px;
+            }
+
+            &-info {
+                padding-bottom: .5rem;
+            }
+
+            .btn-addto {
+                display: none;
+            }
+        }
+    }
+}
+
+/*related 相关 ----------*/
+.popular {
+    header {
+        border-bottom: 1px solid #e2e2e2;
+        margin: 0 15px 2rem 15px;
+    }
+
+    .popular- {
+        &tit {
+            & {
+                color: $color-main-d;
+                font-weight: 500;
+                text-align: left;
+            }
+
+            span {
+                display: inline-block;
+                padding: .5em 1.2em;
+                border-bottom: 3px solid $color-main-d;
+            }
+        }
+    }
+
+    .list-popular {
+        margin-bottom: 0;
+    }
+
+    .slick-dots {
+        text-align: right;
+        width: 50%;
+        top: -4.5rem;
+        right: 15px;
+        bottom: auto;
+
+        li {
+            margin: 0 1px;
+        }
+
+        li button:before {
+            font-size: 12px;
+            color: $color-g-l;
+        }
+
+        li.slick-active button:before {
+            color: $color-main-d;
+        }
+    }
+}

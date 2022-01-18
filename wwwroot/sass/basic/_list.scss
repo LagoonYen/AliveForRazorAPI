@@ -1,0 +1,228 @@
+﻿/*_list 列表樣式 ----------------------*/
+.list- {
+    &prod {
+        & {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+
+        li {
+            flex: 0 1 25%;
+        }
+
+        .prod {
+            background-color: #fff;
+            margin: 15px;
+            height: calc(100% - 20px);
+            box-shadow: 0 0 7px rgba(0,0,0,.1);
+
+            a {
+                color: $color-main-d;
+
+                &:hover {
+                    color: $color-sub-m;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .prod- {
+            &photo {
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: block;
+                padding-top: 100%;
+            }
+
+            &info {
+                text-align: left;
+                position: relative;
+                padding: 1.5rem;
+            }
+
+            &cate {
+                color: $color-sub-ll;
+                font-size: $smallest;
+                margin-bottom: .8em;
+
+                &:after {
+                    content: "_";
+                    margin-left: .5em;
+                }
+            }
+
+            &name {
+                color: $color-main-d;
+                font-size: $medium;
+                font-weight: 550;
+                display: inline-block;
+                margin-bottom: .2em;
+            }
+
+            &intro {
+                color: $color-g-l;
+            }
+
+            &price {
+                color: $color-g-l;
+                font-size: $medium;
+                margin: .5em 0;
+                line-height: 25px;
+
+                span {
+                    margin-right: .5em;
+                    padding-left: 1em;
+                    background-repeat: no-repeat;
+                    background-position: left center;
+                }
+            }
+        }
+
+        .price- {
+            &orignal {
+                background-image: url(../../img/ico_cgpOrignal.png);
+                text-decoration: line-through;
+            }
+
+            &discount {
+                color: $color-thr-m;
+                font-size: $big;
+                font-weight: 600;
+                background-image: url(../../img/ico_cgpDiscount.png);
+            }
+
+            &count {
+                color: $color-g-d;
+                background-image: url(../../img/ico_cgpCount.png);
+            }
+        }
+
+        .btn-addto {
+            position: absolute;
+            top: -1.7rem;
+            right: .5rem;
+        }
+    }
+
+    &related {
+        & {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        li {
+            flex: 0 1 16.5%;
+        }
+
+        .prod {
+            background-color: #fff;
+            margin: 5px;
+
+            a {
+                color: $color-g-d;
+
+                &:hover {
+                    color: $color-main-m;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .prod- {
+            &photo {
+                background-color: #efefef;
+                background-repeat: no-repeat;
+                background-size: cover;
+                display: block;
+                padding-top: 100%;
+            }
+
+            &info {
+                text-align: left;
+                position: relative;
+                padding: .8rem 1rem;
+            }
+
+            &name {
+                color: $color-g-m;
+                font-size: $small;
+                font-weight: 500;
+                margin-bottom: .1em;
+            }
+
+            &price {
+                color: $color-g-l;
+                font-size: $medium;
+                margin: .5em 0 0 0;
+
+                span {
+                    margin-right: .5em;
+                    padding-left: 1em;
+                    background-repeat: no-repeat;
+                    background-position: left center;
+                }
+            }
+        }
+
+        .price- {
+            &orignal {
+                background-image: url(../../img/ico_cgpOrignal.png);
+                text-decoration: line-through;
+            }
+
+            &discount {
+                color: $color-thr-m;
+                font-weight: 600;
+                background-image: url(../../img/ico_cgpDiscount.png);
+            }
+
+            &count {
+                color: $color-g-d;
+                background-image: url(../../img/ico_cgpCount.png);
+            }
+        }
+    }
+
+    &popular {
+        & {
+            flex-wrap: wrap;
+        }
+
+        li {
+            flex-basis: 50%;
+        }
+
+        .prod {
+            & {
+                display: flex;
+            }
+        }
+
+        .prod- {
+            &photo {
+                width: 220px;
+                padding-top: 220px;
+            }
+
+            &info {
+                flex: 1 1 auto;
+                padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+            }
+
+            &intro {
+                height: 5.6em;
+            }
+
+            &price {
+                margin-bottom: 0;
+            }
+        }
+
+        .btn-addto {
+            top: auto;
+            left: -3.6rem;
+            bottom: 1.4rem;
+        }
+    }
+}

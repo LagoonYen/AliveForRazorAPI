@@ -1,0 +1,128 @@
+﻿@page
+@model AliveStoreTemplate.Pages.orderModel
+@{
+    ViewData["Title"] = "order";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+ @*order 订单*@
+<article class="page order">
+    <div class="content-con">
+        <h2 class="page-tit"><em>订单列表</em><span>你的历史订单</span></h2>
+        <section class="order-list">
+            <table class="tab-basic">
+                <thead>
+                    <tr>
+                        <th class="td-left">订单编号</th>
+                        <th>付款状态</th>
+                        <th>物流状态</th>
+                        <th>总金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*
+                    <asp:Literal runat="server" ClientIDMode="Static" ID="Plist"></asp:Literal>*@
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-solved">已完成</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-processing">处理中</span>
+                        </td>
+                        <td class="td-trans">已送达</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-solved">已完成</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-processing">处理中</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-solved">已完成</span>
+                        </td>
+                        <td class="td-trans">已送达</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-processing">处理中</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-solved">已完成</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-processing">处理中</span>
+                        </td>
+                        <td class="td-trans">已送达</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-solved">已完成</span>
+                        </td>
+                        <td class="td-trans">已送达</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="order_detial">161102125701</a>
+                        </td>
+                        <td class="td-status">
+                            <span class="status-processing">处理中</span>
+                        </td>
+                        <td class="td-trans">运送中</td>
+                        <td class="td-price"><span>100</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</article>

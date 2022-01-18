@@ -1,0 +1,81 @@
+﻿/*_order ------------------------*/
+.order {
+    .status- {
+        &processing {
+            color: $color-sub-m;
+        }
+
+        &solved {
+            color: $color-thr-m;
+        }
+    }
+}
+
+.order- {
+    &list {
+        width: 35em;
+        max-width: 95%;
+        margin: 0 auto;
+
+        td {
+            padding: 1em;
+        }
+
+        .td- {
+            &status {
+                text-align: center;
+                width: 5em;
+            }
+        }
+    }
+
+    &detial {
+        & {
+            color: $color-g-m;
+            font-size: $medium;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,.3);
+            width: 25em;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 3em;
+        }
+
+        dl {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        dt {
+            text-align: right;
+            width: 7em;
+            margin: .5em 2em .5em 0;
+        }
+
+        dd {
+            flex: 1 1 52%;
+            margin: .5em 0;
+        }
+    }
+
+    &action {
+        display: flex;
+        justify-content: space-between;
+        width: 34em;
+        margin: 3rem auto 0 auto;
+
+
+        a {
+            font-size: $medium;
+            flex: 1 1 45%;
+
+            &:first-child {
+                margin-right: .8em;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

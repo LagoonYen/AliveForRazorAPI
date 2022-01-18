@@ -1,0 +1,97 @@
+﻿/* _forms 表單 --------------------*/
+input, select, textarea {
+    font-family: $font-main;
+}
+
+[class^='forms-'] {
+    input, select, textarea {
+        font-family: $font-main;
+    }
+}
+
+.must {
+    color: $color-sub-m;
+    font-weight: bold;
+    margin-left: .2em;
+}
+
+.forms- {
+    &basic {
+        input, select, textarea {
+            font-size: $small;
+            font-family: $font-main;
+            color: $color-g-m;
+            background-color: #fff;
+            padding: .6em 1em;
+            margin: 1px;
+            border: 1px solid #dbdbdb;
+            border-radius: 0;
+
+            &:focus {
+                outline-color: $color-sub-m;
+            }
+        }
+
+        select {
+            background:url(../../img/ico_dropdown.png) no-repeat right center;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .inp- {
+            &show {
+                display: inline-block;
+                padding: .35em .3em;
+            }
+        }
+
+        dl {
+            display: flex;
+            flex-wrap: wrap;
+
+            &.col2 {
+                flex-wrap: nowrap;
+            }
+        }
+
+        dt {
+            display: flex;
+            align-items: center;
+            padding: .2em 1em;
+            margin: .8em;
+            flex: 0 0 7em;
+        }
+
+        dd {
+            display: flex;
+            flex: 1 1 80%;
+            margin: .8em;
+
+            input, textarea {
+                flex: 1 1 auto;
+            }
+
+            input, textarea, select {
+                margin-right: .4em;
+            }
+        }
+    }
+}
+
+
+.inp- {
+    &block {
+        display: block;
+        margin: .8em 0 !important;
+        width: 100%;
+    }
+
+    &note {
+        font-size: $mini;
+        display: inline-block;
+        vertical-align: middle;
+        padding: .6em .2em;
+        margin: 0 .3em;
+    }
+}

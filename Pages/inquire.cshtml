@@ -1,0 +1,23 @@
+﻿@page
+@model AliveStoreTemplate.Pages.inquireModel
+@{
+    ViewData["Title"] = "inquire";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+  @*inquire 订单查询*@
+<article class="page inquire">
+    <div class="content-con">
+        <h2 class="page-tit"><em>订单查询</em><span>查询你的订单</span></h2>
+        <section class="forms-basic inquire-form">
+            <p>
+                <input type="tel" value="" placeholder="请输入你的手机号" id="phone" runat="server" />
+            </p>
+            @*<p>
+                <input type="tel" value="" placeholder="请输入你的邮箱" />
+            </p>*@
+            <p class="inquire-action">
+                <a href="order" class="btn-active">查询</a>
+            </p>
+        </section>
+    </div>
+</article>

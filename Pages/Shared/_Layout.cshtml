@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>>有电3C数位城<</title>
+
+    <!--icon-->
+    <link rel="shortcut icon" href="favicon/32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="favicon/touch-icon-iphone.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/touch-icon-ipad.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/touch-icon-iphone-retina.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/touch-icon-ipad-retina.png" />
+
+    <!--css-->
+    <link href="css/alive.min.css" rel="stylesheet" asp-append-version="true" />
+    <!--js-->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!--<script src="js/basic.js"></script>-->
+    <!-- 使 IE9 以下(不含 IE9)的 IE 瀏覽器載入 html5.js -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    @*slidebars*@
+    <link href="css/vender/slidebars.css" rel="stylesheet" asp-append-version="true"/>
+    <script src="js/slidebars.js" asp-append-version="true"></script>
+    @*slick*@
+    <link href="css/vender/slick.css" rel="stylesheet" asp-append-version="true"/>
+    <link href="css/vender/slick-theme.css" rel="stylesheet" asp-append-version="true"/>
+    <script src="js/slick.min.js" asp-append-version="true"></script>
+    <link href="css/vender/colorbox.css" rel="stylesheet" asp-append-version="true"/>
+    <script src="js/jquery.colorbox-min.js" asp-append-version="true"></script>
+
+    <script src="js/Cart.js" asp-append-version="true"></script>
+
+    @RenderSection("HEAD", required: false);
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <section class="fa-header" canvas style="z-index: 1000">
+        <section class="header-bar">
+            <h1 class="branding"><a  asp-page="home">有电3C数位城</a></h1>
+            @*search 搜寻*@
+            <section class="search">
+                <span class="search-form">
+                    <input type="text" placeholder="请输入关键字" />
+                    <button class="btn-cancel"><i class="icon-delete"></i><span>cancel</span></button>
+                    <button class="btn-search"><i class="icon-search"></i><span>search</span></button>
+                </span>
+            </section>
+            @*nav-self 功能選單*@
+        <section class="nav-self">
+            <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
+            <a asp-page="login"><h3> 登入</h3></a>
+            <a asp-page="logout"><h3> 登出</h3></a>
+            <a asp-page="register"><h3> 註冊</h3></a>
+            <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
+            <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
+            <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
+            <a id="btn-menu" class="btn-self lg-hide md-hide sm-show xs-show"><i class="icon-menu"></i><em>nav</em></a>
+        </section>
+        </section>
+        <!--nav-main 主导览列-->
+        <nav class="nav-main">
+            <ul> 
+                <li>
+                    <a asp-page="category">蓝芽喇叭</a>
+                    <ul class="lv2">
+                        <li><a asp-page="category">喇叭1</a></li>
+                        <li><a asp-page="category">喇叭2</a></li>
+                        <li><a asp-page="category">喇叭3</a></li>
+                        <li><a asp-page="category">喇叭4</a></li>
+                        <li><a asp-page="category">喇叭5</a></li>
+                        <li><a asp-page="category">喇叭6</a></li>
+                        <li><a asp-page="category">喇叭7</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a asp-page="category">手机</a>
+                    <ul class="lv2">
+                        <li><a asp-page="category">手机1</a></li>
+                        <li><a asp-page="category">手机2</a></li>
+                        <li><a asp-page="category">手机3</a></li>
+                        <li><a asp-page="category">手机4</a></li>
+                        <li><a asp-page="category">手机5</a></li>
+                        <li><a asp-page="category">手机6</a></li>
+                        <li><a asp-page="category">手机7</a></li>
+                    </ul>
+                </li>
+                <li><a asp-page="category">iPhone</a></li>
+                <li><a asp-page="category">键盘</a></li>
+                <li><a asp-page="category">滑鼠</a></li>
+                <li><a asp-page="category">视讯镜头</a></li>
+                <li><a asp-page="category">监控设备</a></li>
+                <li><a asp-page="category">光碟机</a></li>
+                <li><a asp-page="category">MP3</a></li>
+                <li><a asp-page="category">Wifi</a></li>
+            </ul>
+        </nav>
+        <!--/nav-main 主导览列-->
+    </section>
+    <!--/fa-header 版头-->
+    @*fa-wrap 版面內容*@
+    <div canvas="container" class="fa-wrap">
+        <!--fa-content 内容-->
+        <section class="fa-content">
+            @RenderBody()
+        </section>
+        <!--fa-content 内容-->
+        <!--fa-footer 版尾-->
+        <footer class="fa-footer">
+            <section>
+                <address class="copyright">Copyright &copy; @DateTime.Now.Year <a  asp-page="home">有电3C</a> All rights reserved.</address>
+            </section>
+            <section>
+                <p class="nav-sub"><a href="#">友站链结</a><a href="#">使用者条款</a><a href="#">隐私权政策</a></p>
+            </section>
+        </footer>
+        <!--/fa-footer 版尾-->
+    </div>
+    <!--fa-mobile 手机版选单-->
+    <aside class="fa-mobile" off-canvas="fa-mobile right push">
+        <ul>
+            <li>
+                <a>蓝芽喇叭</a>
+                <ul class="lv2">
+                    <li><a asp-page="category">喇叭1</a></li>
+                    <li><a asp-page="category">喇叭2</a></li>
+                    <li><a asp-page="category">喇叭3</a></li>
+                    <li><a asp-page="category">喇叭4</a></li>
+                    <li><a asp-page="category">喇叭5</a></li>
+                    <li><a asp-page="category">喇叭6</a></li>
+                    <li><a asp-page="category">喇叭7</a></li>
+                </ul>
+            </li>
+            <li>
+                <a>手机</a>
+                <ul class="lv2">
+                    <li><a asp-page="category">手机1</a></li>
+                    <li><a asp-page="category">手机2</a></li>
+                    <li><a asp-page="category">手机3</a></li>
+                    <li><a asp-page="category">手机4</a></li>
+                    <li><a asp-page="category">手机5</a></li>
+                    <li><a asp-page="category">手机6</a></li>
+                    <li><a asp-page="category">手机7</a></li>
+                </ul>
+            </li>
+            <li><a asp-page="category">iPhone</a></li>
+            <li><a asp-page="category">键盘</a></li>
+            <li><a asp-page="category">滑鼠</a></li>
+            <li><a asp-page="category">视讯镜头</a></li>
+            <li><a asp-page="category">监控设备</a></li>
+            <li><a asp-page="category">光碟机</a></li>
+            <li><a asp-page="category">MP3</a></li>
+            <li><a asp-page="category">Wifi</a></li>
+        </ul>
+    </aside>
+    <!--/fa-mobile 手机版选单-->
+    <!-- Footer-->
+    @*lightbox*@
+    <div style="display: none;">
+        <article id="lightbox-service" class="lightbox lightbox-service">
+            <h3>客服服务时间</h3>
+            <p>在線专员服务時間：周一至周五 10:00-18:00</p>
+            <p>遇周末/國定假日洽询，请邮件至：cgpmall@qq.com</p>
+            <p class="btnarea"><a href="https://cgpmall.chatbox.one/member/login" class="btn-active">联络客服</a></p>
+        </article>
+    </div>
+    @*/lightbox*@
+    @* pageJS *@
+    <script type="text/javascript">
+        $(function () {
+            // 手機版選單
+            // Initialize Slidebars
+            var controller = new slidebars();
+            controller.init();
+
+            // Toggle Slidebars
+            $('#btn-menu').on('click', function (event) {
+                // Stop default action and bubbling
+                event.stopPropagation();
+                event.preventDefault();
+
+                // Toggle the Slidebar with id 'id-1'
+                controller.toggle('fa-mobile');
+            });
+
+            //導覽列定位
+            $(".fa-wrap").scroll(function () {
+                var winW = $(window).width();
+                var scroll = $(".fa-wrap").scrollTop();
+                if (winW > 768) {
+                    if (scroll > 0) {
+                        $(".fa-header .header-bar").addClass("_top");
+                    } else {
+                        $(".fa-header .header-bar").removeClass("_top");
+                    }
+                } else {
+                    $(".fa-header .header-bar").removeClass("_top");
+                }
+            });
+
+            // nav 導覽列開關
+            $(".nav-main a").hover(function () {
+                $(this).parent().children(".lv2").show();
+            }, function () {
+                $(this).parent().children(".lv2").hide();
+            });
+            $(".nav-main .lv2").hover(function () {
+                $(this).show();
+            }, function () {
+                $(this).hide();
+            });
+
+            //fa-mobile 手機導覽列開關
+            $(".fa-mobile a").click(function () {
+                $(this).parent().children('.lv2').toggle();
+            });
+
+            // search 搜尋列開關
+            $("#search-open").click(function () {
+                $(".search").toggle();
+            });
+
+            // filter 開關
+            $("#btnCategory").click(function () {
+                var winW = $(window).width();
+                if (winW > 768) {
+                    $(".menu-category").toggle();
+                    $(".filter-category").toggle();
+                } else {
+                    $(".filter-category").toggle();
+                }
+            });
+            $(".menu-category a").click(function () {
+                $(".menu-category a").removeClass('active');
+                $(this).addClass('active');
+            });
+
+
+            //lightbox
+            $("#btn-service").colorbox({ inline: true, width: '300px' });
+
+            //resize
+            $(window).resize(function () {
+                $('.slide-slick').slick('resize');
+
+                //filter check
+                var winW = $(window).width();
+                if (winW > 768) {
+                    $(".search,.menu-category").show();
+                } else {
+                    $(".search,.menu-category").hide();
+                }
+            });
+
+            var cc = CartCount("Cart");
+            $("#spancc").html(cc);
+            $(".spancc").html(cc);
+        });
+    </script>
+
+
+    @RenderSection("FOOTER", required: false)
+
+
+</body>
+</html>

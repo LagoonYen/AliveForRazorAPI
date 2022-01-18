@@ -1,0 +1,43 @@
+﻿@page
+@model AliveStoreTemplate.Pages.checkoutModel
+@{
+    ViewData["Title"] = "checkout";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+@*checkout 结帐*@
+<article class="page checkout">
+    <div class="content-con">
+        @*付款成功*@
+        <h2 class="page-tit"><em>付款成功</em><span>你已经顺利付款</span></h2>
+        <section class="checkout-report">
+            <dl>
+                @*
+                <asp:Literal runat="server" ClientIDMode="Static" ID="Plist"></asp:Literal>*@
+
+                <dt>订单编号</dt>
+                <dd><a href="order_detial">161102125701</a></dd>
+                <dt>收件人</dt>
+                <dd>黄小姐</dd>
+                <dt>收件人手机号</dt>
+                <dd>18616057511</dd>
+                <dt>收件人地址</dt>
+                <dd>上海市闵行区龙百四村67号401室</dd>
+                <dt>订单备注</dt>
+                <dd>不要放蜂槽</dd>
+            </dl>
+        </section>
+        <section class="checkout-action">
+            <a href="index" class="btn-action">继续购物</a><a href="order_detial" class="btn-active">查看订单详情</a>
+        </section>
+        <br />
+        <br />
+        @*我要结算*@
+        @*            <h2 class="page-tit"><em>我要结算</em><span>请先加入会员</span></h2>
+        <section class="checkout-register">
+            <h2 class="register-tit">你还不是CGPay的会员喔！</h2>
+        </section>
+        <section class="checkout-action">
+            <a class="btn-action">点我加入</a>
+        </section>*@
+    </div>
+</article>

@@ -1,0 +1,29 @@
+﻿/*_cart 购物车----------------------*/
+.cart {
+}
+
+.cart- {
+    &recipient {
+        background-color: #fcfcfc;
+        border-top: 1px solid #ebebeb;
+        border-bottom: 1px solid #ebebeb;
+        padding: 3em;
+        margin-bottom: 3em;
+    }
+
+    &total {
+        background-color: #f3f3f3;
+        padding: 1em 2.5em;
+        border-bottom: 1px solid #ebebeb;
+    }
+
+    &action {
+        text-align: right;
+        margin: 2em 0;
+
+        .btn-action {
+            padding-left: 6em;
+            padding-right: 6em;
+        }
+    }
+}

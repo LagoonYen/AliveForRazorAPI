@@ -1,0 +1,10 @@
+﻿@page
+@model AliveStoreTemplate.Pages.HelloWorldModel
+@{
+        ViewData["Title"] = "Hello World.";
+
+}
+
+<div style="border:dashed 1px red; padding:4px">
+    @Html.Raw(Model.Result)
+</div>

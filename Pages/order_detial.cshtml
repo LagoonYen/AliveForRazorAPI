@@ -1,0 +1,36 @@
+﻿@page
+@model AliveStoreTemplate.Pages.order_detialModel
+@{
+    ViewData["Title"] = "order_detial";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+   @*order 订单*@
+<article class="page order">
+    <div class="content-con">
+        <h2 class="page-tit"><em>订单资讯</em><span>订单详细资讯</span></h2>
+        <section class="order-detial">
+            <dl>
+                @*
+                <asp:Literal runat="server" ClientIDMode="Static" ID="Plist"></asp:Literal>*@
+
+                <dt>订单编号</dt>
+                <dd>161102125701</dd>
+                <dt>收件人</dt>
+                <dd>黄小姐</dd>
+                <dt>收件人手机号</dt>
+                <dd>18616057511</dd>
+                <dt>收件人地址</dt>
+                <dd>上海市闵行区龙百四村67号401室</dd>
+                <dt>订单备注</dt>
+                <dd>不要放蜂槽</dd>
+                <dt>订单状态</dt>
+                <dd><span class="status-solved">已完成</span><span class="status-processing">处理中</span></dd>
+                <dt>物流状态</dt>
+                <dd>顺丰 12345678928</dd>
+            </dl>
+        </section>
+        <section class="order-action">
+            <a href="index" class="btn-action">继续购物</a><a href="order" class="btn-active">查看订单列表</a>
+        </section>
+    </div>
+</article>
