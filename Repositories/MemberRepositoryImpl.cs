@@ -64,59 +64,64 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public async Task<MemberInfo> GetMemberInfo(int id)
+        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id)
         {
             try
             {
-                var dbmember = await _dbShop.MemberInfos.FindAsync(id);
-                if(dbmember == null)
+                MemberInfo member = new MemberInfo();
+                member = await _dbShop.MemberInfos.FindAsync(id);
+                if(member == null)
                 {
                     throw new Exception("找不到此帳號!");
-                    //return null;
                 }
-                return dbmember;
+                return new BaseQueryModel<MemberInfo>
+                {
+                    //初始化
+                    Results = new List<MemberInfo> { member },
+                    Message = String.Empty,
+                    StatusCode = HttpStatusCode.OK,
+                };
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
             }
         }
-        //public async Task<Exception> GetMemberInfoByAccount(string Account)
-        //{
-        //    try
-        //    {
-        //        var dbmember = await _dbShop.MemberInfos.FindAsync(Account);
-        //        if(dbmember == null)
-        //        {
-        //            return new Exception("查不到帳號!");
-        //        }
-        //        return new Exception("跳出更改帳密頁面!");
-        //    }
-        //    catch
-        //    {
-        //        throw;
-        //    }
-        //}
 
-        public async Task PatchMemberInfo(MemberInfo member)
+        public async Task<BaseResponseModel> PatchMemberInfo(MemberInfo member)
         {
             try
             {
                 var dbmember = await _dbShop.MemberInfos.FindAsync(member.Id);
-                if( dbmember == null)
-                {
-                    throw new Exception("查無此帳號!");
-                }
+                //if( dbmember == null)
+                //{
+                //    throw new Exception("查無此帳號!");
+                //}
                 dbmember.Password = member.Password;
                 dbmember.NickName = member.NickName;
                 dbmember.PhoneNumber = member.PhoneNumber;
                 dbmember.Email = member.Email;
                 dbmember.ProfilePhotoUrl = member.ProfilePhotoUrl;
                 dbmember.UpdateTime = member.UpdateTime;
+                _dbShop.SaveChanges();
+                return new BaseResponseModel
+                {
+                    Message = "資料已變更",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
             }
         }
 

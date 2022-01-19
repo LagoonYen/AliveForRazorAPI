@@ -1,4 +1,5 @@
 ﻿using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +33,19 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("PostMemberRegister")]
         public async Task PostMemberRegister(string account, string password)
         {
-            var TimeNow = DateTime.Now;
             await _memberService.PostMemberRegister(account, password);
+        }
+
+        /// <summary>
+        /// 判斷是否有此帳號
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetHasAccount")]
+        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
+        {
+            return await _memberService.GetMemberInfo(account);
         }
 
         /// <summary>
@@ -42,12 +54,38 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <param></param>
         /// <returns></returns>
         [HttpPatch]
-        [Route("PatchPwd")]
-        public async Task PatchMemberInfo(string account, string password)
+        [Route("PatchPassword")]
+        public async Task<BaseResponseModel> PatchPassword(string account, string password)
         {
-            await _memberService.PatchMemberInfo(account, password);
+            return await _memberService.PatchMemberInfo(account, password);
         }
 
+        /// <summary>
+        /// 登錄
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("PostLogin")]
+        public async Task<BaseQueryModel<MemberInfo>> PostLogin(string account, string password)
+        {
+            return await _memberService.PostLogin(account, password);
+        }
+
+        /// <summary>
+        /// 讀取會員資訊
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetMemberInfo")]
+        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id)
+        {
+            return await _memberService.GetMemberInfo(id);
+        }
+
+        //[HttpPatch]
+        //[Route("PatchMemberData")]
+        
 
 
 

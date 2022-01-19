@@ -7,12 +7,16 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface MemberRepository
     {
+        //註冊帳號
         Task<BaseResponseModel> PostMemberRegister(MemberInfo member);
-        //Task PatchMemberUpdate(MemberInfo member);
-        //Task<Exception> GetMemberInfoByAccount(string Account);
-        Task<MemberInfo> GetMemberInfo(int id);
-        Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account);
-        Task PatchMemberInfo(MemberInfo member);
 
+        //讀取個人資料
+        Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id);
+
+        //修改密碼前取得是否有帳號
+        Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account);
+
+        //修改個人資料
+        Task<BaseResponseModel> PatchMemberInfo(MemberInfo member);
     }
 }

@@ -11,16 +11,16 @@
     <link rel="apple-touch-icon" sizes="76x76" href="favicon/touch-icon-ipad.png" />
     <link rel="apple-touch-icon" sizes="120x120" href="favicon/touch-icon-iphone-retina.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="favicon/touch-icon-ipad-retina.png" />
+    @*semantic-ui*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 
     <!--css-->
     <link href="css/alive.min.css" rel="stylesheet" asp-append-version="true" />
     <!--js-->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    @*<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>*@
     <!--<script src="js/basic.js"></script>-->
-    <!-- 使 IE9 以下(不含 IE9)的 IE 瀏覽器載入 html5.js -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+
     @*slidebars*@
     <link href="css/vender/slidebars.css" rel="stylesheet" asp-append-version="true"/>
     <script src="js/slidebars.js" asp-append-version="true"></script>
@@ -30,7 +30,8 @@
     <script src="js/slick.min.js" asp-append-version="true"></script>
     <link href="css/vender/colorbox.css" rel="stylesheet" asp-append-version="true"/>
     <script src="js/jquery.colorbox-min.js" asp-append-version="true"></script>
-
+    @*semantic-ui*@
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="js/Cart.js" asp-append-version="true"></script>
 
     @RenderSection("HEAD", required: false);
@@ -64,9 +65,8 @@
             @*nav-self 功能選單*@
         <section class="nav-self">
             <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
-            <a asp-page="login"><h3> 登入</h3></a>
-            <a asp-page="logout"><h3> 登出</h3></a>
-            <a asp-page="register"><h3> 註冊</h3></a>
+            <a asp-page="./MemberPages/RegisterLoginPagecshtml"><h3>註冊(old)</h3></a>
+            <a asp-page="./Login"><h3>註冊(new)</h3></a>
             <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
             <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
             <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
@@ -181,6 +181,7 @@
     </div>
     @*/lightbox*@
     @* pageJS *@
+
     <script type="text/javascript">
         $(function () {
             // 手機版選單

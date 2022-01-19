@@ -17,8 +17,31 @@ namespace AliveStoreTemplate.Services
             _memberRepository = memberRepository;
         }
 
+        //登錄
+        public async Task<BaseQueryModel<MemberInfo>> PostLogin(string account, string password)
+        {
+            var baseQueryModel =  await _memberRepository.GetMemberInfo(account);
+            if(baseQueryModel.Results == null)
+            {
+                return baseQueryModel;
+            }
+            var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
+            if(dbPassword != password)
+            {
+                return new BaseQueryModel<MemberInfo>()
+                {
+                    Results = null,
+                    Message = "密碼不同",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+            return baseQueryModel;
+        }
+
+        //註冊
         public async Task<BaseResponseModel> PostMemberRegister(string account, string password)
         {
+            //先取得帳號不存在
             var memberInfo = await _memberRepository.GetMemberInfo(account);
             try
             {
@@ -31,6 +54,7 @@ namespace AliveStoreTemplate.Services
                 member.Account = account;
                 member.Password = password;
                 member.RegisterTime = member.UpdateTime = TimeNow;
+                //創建帳號
                 await _memberRepository.PostMemberRegister(member);
                 return new BaseResponseModel
                 {
@@ -47,28 +71,57 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public async Task PatchMemberInfo(string account, string password)
+        //修改密碼
+        public async Task<BaseResponseModel> PatchMemberInfo(string account, string password)
         {
-            var memberInfo = await _memberRepository.GetMemberInfo(account);
-            if (memberInfo == null)
+            try
             {
-                return;
+                //先取得帳號存在
+                var memberInfo = await _memberRepository.GetMemberInfo(account);
+                if (memberInfo.Results == null)
+                {
+                    throw new Exception(memberInfo.Message);
+                }
+                var memberInfoString = memberInfo.Results.FirstOrDefault();
+                var DateTimeNow = DateTime.Now;
+                memberInfoString.Password = password;
+                memberInfoString.UpdateTime = DateTimeNow;
+                return await _memberRepository.PatchMemberInfo(memberInfoString);
             }
-            var memberInfoString = memberInfo.Results.FirstOrDefault();
-            var DateTimeNow = DateTime.Now;
-            memberInfoString.Password = password;
-            memberInfoString.UpdateTime = DateTimeNow;
-            await _memberRepository.PatchMemberInfo(memberInfoString);
+            catch (Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+            
         }
 
-        //public async Task PostMemberResetPwdSendMail(string Account)
-        //{
-        //    await _memberRepository.PostMemberResetPwdSendMail(Account);
-        //}
-
+        //修改密碼前取得是否有帳號
         public Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
         {
-            return _memberRepository.GetMemberInfo(account);
+            //try
+            //{
+                var memberInfo =  _memberRepository.GetMemberInfo(account);
+                //if(memberInfo.Result == null)
+                //{
+                //    return memberInfo;
+                //}
+                return memberInfo;
+            //}
+            //catch(Exception ex)
+            //{
+            //    return null;
+            //}
+           
+        }
+
+        //讀取個人資料
+        public Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id)
+        {
+            return _memberRepository.GetMemberInfo(id);
         }
     }
 }
