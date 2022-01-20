@@ -129,7 +129,6 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.BadRequest
                 };
             }
-            
         }
 
         //修改密碼前取得是否有帳號

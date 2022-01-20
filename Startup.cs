@@ -51,6 +51,8 @@ namespace AliveStoreTemplate
 
             services.AddScoped<MemberService, MemberServiceImpl>();
             services.AddScoped<MemberRepository, MemberRepositoryImpl>();
+            services.AddScoped<ProductService, ProductServiceImpl>();
+            services.AddScoped<ProductRepository, ProductRepositoryImpl>();
 
             services.AddTransient<ShopContext>();
         }

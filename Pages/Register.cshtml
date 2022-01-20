@@ -17,12 +17,18 @@
                     <label>password</label>
                     <input type="password" name="password" placeholder="請輸入密碼">
                 </div>
+                <div>
+                    <p id="notice">
+
+                    </p>
+                </div>
                 @*<div class="field">
                     <div class="ui checkbox">
                         <input type="checkbox" tabindex="0" class="hidden">
                         <label>I agree to the Terms and Conditions</label>
                     </div>
                 </div>*@
+                <button class="ui button" asp-page="./Login">返回</button>
                 <button class="ui button" type="submit">註冊</button>
             </form>
         </div>
@@ -74,17 +80,10 @@
                 },
                 onFailure: function(response) {
                     console.log(response)
-                    //$('#notice').html("此帳號已被註冊")
+                    $('#notice').html(response)
                 }
             })
     })
-
-    //function SetCookie(name,value,date){
-    //    let Days = date;//此 cookie 將被儲存的天數
-    //    let exp  = new Date();//建立一個時間日期物件;
-    //    exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    //    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-    //}
 </script>
 
 

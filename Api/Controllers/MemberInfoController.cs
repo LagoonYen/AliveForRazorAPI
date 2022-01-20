@@ -45,17 +45,23 @@ namespace AliveStoreTemplate.Api.Controllers
                 {
                     throw new Exception(message: result.Message);
                 }
-                //todo 
-                //HttpCookie myCookie = new HttpCookie("Product"); //Cookie名稱  
-                //foreach (var i in Product)
-                //{
-                //    myCookie[j.ToString()] = i.Id.ToString() + "," + i.Name + "," + i.Price.ToString() + "," + i.Amount.ToString();//欲儲存的資料內容(這邊以逗號作區隔)
-                //    j++; //子索引鍵的識別值
-                //}
-                //myCookie.Expires = DateTime.Now.AddDays(1);//有效期限一天 
-                //myCookie.HttpOnly = true;
-                //Response.Cookies.Add(myCookie);//加入Cookie
-                //return true;
+                var cookieOptions = new CookieOptions
+                {
+                    // Set the secure flag, which Chrome's changes will require for SameSite none.
+                    // Note this will also require you to be running on HTTPS.
+                    Secure = true,
+
+                    // Set the cookie to HTTP only which is good practice unless you really do need
+                    // to access it client side in scripts.
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                    // Add the SameSite attribute, this will emit the attribute with a value of none.
+                    // To not emit the attribute at all set
+                    // SameSite = (SameSiteMode)(-1)
+                    SameSite = SameSiteMode.None
+                };
+                // Add the cookie to the response cookie collection
+                Response.Cookies.Append("account", result.Results.FirstOrDefault().Account, cookieOptions);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -82,7 +88,6 @@ namespace AliveStoreTemplate.Api.Controllers
                 {
                     throw new Exception(message: result.Message);
                 }
-
                 return Ok(result);
             }
             catch(Exception ex)

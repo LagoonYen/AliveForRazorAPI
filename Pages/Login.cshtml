@@ -26,11 +26,11 @@
                                         <i class="lock icon"></i>
                                     </div>
                                 </div>
-                                @*<div>
-                                    <label id="notice">
+                                <div>
+                                    <p id="notice">
 
-                                    </label>
-                                </div>*@
+                                    </p>
+                                </div>
                                 <div class="ui blue submit button">登錄</div>
                             </form>
                         </div>
@@ -95,36 +95,14 @@
                 method:'POST',
                 serializeForm: true,
                 data: new FormData(),
-                //{
-                //    account: account,
-                //    password: password
-                //},
                 onSuccess: function (response) {
                     console.log(response)
                     window.location = "./Home"
-                    //var cookieAccount = response.result.account
-                    //var date = 3
-                    //function SetCookie(account,cookieAccount,date)
-                    //location.href = ""
-                    //if (result.Success) {
-                    //  window.location = "/Dashboard/Dashboard";
-                    //}
-                    //else {
-                    //  $('#formresult').append(result.Msg);
-                    //}
-                    //return false;
                 },
                 onFailure: function(response) {
                     console.log(response)
-                    //$('#notice').html("帳號或密碼錯誤")
+                    $('#notice').html(response)
                 }
             })
     })
-
-    //function SetCookie(name,value,date){
-    //    let Days = date;//此 cookie 將被儲存的天數
-    //    let exp  = new Date();//建立一個時間日期物件;
-    //    exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    //    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-    //}
 </script>
