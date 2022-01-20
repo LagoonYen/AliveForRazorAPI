@@ -11,23 +11,28 @@
                 <div class="ui center aligned basic segment">
                     <div class="ui left icon action input">
                         <div class="column">
-                        <div class="ui form">
-                            <div class="field">
-                                <label>Username</label>
-                                <div class="ui left icon input">
-                                    <input type="text" identifier="accountLogin" placeholder="請輸入信箱">
-                                    <i class="user icon"></i>
+                            <form class="ui form" id="LoginForm">
+                                <div class="field">
+                                    <label>Username</label>
+                                    <div class="ui left icon input">
+                                        <input type="text" name="account" placeholder="請輸入信箱">
+                                        <i class="user icon"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field">
-                                <label>Password</label>
-                                <div class="ui left icon input">
-                                    <input type="password" identifier="passwordLogin">
-                                    <i class="lock icon"></i>
+                                <div class="field">
+                                    <label>Password</label>
+                                    <div class="ui left icon input">
+                                        <input type="password" name="password">
+                                        <i class="lock icon"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="ui blue submit button">登錄</div>
-                            </div>
+                                @*<div>
+                                    <label id="notice">
+
+                                    </label>
+                                </div>*@
+                                <div class="ui blue submit button">登錄</div>
+                            </form>
                         </div>
                     </div>
                     <div class="ui horizontal divider">
@@ -38,10 +43,12 @@
                         </font>
                     </div>
                     <div class="middle aligned column">
-                        <div class="ui big button">
-                            <i class="signup icon" asp-page="./Register"></i>
-                            註冊
-                        </div>
+                        <a asp-page="./Register">
+                            <div class="ui big button">
+                                <i class="signup icon"></i>
+                                註冊
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -51,36 +58,54 @@
 
 <script>
     $(function(){
-        $('ui form').form({
-            on: 'blur',
-            member:{
-                account:{
-                    identifier: 'account',
-                    rules: [{
-                        type: 'empty',
-                        prompt: '帳號不可以為空'
-                    }]
+        $('#LoginForm')
+            .form({
+                on:'blur',
+                field:{
+                    account:{
+                        identifier: 'account',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: '帳號不可以為空'
+                            }
+                        ]
+                    },
+                    password: {
+                        identifier: 'password',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: '密碼不可以為空'
+                            },
+                            {
+                                type   : 'minLength[6]',
+                                prompt : '你必須輸入 {ruleValue} 字元'
+                            }
+                        ]
+                    }
                 },
-                password: {
-                    identifier: 'password',
-                    rules: [{
-                        type: 'empty',
-                        prompt: '密碼不可以為空'
-                    }]
+                onSuccess: function (event) {
+                    event.preventDefault();
+                    return false;
                 }
-            }
-            onSuccess: function (event) {
-                event.preventDefault();
-                return false;
-            }
         })
-                    .api({
-                        url: '@Url.Action("PostLogin","MemberInfo")',
-                        method:'POST',
-                        serializeForm: true,
-                        data: new FormData(this),
-                        onSuccess: function (response) {
-                            console.log(response)
+            .api({
+                url: '@Url.Action("Login","MemberInfo")',
+                method:'POST',
+                serializeForm: true,
+                data: new FormData(),
+                //{
+                //    account: account,
+                //    password: password
+                //},
+                onSuccess: function (response) {
+                    console.log(response)
+                    window.location = "./Home"
+                    //var cookieAccount = response.result.account
+                    //var date = 3
+                    //function SetCookie(account,cookieAccount,date)
+                    //location.href = ""
                     //if (result.Success) {
                     //  window.location = "/Dashboard/Dashboard";
                     //}
@@ -88,10 +113,18 @@
                     //  $('#formresult').append(result.Msg);
                     //}
                     //return false;
-                         }
-                    })
-                })
+                },
+                onFailure: function(response) {
+                    console.log(response)
+                    //$('#notice').html("帳號或密碼錯誤")
+                }
+            })
+    })
 
-    
-
+    //function SetCookie(name,value,date){
+    //    let Days = date;//此 cookie 將被儲存的天數
+    //    let exp  = new Date();//建立一個時間日期物件;
+    //    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    //    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    //}
 </script>

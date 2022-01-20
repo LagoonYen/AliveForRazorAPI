@@ -17,6 +17,37 @@ namespace AliveStoreTemplate.Repositories
             _dbShop = shopContext;
         }
 
+        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
+        {
+            try
+            {
+                MemberInfo member = new MemberInfo();
+                member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
+                if (member == null)
+                {
+                    throw new Exception("此帳號未被註冊!");
+                }
+                member = await _dbShop.MemberInfos.FindAsync(member.Id);
+                return new BaseQueryModel<MemberInfo>
+                {
+                    //初始化
+                    Results = new List<MemberInfo> { member },
+                    Message = String.Empty,
+                    StatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+        }
+
+        //建立帳號
         public async Task<BaseResponseModel> PostMemberRegister(MemberInfo member)
         {
             try
@@ -31,36 +62,6 @@ namespace AliveStoreTemplate.Repositories
             catch
             {
                 throw;
-            }
-        }
-
-        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
-        {
-            try
-            {
-                MemberInfo member = new MemberInfo();
-                member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
-                if (member == null)
-                {
-                    throw new Exception("此帳號未被註冊!");
-                }
-                var result = await _dbShop.MemberInfos.FindAsync(member.Id);
-                return new BaseQueryModel<MemberInfo>
-                {
-                    //初始化
-                    Results = new List<MemberInfo> { result },
-                    Message = String.Empty,
-                    StatusCode = HttpStatusCode.OK,
-                };
-            }
-            catch(Exception ex)
-            {
-                return new BaseQueryModel<MemberInfo>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
             }
         }
 
@@ -98,10 +99,6 @@ namespace AliveStoreTemplate.Repositories
             try
             {
                 var dbmember = await _dbShop.MemberInfos.FindAsync(member.Id);
-                //if( dbmember == null)
-                //{
-                //    throw new Exception("查無此帳號!");
-                //}
                 dbmember.Password = member.Password;
                 dbmember.NickName = member.NickName;
                 dbmember.PhoneNumber = member.PhoneNumber;

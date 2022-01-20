@@ -6,6 +6,86 @@
 }
 <div class="container">
     <div class="row">
-
+        <h4 class="ui dividing header">註冊本站會員</h4>
+        <div class="ui center aligned basic segment">
+            <form class="ui form" id="RegisterForm">
+                <div class="field">
+                    <label>Email</label>
+                    <input type="text" name="account" placeholder="請輸入電子信箱">
+                </div>
+                <div class="field">
+                    <label>password</label>
+                    <input type="password" name="password" placeholder="請輸入密碼">
+                </div>
+                @*<div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" tabindex="0" class="hidden">
+                        <label>I agree to the Terms and Conditions</label>
+                    </div>
+                </div>*@
+                <button class="ui button" type="submit">註冊</button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        $('#RegisterForm')
+            .form({
+                on:'blur',
+                field:{
+                    account:{
+                        identifer:'account',
+                        rules:[
+                            {
+                                type:'empty',
+                                prompt:'empty'
+                            }
+                        ]
+                    },
+                    password:{
+                        identifer:'password',
+                        relus:[
+                            {
+                                type:'empty',
+                                prompt:'empty'
+                            },
+                            {
+                                type   : 'minLength[6]',
+                                prompt : 'need 6 charts at least.'
+                            }
+                        ]
+                    }
+                },
+                onSuccess: function (event) {
+                    event.preventDefault();
+                    return false;
+                }
+            })
+            .api({
+                url: '@Url.Action("Register","MemberInfo")',
+                method:'POST',
+                serializeForm: true,
+                data: new FormData(),
+                onSuccess: function (response) {
+                    console.log(response)
+                    //window.location = "./"
+                },
+                onFailure: function(response) {
+                    console.log(response)
+                    //$('#notice').html("此帳號已被註冊")
+                }
+            })
+    })
+
+    //function SetCookie(name,value,date){
+    //    let Days = date;//此 cookie 將被儲存的天數
+    //    let exp  = new Date();//建立一個時間日期物件;
+    //    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+    //    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    //}
+</script>
+
+
+
