@@ -3,6 +3,8 @@ using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using AliveStoreTemplate.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -62,6 +64,7 @@ namespace AliveStoreTemplate.Api.Controllers
                 };
                 // Add the cookie to the response cookie collection
                 Response.Cookies.Append("account", result.Results.FirstOrDefault().Account, cookieOptions);
+                Response.Cookies.Append("id", result.Results.FirstOrDefault().Id.ToString(), cookieOptions);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -99,16 +102,17 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <summary>
         /// 讀取會員資訊
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("MemberInfo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> MemberInfo(int id)
+        public async Task<IActionResult> MemberInfo()
         {
             try
             {
+                //取得cookie
+                var id = int.Parse(Request.Cookies["id"]);
                 var result = await _memberService.GetMemberInfo(id);
                 if(result.StatusCode != HttpStatusCode.OK)
                 {
@@ -146,6 +150,20 @@ namespace AliveStoreTemplate.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //ToDo
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        //登出 Action 記得別加上[Authorize]，不管用戶是否登入，都可以執行Logout
+        //[HttpGet]
+        //[Route("Logout")]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await HttpContext.SignOutAsync();
+        //    return RedirectToPage("/Home");
+        //}
 
         ///// <summary>
         ///// 判斷是否有此帳號

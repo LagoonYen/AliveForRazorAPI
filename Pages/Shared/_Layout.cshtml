@@ -68,8 +68,8 @@
             @*nav-self 功能選單*@
         <section class="nav-self">
             <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
-            <a asp-page="./MemberPages/RegisterLoginPagecshtml"><h3>註冊(old)</h3></a>
-            <a asp-page="./Login"><h3>註冊(new)</h3></a>
+            <a asp-page="./Login" class="btn-self"><i class="icon-star"></i><em>Login</em></a>
+            <a asp-page="./Personal" class="btn-self"><i class="icon-cate"></i><em>Personal</em></a>
             <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
             <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
             <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
@@ -274,6 +274,8 @@
             var cc = CartCount("Cart");
             $("#spancc").html(cc);
             $(".spancc").html(cc);
+
+            
         });
     </script>
 

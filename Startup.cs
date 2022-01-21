@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Repositories;
 using AliveStoreTemplate.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,6 +52,25 @@ namespace AliveStoreTemplate
                 x.IncludeXmlComments(xmlPath);
             });
 
+            //cookie設定  //會叫不到MerberInfoController
+            //double LoginExpireMinute = this.Configuration.GetValue<double>("LoginExpireMinute");
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+            //{
+            //    option.LoginPath = new PathString("/Home"); //登入頁
+            //    option.LogoutPath = new PathString("/Category"); //登出Action
+            //    //用戶頁面停留太久，登入逾期，或Controller的Action裡用戶登入時，也可以設定↓
+            //    option.ExpireTimeSpan = TimeSpan.FromMinutes(LoginExpireMinute);//沒給預設14天
+            //    //↓資安建議false，白箱弱掃軟體會要求cookie不能延展效期，這時設false變成絕對逾期時間
+            //    option.SlidingExpiration = false;
+            //});
+
+            //services.AddControllersWithViews(options => {
+            //    //↓和CSRF資安有關，這裡就加入全域驗證範圍Filter的話，待會Controller就不必再加上[AutoValidateAntiforgeryToken]屬性
+            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            //});
+
+
+            // Service 及 Repository啟用
             services.AddScoped<MemberService, MemberServiceImpl>();
             services.AddScoped<MemberRepository, MemberRepositoryImpl>();
             services.AddScoped<ProductService, ProductServiceImpl>();
@@ -78,12 +100,14 @@ namespace AliveStoreTemplate
                 x.RoutePrefix = String.Empty;
             });
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); //這樣的話，Controller、Action不必再加上[RequireHttps]屬性
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //留意寫Code順序，先執行驗證...
+            app.UseAuthentication();
+            app.UseAuthorization();//Controller、Action才能加上 [Authorize] 屬性
 
             app.UseEndpoints(endpoints =>
             {

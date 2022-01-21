@@ -1,0 +1,115 @@
+﻿
+@page
+@model AliveStoreTemplate.Pages.PersonalModel
+@{
+    ViewData["Title"] = "Personal";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div>
+    <h4 class="ui dividing header">個人資料列表</h4>
+    <div class="doubling stackable two column ui grid container">
+        <div class="column">
+            <div class="ui segment">
+                帳號
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="account">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                暱稱
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="nickName">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                電話號碼
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="phoneNumber">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                Email
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="email">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                性別
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="sex">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                建立時間
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="registerTime">
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                修改時間
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment" id="updateTime">
+            </div>
+        </div>
+    </div>
+    <div class="ui container">
+        <div class="ui button center" onclick="goRewrite()">修改</div>
+    </div>
+</div>
+<script>
+    $(function(){
+        console.log("測試")
+        $.ajax({
+            type:"Get",
+            url:"@Url.Action("MemberInfo","MemberInfo")",
+            dataType:"json",
+            //beforeSend:{
+            //    //$('#account').html("獲取數據中...")
+            //    //$('#nickName').html("獲取數據中...")
+            //    //$('#phoneNumber').html("獲取數據中...")
+            //    //$('#email').html("獲取數據中...")
+            //    //$('#registerTime').html("獲取數據中...")
+            //    //$('#updateTime').html("獲取數據中...")
+            //    //$('#sex').html("獲取數據中...")
+            //},
+            success:function(response){
+                var data = response.results[0]
+                $('#account').html((data.account) ? data.account : "無")
+                $('#nickName').html((data.nickName) ? data.nickName : "無")
+                $('#phoneNumber').html((data.phoneNumber) ? data.phoneNumber : "無")
+                $('#email').html((data.email) ? data.email : "無")
+                $('#registerTime').html((data.registerTime) ? data.registerTime : "無")
+                $('#updateTime').html((data.updateTime) ? data.updateTime : "無")
+                $('#sex').html((data.sex) ? data.sex : "無")
+            },
+            error:function(response){
+                location.href = "./Login"
+            }
+        })
+    })
+
+    function goRewrite(){
+        location.href = "/BuildPersonalPage"
+    }
+
+</script>

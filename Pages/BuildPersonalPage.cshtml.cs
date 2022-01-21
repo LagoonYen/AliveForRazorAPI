@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AliveStoreTemplate.Pages.MemberPages
+namespace AliveStoreTemplate.Pages
 {
-    public class RegisterLoginPagecshtmlModel : PageModel
+    public class BuildPersonalPageModel : PageModel
     {
         public void OnGet()
         {
-            
         }
     }
 }
