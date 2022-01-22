@@ -8,5 +8,7 @@ namespace AliveStoreTemplate.Services
     {
         //取全部商品資料
         BaseQueryModel<ProductList> ProductList();
+
+        BaseQueryModel<ProductViewModel> Product_CategoryList();
     }
 }

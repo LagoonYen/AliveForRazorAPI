@@ -32,7 +32,7 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ProductList()
+        public async Task<IActionResult> ProductList()
         {
             try
             {
@@ -44,6 +44,29 @@ namespace AliveStoreTemplate.Api.Controllers
                 return Ok(result);
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 商品分類及其細項
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> Product_CategoryList()
+        {
+            try
+            {
+                var result = _productService.Product_CategoryList();
+                if (result == null)
+                {
+                    throw new Exception(message: result.Message);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

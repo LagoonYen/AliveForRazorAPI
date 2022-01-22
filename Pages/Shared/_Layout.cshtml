@@ -36,6 +36,7 @@
     @*semantic-ui*@
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="js/Cart.js" asp-append-version="true"></script>
+    
 
     @RenderSection("HEAD", required: false);
 
@@ -70,7 +71,9 @@
             <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
             <a asp-page="./Login" class="btn-self"><i class="icon-star"></i><em>Login</em></a>
             <a asp-page="./Personal" class="btn-self"><i class="icon-cate"></i><em>Personal</em></a>
+            <a asp-page="./Index" class="btn-self"><i class="icon-search"><em>swagger</em></i></a>
             <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
+
             <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
             <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
             <a id="btn-menu" class="btn-self lg-hide md-hide sm-show xs-show"><i class="icon-menu"></i><em>nav</em></a>

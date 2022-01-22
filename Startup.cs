@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AliveStoreTemplate.Common;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Repositories;
 using AliveStoreTemplate.Services;
@@ -52,6 +53,16 @@ namespace AliveStoreTemplate
                 x.IncludeXmlComments(xmlPath);
             });
 
+            // 注入分散式記憶體快取
+            services.AddDistributedMemoryCache();
+            // 注入Session
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);  //可以設定時間
+            });
+
+            // 注入 HttpContextAccessor
+            services.AddHttpContextAccessor();
+
             //cookie設定  //會叫不到MerberInfoController
             //double LoginExpireMinute = this.Configuration.GetValue<double>("LoginExpireMinute");
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
@@ -75,6 +86,11 @@ namespace AliveStoreTemplate
             services.AddScoped<MemberRepository, MemberRepositoryImpl>();
             services.AddScoped<ProductService, ProductServiceImpl>();
             services.AddScoped<ProductRepository, ProductRepositoryImpl>();
+            services.AddScoped<ShopCarService, ShopCarServiceImpl>();
+            services.AddScoped<ShopCarRepository, ShopCarRepositoryImpl>();
+
+            // 注入驗證物件
+            services.AddScoped(typeof(CodeValidator), typeof(CodeValidatorImpl));
 
             services.AddTransient<ShopContext>();
         }
@@ -105,9 +121,12 @@ namespace AliveStoreTemplate
 
             app.UseRouting();
 
+            // 使用Session
+            app.UseSession();
+
             //留意寫Code順序，先執行驗證...
             app.UseAuthentication();
-            app.UseAuthorization();//Controller、Action才能加上 [Authorize] 屬性
+            app.UseAuthorization(); //Controller、Action才能加上 [Authorize] 屬性
 
             app.UseEndpoints(endpoints =>
             {

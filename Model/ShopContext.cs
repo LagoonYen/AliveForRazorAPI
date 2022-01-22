@@ -17,7 +17,10 @@ namespace AliveStoreTemplate.Model
         }
 
         public virtual DbSet<MemberInfo> MemberInfos { get; set; }
+        public virtual DbSet<OrderList> OrderLists { get; set; }
+        public virtual DbSet<OrderProduct> OrderProducts { get; set; }
         public virtual DbSet<ProductList> ProductLists { get; set; }
+        public virtual DbSet<ProductShopcar> ProductShopcars { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -57,6 +60,80 @@ namespace AliveStoreTemplate.Model
                 entity.Property(e => e.UpdateTime).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<OrderList>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("order_list");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.IsPay).HasColumnName("is_pay");
+
+                entity.Property(e => e.IsReceipt).HasColumnName("is_receipt");
+
+                entity.Property(e => e.IsShip).HasColumnName("is_ship");
+
+                entity.Property(e => e.OrderNumber)
+                    .HasMaxLength(50)
+                    .HasColumnName("order_number");
+
+                entity.Property(e => e.PayPrice).HasColumnName("pay_price");
+
+                entity.Property(e => e.PayTime).HasColumnName("pay_time");
+
+                entity.Property(e => e.ReceiptTime).HasColumnName("receipt_time");
+
+                entity.Property(e => e.ShipNumber)
+                    .HasMaxLength(50)
+                    .HasColumnName("ship_number");
+
+                entity.Property(e => e.ShipTim).HasColumnName("ship_tim");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.Uid).HasColumnName("uid");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time");
+            });
+
+            modelBuilder.Entity<OrderProduct>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("order_product");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.Property(e => e.ProductId).HasColumnName("product_id");
+
+                entity.Property(e => e.ProductNum).HasColumnName("product_num");
+
+                entity.Property(e => e.ProductPrice).HasColumnName("product_price");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time");
+            });
+
             modelBuilder.Entity<ProductList>(entity =>
             {
                 entity.HasNoKey();
@@ -86,6 +163,29 @@ namespace AliveStoreTemplate.Model
                     .HasMaxLength(50);
 
                 entity.Property(e => e.UpdateTime).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ProductShopcar>(entity =>
+            {
+                entity.ToTable("product_shopcar");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("create_time");
+
+                entity.Property(e => e.Num).HasColumnName("num");
+
+                entity.Property(e => e.PrductId).HasColumnName("prduct_id");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.Uid).HasColumnName("uid");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_time");
             });
 
             OnModelCreatingPartial(modelBuilder);

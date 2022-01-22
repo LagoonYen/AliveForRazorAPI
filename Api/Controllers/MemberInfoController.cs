@@ -1,4 +1,5 @@
-﻿using AliveStoreTemplate.Model;
+﻿using AliveStoreTemplate.Common;
+using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
@@ -8,9 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using StackExchange.Utils;
 
 namespace AliveStoreTemplate.Api.Controllers
 {
@@ -23,6 +26,11 @@ namespace AliveStoreTemplate.Api.Controllers
         public MemberInfoController(MemberService memberService)
         {
             _memberService = memberService;
+        }
+
+        public class reCAPTCHAResponse
+        {
+            public bool success { get; set; }
         }
 
         /// <summary>
@@ -38,10 +46,21 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromForm] LoginReqModel Req)
+        public async Task<IActionResult> Login([FromForm]LoginReqModel Req)
+        //public async Task<IActionResult> Login([FromForm]LoginReqModel Req, [FromForm] string recaptcha)
         {
             try
             {
+                //var form = new NameValueCollection()
+                //{
+                //    ["secret"] = "6LegNyweAAAAAEmqmofjJzoJElV4TXmdGuNHQ7yO",
+                //    ["response"] = recaptcha // 使用者傳到後端的Token
+                //};
+                ////StackExchange.Utils.Http套件下載
+                //var resultCAPTCHAR = await Http.Request("https://www.google.com/recaptcha/api/siteverify")
+                //    .SendForm(form)
+                //    .ExpectJson<reCAPTCHAResponse>()
+                //    .PostAsync();
                 var result = await _memberService.PostLogin(Req);
                 if(result.Results == null)
                 {
@@ -112,8 +131,8 @@ namespace AliveStoreTemplate.Api.Controllers
             try
             {
                 //取得cookie
-                var id = int.Parse(Request.Cookies["id"]);
-                var result = await _memberService.GetMemberInfo(id);
+                var uid = int.Parse(Request.Cookies["id"]);
+                var result = await _memberService.GetMemberInfo(uid);
                 if(result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);
@@ -152,10 +171,10 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         //ToDo
-        /// <summary>
-        /// 登出
-        /// </summary>
-        /// <returns></returns>
+        ///// <summary>
+        ///// 登出
+        ///// </summary>
+        ///// <returns></returns>
         //登出 Action 記得別加上[Authorize]，不管用戶是否登入，都可以執行Logout
         //[HttpGet]
         //[Route("Logout")]

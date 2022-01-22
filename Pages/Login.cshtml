@@ -4,6 +4,8 @@
     ViewData["Title"] = "Login";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+@*reCaptcha JS引用*@
+@*<script src="https://www.google.com/recaptcha/api.js?render=6LegNyweAAAAAH_tWNYg8mN1j3aIq4BPKB4EUgdp"></script>*@
 <article class="page RegisterLoginPage">
     <div class="container">
         <div class="row">
@@ -11,7 +13,8 @@
                 <div class="ui center aligned basic segment">
                     <div class="ui left icon action input">
                         <div class="column">
-                            <form class="ui form" id="LoginForm">
+                            <form class="ui form" id="LoginForm" method="post" onsubmit="login(); return false">
+                            @*<form class="ui form" id="LoginForm">*@
                                 <div class="field">
                                     <label>Username</label>
                                     <div class="ui left icon input">
@@ -26,12 +29,14 @@
                                         <i class="lock icon"></i>
                                     </div>
                                 </div>
+                                @*<label>Captcha</label>
+                                <input type="hidden" name="recaptcha" id="recaptcha" />*@
                                 <div>
                                     <p id="notice">
 
                                     </p>
                                 </div>
-                                <div class="ui blue submit button">登錄</div>
+                                <button  class="ui blue button" type="submit">登錄</button >
                             </form>
                         </div>
                     </div>
@@ -55,6 +60,7 @@
         </div>
     </div>
 </article>
+
 
 <script>
     $(function(){
@@ -105,4 +111,37 @@
                 }
             })
     })
+
+    //function login() {
+    //    console.log("觸及")
+    //    // 開始登入時，複寫原有form的onsubmit，防止重複調用目前方法且依舊阻斷發送
+    //    loginForm.onsubmit = function () { return false; }
+    //    // 等候reCAPTCH準備完成後調用驗證
+    //    grecaptcha.ready(function () {
+    //    grecaptcha.execute('6LegNyweAAAAAH_tWNYg8mN1j3aIq4BPKB4EUgdp', { action: '@Url.Action("Login","MemberInfo")' }).then(function (token) {
+    //        // 當取得驗證結果TOKEN的回調，將取得的token設定到form內的recaptcha欄位，一同發送至後端。
+    //        //, { action: '@Url.Action("Login","MemberInfo")' }
+    //        recaptcha.value = token;
+    //        // 複寫form的onsubmit，不阻止form發送
+    //        loginForm.onsubmit = function () { return true; }
+
+    //        // form發送
+    //        $.ajax({
+    //            type:"Get",
+    //            url:"@Url.Action("Login","MemberInfo")",
+    //            dataType:new FormData(),
+    //            onSuccess: function (response) {
+    //                console.log(response)
+    //                window.location = "./Home"
+    //            },
+    //            onFailure: function(response) {
+    //                console.log(response)
+    //                $('#notice').html(response)
+    //            }
+    //        })
+
+    //    });
+    //});
+    //return false;
+//}
 </script>
