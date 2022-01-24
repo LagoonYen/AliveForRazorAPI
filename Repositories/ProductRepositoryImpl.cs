@@ -17,19 +17,47 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        public BaseQueryModel<ProductList> ProductList()
+        public Task<BaseQueryModel<ProductList>> SearchProduct(string category, string subCategory)
         {
             try
             {
-                var product = _shopContext.ProductLists.ToList();
+                var productList = (category != "") ? 
+                    (subCategory != "") ? 
+                     _shopContext.ProductLists.Where(x => x.Category == category).Where(x => x.Subcategory == subCategory).ToList()
+                    : _shopContext.ProductLists.Where(x => x.Category == category).ToList()
+                    :  _shopContext.ProductLists.ToList();
+                if(productList == null)
+                {
+                    throw new Exception("這一彈沒有此類卡片喔!");
+                }
                 return new BaseQueryModel<ProductList>
                 {
-                    Results = product,
+                    Results = new List<ProductList> { productList },
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
+        public Task<BaseQueryModel<ProductList>> Product_Info(int id)
+        {
+            try
+            {
+                //ProductList productList = new();
+                var productList = _shopContext.ProductLists.Find(id);
+
+                return new BaseQueryModel<ProductList>
+                {
+                    Results = (IEnumerable<ProductList>)productList,
                     Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BaseQueryModel<ProductList>
                 {
@@ -38,7 +66,7 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK
                 };
             }
+            
         }
-
     }
 }

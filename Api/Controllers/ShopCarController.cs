@@ -13,11 +13,11 @@ namespace AliveStoreTemplate.Api.Controllers
     [ApiController]
     public class ShopCarController : ControllerBase
     {
-        private readonly ShopCarService _shopCarService;
+        private readonly ShopCarService _shopdb;
 
         public ShopCarController(ShopCarService shopCarService)
         {
-            _shopCarService = shopCarService;
+            _shopdb = shopCarService;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace AliveStoreTemplate.Api.Controllers
                     ProductId = product_id,
                     Num = number
                 };
-                var result = await _shopCarService.AddToShopCar(ShopCarReqModel);
+                var result = await _shopdb.AddToShopCar(ShopCarReqModel);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);

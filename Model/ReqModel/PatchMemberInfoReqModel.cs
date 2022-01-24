@@ -2,21 +2,22 @@
 
 namespace AliveStoreTemplate.Model.ReqModel
 {
-    public class PatchMemberInfoReqModel : LoginReqModel
+    public class PatchMemberInfoReqModel
     {
-        [Required]
+        [EmailAddress]
+        [Display(Name = "電子郵件帳號")]
+        public string Account { get; set; }
+
         [Display(Name = "Id")]
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "暱稱")]
         public string NickName { get; set; }
 
-        [Required]
         [Display(Name = "電話號碼")]
         public string PhoneNumber { get; set; }
 
-        [Required]
+        [EmailAddress]
         [Display(Name = "信箱")]
         public string Email { get; set; }
     }

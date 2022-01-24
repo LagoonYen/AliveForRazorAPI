@@ -28,24 +28,24 @@ namespace AliveStoreTemplate.Api.Controllers
         /// </summary>
         /// <remarks>首頁取得商品清單</remarks>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ProductList()
+        public Task<IActionResult>SearchProduct([FromBody]ProductListReqModel Req)
         {
             try
             {
-                var result = _productService.ProductList();
-                if(result == null)
-                {
-                    throw new Exception(message: result.Message);
-                }
-                return Ok(result);
+                var result = _productService.SearchProduct(Req);
+                //if (result.Result.Results == null)
+                //{
+                //    throw new Exception(message: result.Result.Message);
+                //}
+                //return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                //return BadRequest(ex.Message);
             }
         }
 
@@ -55,6 +55,8 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Product_CategoryList()
         {
             try
@@ -62,8 +64,30 @@ namespace AliveStoreTemplate.Api.Controllers
                 var result = _productService.Product_CategoryList();
                 if (result == null)
                 {
-                    throw new Exception(message: result.Message);
+                    throw new Exception(message: result.Result.Message);
                 }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param product_id="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Product_Info(int id)
+        {
+            try
+            {
+                var result = _productService.Product_Info(id);
                 return Ok(result);
             }
             catch (Exception ex)

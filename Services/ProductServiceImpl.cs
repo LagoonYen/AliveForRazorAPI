@@ -6,6 +6,7 @@ using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using AliveStoreTemplate.Model.ReqModel;
 
 namespace AliveStoreTemplate.Services
 {
@@ -18,32 +19,32 @@ namespace AliveStoreTemplate.Services
             _productRepository = productRepository;
         }
 
-        public BaseQueryModel<ProductList> ProductList()
+        public Task<BaseQueryModel<ProductList>> SearchProduct(ProductListReqModel Req)
         {
             try
             {
-                var baseQueryModel = _productRepository.ProductList();
-                if(baseQueryModel.Results == null)
+                var category = Req.Category;
+                var subCategory =  Req.SubCategory;
+                var baseQueryModel = _productRepository.SearchProduct(category, subCategory);
+                return new BaseQueryModel<ProductList>
                 {
-                    return baseQueryModel;
-                }
-                return baseQueryModel;
+                    
+                };
+                
             }
             catch(Exception ex)
             {
-                return new BaseQueryModel<ProductList>()
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                
             }
         }
 
-        public BaseQueryModel<ProductViewModel> Product_CategoryList()
+        public Task<BaseQueryModel<ProductViewModel>> Product_CategoryList()
         {
             try
             {
-                var result = _productRepository.ProductList();
+                string category = "";
+                string subCategory = "";
+                var result = _productRepository.SearchProduct(category, subCategory);
                 if (result.Results == null)
                 {
                     throw new Exception();
@@ -52,14 +53,14 @@ namespace AliveStoreTemplate.Services
                 List<ProductViewModel> productViewModel = new List<ProductViewModel>();
 
                 var Category = product_list.Select(x => x.Category).Distinct();
-                foreach( var item in Category)
+                foreach( var eachCategory in Category)
                 {
-                    var Sub = product_list.Where(x => x.Category == item).Select(x => x.Subcategory).Distinct().ToList();
+                    var EachSubCategory = product_list.Where(x => x.Category == eachCategory).Select(x => x.Subcategory).Distinct().ToList();
 
                     productViewModel.Add(new ProductViewModel
                     {
-                        Category = item,
-                        SubCategory = Sub
+                        Category = eachCategory,
+                        SubCategory = EachSubCategory
                     });
 
                 }
@@ -76,6 +77,12 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.BadRequest
                 };
             }
+        }
+
+        public Task<BaseQueryModel<ProductList>> Product_Info(int id)
+        {
+            var result = _productRepository.Product_Info(id);
+            throw new NotImplementedException();
         }
     }
 }

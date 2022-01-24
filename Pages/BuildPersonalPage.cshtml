@@ -109,32 +109,37 @@
             }
         })
     })
-    function PatchMemberInfo(){
-        console.log("送出資料")
-        //$.ajax({
-        //    type:"Get",
-        //    url:"@Url.Action("MemberInfo","MemberInfo")",
-        //    dataType:"json",
-        //    beforeSend:{
 
-        //    },
-        //    success:function(response){
-        //        var data = response.results[0]
-        //        console.log(data)
-        //        $('#account').val(data.account)
-        //        $('#nickName').val(data.nickName)
-        //        $('#phoneNumber').val(data.phoneNumber)
-        //        $('#email').val(data.email)
-        //        $('#registerTime').val(data.registerTime)
-        //        $('#updateTime').val(data.updateTime)
-        //        console.log("Test")
-        //        var sex = data.sex
-        //        $("#"+sex).attr("checked", "checked");
-        //    },
-        //    error:function(response){
-        //        location.href = "./Login"
-        //    }
-        //})
+    function PatchMemberInfo(){
+        let account = $('#account').val()
+        let nickName = $('#nickName').val()
+        let phoneNumber = $('#phoneNumber').val()
+        let email = $('#email').val()
+
+        let formData = {
+            "account": account,
+            "nickName": nickName,
+            "phoneNumber": phoneNumber,
+            "email": email
+        };
+        
+        $.ajax({
+            type:"Patch",
+            url:"@Url.Action("PatchMemberInfo","MemberInfo")",
+            data : JSON.stringify(formData),
+            // 告訴jQuery不要去處理髮送的資料
+            processData : false, 
+            // 告訴jQuery不要去設定Content-Type請求頭
+            contentType : 'application/json;charset=UTF-8', //contentType很重要 
+            dataType:'json',
+            success:function(response){
+                console.log(response)
+                location.href = "./Personal"
+            },
+            error:function(response){
+               console.log(response)
+            }
+        })
     }
 
 </script>

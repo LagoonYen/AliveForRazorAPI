@@ -38,16 +38,12 @@ namespace AliveStoreTemplate.Api.Controllers
         /// </summary>
         /// <remarks>注意事項：請將Acct及pwd打包</remarks> 
         /// <returns></returns>
-        //標示該方法的回傳格式
-        //[Produces("application/json")]
-        //指定回傳時的型別
-        //[ProducesResponseType(typeof(CardInformationProViewModel), 200)]
         [HttpPost]
         [Route("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Login([FromForm]LoginReqModel Req)
         //public async Task<IActionResult> Login([FromForm]LoginReqModel Req, [FromForm] string recaptcha)
+        public async Task<IActionResult> Login([FromForm]LoginReqModel Req)
         {
             try
             {
@@ -101,7 +97,7 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("Register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromForm] LoginReqModel Req)
+        public async Task<IActionResult> Register([FromBody] LoginReqModel Req)
         {
             try
             {
@@ -110,6 +106,13 @@ namespace AliveStoreTemplate.Api.Controllers
                 {
                     throw new Exception(message: result.Message);
                 }
+                var cookieOptions = new CookieOptions
+                {
+                    Secure = true,
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                    SameSite = SameSiteMode.None
+                };
                 return Ok(result);
             }
             catch(Exception ex)
@@ -157,6 +160,8 @@ namespace AliveStoreTemplate.Api.Controllers
         {
             try
             {
+                //取得cookie
+                Req.Id = int.Parse(Request.Cookies["id"]);
                 var result = await _memberService.PatchMemberInfo(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
@@ -170,7 +175,6 @@ namespace AliveStoreTemplate.Api.Controllers
             }
         }
 
-        //ToDo
         ///// <summary>
         ///// 登出
         ///// </summary>

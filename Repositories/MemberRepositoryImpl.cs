@@ -69,8 +69,8 @@ namespace AliveStoreTemplate.Repositories
         {
             try
             {
-                MemberInfo member = new MemberInfo();
-                member = await _dbShop.MemberInfos.FindAsync(id);
+                //MemberInfo member = new MemberInfo();
+                var member = await _dbShop.MemberInfos.FindAsync(id);
                 if(member == null)
                 {
                     throw new Exception("找不到此帳號!");

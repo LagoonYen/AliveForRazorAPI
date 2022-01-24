@@ -8,14 +8,14 @@
     <div class="row">
         <h4 class="ui dividing header">註冊本站會員</h4>
         <div class="ui center aligned basic segment">
-            <form class="ui form" id="RegisterForm">
+            <form class="ui form" id="RegisterForm" method="post">
                 <div class="field">
                     <label>Email</label>
-                    <input type="text" name="account" placeholder="請輸入電子信箱">
+                    <input type="text" id="account" name="account" placeholder="請輸入電子信箱">
                 </div>
                 <div class="field">
                     <label>password</label>
-                    <input type="password" name="password" placeholder="請輸入密碼">
+                    <input type="password" id="password" name="password" placeholder="請輸入密碼">
                 </div>
                 <div>
                     <p id="notice">
@@ -30,60 +30,90 @@
                 </div>*@
             </form>
                 @*<button class="ui button" type="button" asp-page="./Login">返回</button>*@
-                <button class="ui button" type="submit">註冊</button>
+                <div class="ui button" onclick="Register()" >註冊</div>
         </div>
     </div>
 </div>
 
 <script>
     $(function(){
-        $('#RegisterForm')
-            .form({
-                on:'blur',
-                field:{
-                    account:{
-                        identifer:'account',
-                        rules:[
-                            {
-                                type:'empty',
-                                prompt:'empty'
-                            }
-                        ]
-                    },
-                    password:{
-                        identifer:'password',
-                        relus:[
-                            {
-                                type:'empty',
-                                prompt:'empty'
-                            },
-                            {
-                                type   : 'minLength[6]',
-                                prompt : 'need 6 charts at least.'
-                            }
-                        ]
-                    }
-                },
-                onSuccess: function (event) {
-                    event.preventDefault();
-                    return false;
-                }
-            })
-            .api({
-                url: '@Url.Action("Register","MemberInfo")',
-                method:'POST',
-                serializeForm: true,
-                data: new FormData(),
-                onSuccess: function (response) {
-                    console.log(response)
-                    window.location = "./BuildPersonalPage"
-                },
-                onFailure: function(response) {
-                    console.log(response)
-                    $('#notice').html(response)
-                }
-            })
+        //console.log("送出")
+        //$('#RegisterForm')
+        //    .form({
+        //        on:'blur',
+        //        field:{
+        //            account:{
+        //                identifer:'account',
+        //                rules:[
+        //                    {
+        //                        type:'empty',
+        //                        prompt:'empty'
+        //                    }
+        //                ]
+        //            },
+        //            password:{
+        //                identifer:'password',
+        //                relus:[
+        //                    {
+        //                        type:'empty',
+        //                        prompt:'empty'
+        //                    },
+        //                    {
+        //                        type   : 'minLength[6]',
+        //                        prompt : 'need 6 charts at least.'
+        //                    }
+        //                ]
+        //            }
+        //        },
+        //        onSuccess: function (event) {
+        //            event.preventDefault();
+        //            return false;
+        //        }
+        //    })
+        //    .api({
+        //        url: '@Url.Action("Register","MemberInfo")',
+        //        method:'POST',
+        //        serializeForm: true,
+        //        data: new FormData(),
+        //        onSuccess: function (response) {
+        //            console.log(response)
+        //            window.location = "./BuildPersonalPage"
+        //        },
+        //        onFailure: function(response) {
+        //            console.log(response)
+        //            $('#notice').html(response)
+        //        }
+        //    })
     })
+
+    function Register(){
+        let account = $('#account').val()
+        let password = $('#password').val()
+
+        let formData = {
+            "account": account,
+            "password": password
+        };
+
+        $.ajax({
+            type:"Post",
+            url:"@Url.Action("Register","MemberInfo")",
+            data : JSON.stringify(formData),
+            // 告訴jQuery不要去處理發送的資料
+            processData : false, 
+            // 告訴jQuery不要去設定Content-Type請求頭
+            contentType : 'application/json;charset=UTF-8', //contentType很重要 
+            dataType:"json",
+            success:function(response){
+                console.log("成功")
+                location.href = "./BuildPersonalPage"
+            },
+            error:function(response){
+                console.log("失敗", response)
+                $('#notice').html(response.responseText)
+            }
+        })
+    }
 </script>
 
 

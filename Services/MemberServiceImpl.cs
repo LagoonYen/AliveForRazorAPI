@@ -109,7 +109,7 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                var id = Req.Id;
+                int id = Req.Id;
                 //先取得帳號存在
                 var baseQueryModel = await _memberRepository.GetMemberInfo(id);
                 if (baseQueryModel.Results == null)

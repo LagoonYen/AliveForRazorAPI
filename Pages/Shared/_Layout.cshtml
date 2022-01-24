@@ -80,8 +80,8 @@
         </section>
         </section>
         <!--nav-main 主导览列-->
-        <nav class="nav-main">
-            <ul> 
+        <nav class="nav-main" id="layoutProductBar">
+            <ul>
                 <li>
                     <a asp-page="category">蓝芽喇叭</a>
                     <ul class="lv2">
@@ -190,6 +190,48 @@
 
     <script type="text/javascript">
         $(function () {
+            $.ajax({
+                type:"Get",
+                url:"@Url.Action("Product_CategoryList","Product")",
+                dataType:"json",
+                success:function(response){
+                    console.log("成功", response.results)
+                    $("#layoutProductBar").empty()
+                    let CategoryBar = $(`<ul></ul>`)
+                    response.results.forEach(x => {
+                        
+                        //底層
+                        let SubCategory = $(`<ul class="lv2"></ul>`)
+                        x.subCategory.forEach(y => {
+                            SubCategory.append(`<li><a onclick="goCategory() data-value="${y}">${y}</a></li>`)
+                        })
+
+                        //中層
+                        let WTF = $(`<li></li>`)
+                        WTF.append(`<a onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML)
+
+                        //頂層
+                        CategoryBar.append(WTF)
+                    })
+                    $("#layoutProductBar").append(CategoryBar)
+
+                    // nav 導覽列開關
+                    $(".nav-main a").hover(function () {
+                        $(this).parent().children(".lv2").show();
+                    }, function () {
+                        $(this).parent().children(".lv2").hide();
+                    });
+                    $(".nav-main .lv2").hover(function () {
+                        $(this).show();
+                    }, function () {
+                        $(this).hide();
+                    });
+                },
+                error:function(response){
+                    console.log("失敗", response)
+                }
+            })
+
             // 手機版選單
             // Initialize Slidebars
             var controller = new slidebars();
@@ -277,9 +319,11 @@
             var cc = CartCount("Cart");
             $("#spancc").html(cc);
             $(".spancc").html(cc);
-
-            
         });
+
+        function goCategory(){
+                console.log("測試點擊", this)
+            }
     </script>
 
 
