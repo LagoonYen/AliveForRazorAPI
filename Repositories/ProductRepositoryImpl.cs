@@ -17,7 +17,7 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        public Task<BaseQueryModel<ProductList>> SearchProduct(string category, string subCategory)
+        public BaseQueryModel<ProductList> SearchProduct(string category, string subCategory)
         {
             try
             {
@@ -32,23 +32,23 @@ namespace AliveStoreTemplate.Repositories
                 }
                 return new BaseQueryModel<ProductList>
                 {
-                    Results = new List<ProductList> { productList },
+                    Results = productList,
                     Message = string.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                
+                throw;
             }
         }
 
-        public Task<BaseQueryModel<ProductList>> Product_Info(int id)
+        public async Task<BaseQueryModel<ProductList>> Product_Info(int id)
         {
             try
             {
                 //ProductList productList = new();
-                var productList = _shopContext.ProductLists.Find(id);
+                var productList = await _shopContext.ProductLists.FindAsync(id);
 
                 return new BaseQueryModel<ProductList>
                 {

@@ -8,7 +8,7 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface ProductRepository
     {
-        Task<BaseQueryModel<ProductList>> SearchProduct(string category, string subCategory);
+        BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
 
         Task<BaseQueryModel<ProductList>> Product_Info(int id);
     }

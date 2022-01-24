@@ -19,63 +19,59 @@ namespace AliveStoreTemplate.Services
             _productRepository = productRepository;
         }
 
-        public Task<BaseQueryModel<ProductList>> SearchProduct(ProductListReqModel Req)
+        public BaseQueryModel<ProductList> SearchProduct(ProductListReqModel Req)
         {
             try
             {
                 var category = Req.Category;
                 var subCategory =  Req.SubCategory;
-                var baseQueryModel = _productRepository.SearchProduct(category, subCategory);
-                return new BaseQueryModel<ProductList>
-                {
-                    
-                };
-                
+                return _productRepository.SearchProduct(category, subCategory);
             }
-            catch(Exception ex)
+            catch
             {
-                
+                throw;
             }
         }
 
-        public Task<BaseQueryModel<ProductViewModel>> Product_CategoryList()
+        public BaseQueryModel<ProductViewModel> Product_CategoryList()
         {
             try
             {
                 string category = "";
                 string subCategory = "";
                 var result = _productRepository.SearchProduct(category, subCategory);
-                if (result.Results == null)
-                {
-                    throw new Exception();
-                }
                 var product_list = result.Results;
-                List<ProductViewModel> productViewModel = new List<ProductViewModel>();
-
-                var Category = product_list.Select(x => x.Category).Distinct();
-                foreach( var eachCategory in Category)
+                //List<ProductViewModel> productViewModel = new List<ProductViewModel>();
+                var productViewModel = product_list.Select(x => new 
                 {
-                    var EachSubCategory = product_list.Where(x => x.Category == eachCategory).Select(x => x.Subcategory).Distinct().ToList();
+                    Category = x.Category,
+                    SubCategory = x.Subcategory
+                }).GroupBy(x => x.Category).Select(x => new ProductViewModel
+                {
+                    Category = x.Key,
+                    SubCategory = x.Select(x => x.SubCategory).Distinct().ToList()
+                });
+                //foreach( var eachCategory in Category)
+                //{
+                //    var EachSubCategory = product_list.Where(x => x.Category == eachCategory).Select(x => x.Subcategory).Distinct().ToList();
 
-                    productViewModel.Add(new ProductViewModel
-                    {
-                        Category = eachCategory,
-                        SubCategory = EachSubCategory
-                    });
+                //    productViewModel.Add(new ProductViewModel
+                //    {
+                //        Category = eachCategory,
+                //        SubCategory = EachSubCategory
+                //    });
 
-                }
-            return new BaseQueryModel<ProductViewModel>()
+                //}
+            return new BaseQueryModel<ProductViewModel>
                 {
                     Results = productViewModel,
+                    Message =String.Empty,
+                    StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseQueryModel<ProductViewModel>()
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 

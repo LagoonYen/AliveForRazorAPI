@@ -21,7 +21,9 @@
     <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous">
+const { error } = require("jquery");
+</script>
     <!--<script src="js/basic.js"></script>-->
 
     @*slidebars*@
@@ -199,19 +201,14 @@
                     $("#layoutProductBar").empty()
                     let CategoryBar = $(`<ul></ul>`)
                     response.results.forEach(x => {
-                        
                         //底層
                         let SubCategory = $(`<ul class="lv2"></ul>`)
                         x.subCategory.forEach(y => {
-                            SubCategory.append(`<li><a onclick="goCategory() data-value="${y}">${y}</a></li>`)
+                            SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
                         })
 
                         //中層
-                        let WTF = $(`<li></li>`)
-                        WTF.append(`<a onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML)
-
-                        //頂層
-                        CategoryBar.append(WTF)
+                        CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
                     })
                     $("#layoutProductBar").append(CategoryBar)
 
@@ -322,8 +319,34 @@
         });
 
         function goCategory(){
-                console.log("測試點擊", this)
-            }
+            let $this = $(event.target)
+            let parent = $this.parent().parent().prev().data("value")
+            let child = $this.data("value")
+            let category = (typeof(parent) == "undefined") ? child : parent
+            let subCategory = (typeof(parent) == "undefined") ? "" : child
+            console.log("呼叫取值", category, subCategory)
+
+            $.ajax({
+                type:"Post",
+                url:"@Url.Action("SearchProduct","Product")",
+                data:{
+                    "Category" : category,
+                    "SubCategory" : subCategory
+                },
+                dataType:"json",
+                // 告訴jQuery不要去處理發送的資料
+                processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要 
+                success:function(response){
+                    console.log(response)
+                },
+                error:function(response){
+                    console.log("失敗", category, subCategory)
+                    console.log(response)
+                }
+            })
+        }
     </script>
 
 

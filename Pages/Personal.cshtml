@@ -83,15 +83,6 @@
             type:"Get",
             url:"@Url.Action("MemberInfo","MemberInfo")",
             dataType:"json",
-            //beforeSend:{
-            //    //$('#account').html("獲取數據中...")
-            //    //$('#nickName').html("獲取數據中...")
-            //    //$('#phoneNumber').html("獲取數據中...")
-            //    //$('#email').html("獲取數據中...")
-            //    //$('#registerTime').html("獲取數據中...")
-            //    //$('#updateTime').html("獲取數據中...")
-            //    //$('#sex').html("獲取數據中...")
-            //},
             success:function(response){
                 var data = response.results[0]
                 $('#account').html((data.account) ? data.account : "無")

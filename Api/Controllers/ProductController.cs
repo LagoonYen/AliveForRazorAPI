@@ -26,26 +26,27 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <summary>
         /// 取得商品清單
         /// </summary>
-        /// <remarks>首頁取得商品清單</remarks>
+        /// <remarks>取得商品清單</remarks>
         /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public Task<IActionResult>SearchProduct([FromBody]ProductListReqModel Req)
+        public IActionResult SearchProduct([FromBody]ProductListReqModel Req)
         {
             try
             {
-                var result = _productService.SearchProduct(Req);
-                //if (result.Result.Results == null)
-                //{
-                //    throw new Exception(message: result.Result.Message);
-                //}
-                //return Ok(result);
+                return Ok(_productService.SearchProduct(Req));
+                
             }
             catch (Exception ex)
             {
-                //return BadRequest(ex.Message);
+                return BadRequest(new BaseQueryModel<ProductList>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
             }
         }
 
@@ -57,20 +58,24 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Product_CategoryList()
+        public IActionResult Product_CategoryList()
         {
             try
             {
                 var result = _productService.Product_CategoryList();
                 if (result == null)
                 {
-                    throw new Exception(message: result.Result.Message);
+                    throw new Exception();
                 }
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
             }
         }
 
