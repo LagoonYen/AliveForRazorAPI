@@ -13,6 +13,6 @@ namespace AliveStoreTemplate.Services
 
         BaseQueryModel<ProductViewModel> Product_CategoryList();
 
-        Task<BaseQueryModel<ProductList>> Product_Info(int id);
+        BaseQueryModel<ProductList> Product_Info(int id);
     }
 }

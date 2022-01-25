@@ -10,6 +10,6 @@ namespace AliveStoreTemplate.Repositories
     {
         BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
 
-        Task<BaseQueryModel<ProductList>> Product_Info(int id);
+        BaseQueryModel<ProductList> Product_Info(int id);
     }
 }

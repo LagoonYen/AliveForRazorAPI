@@ -65,7 +65,7 @@ namespace AliveStoreTemplate.Services
             return new BaseQueryModel<ProductViewModel>
                 {
                     Results = productViewModel,
-                    Message =String.Empty,
+                    Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -75,10 +75,16 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public Task<BaseQueryModel<ProductList>> Product_Info(int id)
+        //取卡資訊
+        public BaseQueryModel<ProductList> Product_Info(int id)
         {
-            var result = _productRepository.Product_Info(id);
-            throw new NotImplementedException();
+            try {
+                return _productRepository.Product_Info(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

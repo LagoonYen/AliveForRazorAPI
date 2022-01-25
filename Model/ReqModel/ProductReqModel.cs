@@ -6,6 +6,11 @@
         public string SubCategory { get; set; }
     }
 
+    public class ProductInfoReqModel
+    {
+        public int product_id { get; set; }
+    }
+
     public class ProductSearchRespModel
     {
         public int ProductId { get; set; }

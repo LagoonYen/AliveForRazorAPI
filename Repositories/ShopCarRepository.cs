@@ -7,6 +7,8 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface ShopCarRepository
     {
-        public Task AddToShopCar(ProductShopcar ProductShopcar);
+        public BaseResponseModel AddToCart(ProductShopcar ProductShopcar);
+        //public BaseResponseModel UpdateCart(ProductShopcar ProductShopcar);
+        public BaseQueryModel<ProductShopcar> GetUserShopCarList(int uid);
     }
 }

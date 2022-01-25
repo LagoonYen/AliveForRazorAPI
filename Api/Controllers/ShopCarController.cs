@@ -23,25 +23,18 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <summary>
         /// 新增商品至購物車
         /// </summary>
-        /// <param name="product_id"></param>
-        /// <param name="number"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddToShopCar(int product_id, int number)
+        public IActionResult AddToCart([FromBody]AddToCartReqModel Req)
         {
             try
             {
                 var uid = int.Parse(Request.Cookies["id"]);
-                ShopCarReqModel ShopCarReqModel = new()
-                {
-                    Uid = uid,
-                    ProductId = product_id,
-                    Num = number
-                };
-                var result = await _shopdb.AddToShopCar(ShopCarReqModel);
+                Req.uid = uid;
+                var result = _shopdb.AddToCart(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);

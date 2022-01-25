@@ -43,30 +43,26 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public async Task<BaseQueryModel<ProductList>> Product_Info(int id)
+        public BaseQueryModel<ProductList> Product_Info(int id)
         {
             try
             {
-                //ProductList productList = new();
-                var productList = await _shopContext.ProductLists.FindAsync(id);
-
+                var productList = _shopContext.ProductLists.FirstOrDefault(x => x.Id == id);
+                if (productList == null)
+                {
+                    throw new Exception("找不到此卡資訊");
+                }
                 return new BaseQueryModel<ProductList>
                 {
-                    Results = (IEnumerable<ProductList>)productList,
+                    Results = new List<ProductList> { productList },
                     Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseQueryModel<ProductList>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.OK
-                };
+                throw;
             }
-            
         }
     }
 }

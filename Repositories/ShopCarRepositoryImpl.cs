@@ -2,6 +2,9 @@
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Net;
+
 
 namespace AliveStoreTemplate.Repositories
 {
@@ -14,10 +17,59 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        public async Task AddToShopCar(ProductShopcar ProductShopcar)
+        public BaseResponseModel AddToCart(ProductShopcar ProductShopcar)
         {
-            await _shopContext.ProductShopcars.AddAsync(ProductShopcar);
-            await _shopContext.SaveChangesAsync();
+            try
+            {
+                var result = _shopContext.ProductShopcars.Where(x => x.Uid == ProductShopcar.Uid).FirstOrDefault(x => x.ProductId == ProductShopcar.ProductId);
+                if (result != null)
+                {
+                    result.Num = ProductShopcar.Num;
+                    result.UpdateTime = ProductShopcar.UpdateTime;
+                    _shopContext.SaveChanges();
+                    return new BaseResponseModel()
+                    {
+                        Message = "已更新購物車",
+                        StatusCode = HttpStatusCode.OK
+                    };
+                };
+
+                _shopContext.ProductShopcars.Add(ProductShopcar);
+                _shopContext.SaveChanges();
+                return new BaseResponseModel()
+                {
+                    Message = "已加入購物車",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        //public BaseResponseModel UpdateCart(ProductShopcar ProductShopcar)
+        //{
+            
+        //}
+
+        public BaseQueryModel<ProductShopcar> GetUserShopCarList(int uid)
+        {
+            try
+            {
+                var result = _shopContext.ProductShopcars.Where(x => x.Uid == uid).ToList();
+                return new BaseQueryModel<ProductShopcar>
+                {
+                    Results = result,
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch
+            {
+                throw;
+            }
+
         }
     }
 }

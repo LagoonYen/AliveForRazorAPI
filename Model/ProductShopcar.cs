@@ -7,7 +7,7 @@ namespace AliveStoreTemplate.Model
     {
         public int Id { get; set; }
         public int Uid { get; set; }
-        public int PrductId { get; set; }
+        public int ProductId { get; set; }
         public int Num { get; set; }
         public byte? Status { get; set; }
         public DateTime CreateTime { get; set; }

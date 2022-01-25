@@ -6,6 +6,6 @@ namespace AliveStoreTemplate.Services
 {
     public interface ShopCarService
     {
-        public Task<BaseResponseModel> AddToShopCar(ShopCarReqModel ShopCarReqModel);
+        public BaseResponseModel AddToCart(AddToCartReqModel Req);
     }
 }

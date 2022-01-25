@@ -10,7 +10,7 @@
     <div class="content-con">
         @*path 路径*@
         <section class="path">
-            <a href="/">HOME</a><a href="category">滑鼠</a><a href="category">Logitech</a>
+            <a href="/">HOME</a><a id="locationToCategory" href="category"></a><a id="locationToSubCategory" href="category"></a>
             @*<a href="/">HOME</a><a href="category?pid=<%=FCate.Id %>"><%=FCate.Name %></a><a href="category?pid=<%=FCate.Id %>"><%=Cate.Name %></a>*@
         </section>
         @* /path 路径*@
@@ -18,7 +18,7 @@
         <article class="product">
             @*product-photo 产品照片*@
             <section class="product-photo">
-                @*                    <ul class="photo-menu">
+                @*<ul class="photo-menu">
                     <li class="active">
                         <img src="img/ill_prod1.png" alt="" />
                     </li>
@@ -30,18 +30,18 @@
                     </li>
                 </ul>*@
                 <figure class="photo-view">
-                    <img src="img/ill_prod1.png" />
+                    <img class="product_img" src="img/ill_prod1.png" />
                     @*<img src="<%=MainImage %>" alt="" />*@
                 </figure>
             </section>
-            @*product-info 产品资讯*@
+            @*product-info 產品資訊*@
             <section class="product-info">
                 <div class="info-con">
-                    <p class="info-category">滑鼠</p>
-                    <h2 class="info-tit">产品名称</h2>
-                    <p class="info-intro">产品说明产品说明产品说明</p>
+                    <p class="info-category" id="info-category"></p>
+                    <h2 class="info-tit" id="info-tit"></h2>
+                    <p class="info-intro" id="info-intro"></p>
                     <p class="info-price">
-                        <span class="price-orignal">100</span><span class="price-discount">90</span>
+                        <span class="price-orignal" id="info-price"></span><span class="price-discount" id="info-secprice"></span>
                     </p>
                     @*<span class="price-count">500</span></p>
                     @*<p class="info-category"><%=Cate.Name %></p>
@@ -53,12 +53,8 @@
                         </asp:DropDownList>
                         <asp:HiddenField ID="hfSpecId" ClientIDMode="Static" runat="server" Value="" />
 
-                        <select class="inp-block" id="ddlQvt">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
+                        <select class="inp-block" id="info-inventory">
+                            
                         </select>
                     </section>
                     @*<h4>优惠活动</h4>
@@ -67,8 +63,8 @@
                         11/1-11/11,拍即享原价75折
                     </p>*@
                     <section class="info-action">
-                        <button type="button" class="btn-active" onclick="AddToCart();">加入购物车</button>
-                        <button type="button" class="btn-action" onclick="AddToCart();window.location='/cart';">立即购买</button>
+                        <button type="button" class="btn-active" onclick="AddToCart();">加入購物車</button>
+                        <button type="button" class="btn-action" onclick="AddToCart();window.location='/cart';">立即購買</button>
                     </section>
                 </div>
             </section>
@@ -77,15 +73,15 @@
                 <h3><em>商品介绍</em><span></span></h3>
                 <div class="intro-detial">
                     @*<asp:Literal runat="server" ClientIDMode="Static" ID="ltDesc"></asp:Literal>*@
-                    <p>文案及规格简述</p>
+                    <p>卡片及規格</p>
                     <p>
-                        <img src="img/ill_prodintro1.jpg" alt="" />
+                        <img class="product_img" src="img/ill_prodintro1.jpg" alt="" />
                     </p>
                 </div>
             </section>
-            @*product-related 相关商品*@
+            @*product-related 相關商品*@
             <section class="product-related">
-                <h3><em>相关商品</em><span></span></h3>
+                <h3><em>相關商品</em><span></span></h3>
                 <ul class="list-related">
                     <li>
                         <div class="prod">
@@ -164,3 +160,82 @@
         @*/product 产品*@
     </div>
 </article>
+<script>
+    $(function(){
+        let getUrlString = location.href;
+        let url = new URL(getUrlString);
+        //var product_id = parseInt(url.searchParams.get('product_id'))
+        var product_id = url.searchParams.get('product_id')
+
+        console.log(product_id, typeof(product_id))
+        $.ajax({
+            type:"Post",
+            url:"@Url.Action("Product_Info","Product")",
+            data:JSON.stringify({
+                'product_id' : product_id
+            }),
+            dataType:"json",
+            // 告訴jQuery不要去處理發送的資料
+            processData : false, 
+            // 告訴jQuery不要去設定Content-Type請求頭
+            contentType : 'application/json;charset=UTF-8', //contentType很重要 
+            success:function(response){
+                let product_info = response.results[0]
+                console.log(product_info)
+
+                //資訊風琴夾
+                $("#locationToCategory").attr('href',"Category?category="+product_info.category+"&subCategory=")
+                $("#locationToCategory").html(product_info.category)
+                $("#locationToSubCategory").attr('href',"Category?category="+product_info.category+"&subCategory="+product_info.subcategory)
+                $("#locationToSubCategory").html(product_info.subcategory)
+
+                //一般資訊
+                $("#info-category").html(product_info.category + "-" + product_info.subcategory)
+                $("#info-tit").html(product_info.cardName)
+                $("#info-intro").html(product_info.description)
+                $("#info-price").html(product_info.price)
+                $("#info-secprice").html(product_info.price)
+                $(".product_img").attr('src', product_info.imgUrl);
+
+                //剩餘數量
+                let inventory = product_info.inventory
+                console.log("剩餘數量", inventory)
+                let count = (inventory <=5) ? inventory : 5 
+                for(x = 1; x <= count; x++){
+                    $("#info-inventory").append(`<option value="${x}">${x}</option>`)
+                }
+            },
+            error:function(response){
+                console.log(response)
+            }
+        })
+    })
+
+    function AddToCart(){
+        let inventory = $("#info-inventory").val()
+        let getUrlString = location.href;
+        let url = new URL(getUrlString);
+        var product_id = url.searchParams.get('product_id')
+        console.log(product_id, inventory)
+
+        $.ajax({
+            type:"Post",
+            url:"@Url.Action("AddToCart","ShopCar")",
+            data:JSON.stringify({
+                'product_id':product_id,
+                'num':inventory
+            }),
+            // 告訴jQuery不要去處理發送的資料
+            processData : false, 
+            // 告訴jQuery不要去設定Content-Type請求頭
+            contentType : 'application/json;charset=UTF-8', //contentType很重要
+            dataType:"json",
+            success:function(response){
+                console.log(response)
+            },
+            error:function(response){
+                location.href = "./Login"
+            }
+        })
+    }
+</script>

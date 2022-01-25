@@ -2,15 +2,15 @@
 
 namespace AliveStoreTemplate.Model.ReqModel
 {
-    public class ShopCarReqModel
+    public class AddToCartReqModel
     {
         [Required]
-        public int Uid { get; set; }
+        public int uid { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public int product_id { get; set; }
 
         [Required]
-        public int Num { get; set; }
+        public int num { get; set; }
     }
 }

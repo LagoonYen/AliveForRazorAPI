@@ -26,6 +26,7 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <summary>
         /// 取得商品清單
         /// </summary>
+        /// <param name="Req">主次分類</param>
         /// <remarks>取得商品清單</remarks>
         /// <returns></returns>
         [HttpPost]
@@ -37,7 +38,6 @@ namespace AliveStoreTemplate.Api.Controllers
             try
             {
                 return Ok(_productService.SearchProduct(Req));
-                
             }
             catch (Exception ex)
             {
@@ -80,24 +80,28 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 取得單卡資訊
         /// </summary>
-        /// <param product_id="id"></param>
+        /// <param name="Req">卡片ID</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Product_Info(int id)
+        public IActionResult Product_Info([FromBody]ProductInfoReqModel Req)
         {
             try
             {
-                var result = _productService.Product_Info(id);
+                var result = _productService.Product_Info(Req.product_id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
             }
         }
     }

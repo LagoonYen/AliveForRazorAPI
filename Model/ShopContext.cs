@@ -177,7 +177,7 @@ namespace AliveStoreTemplate.Model
 
                 entity.Property(e => e.Num).HasColumnName("num");
 
-                entity.Property(e => e.PrductId).HasColumnName("prduct_id");
+                entity.Property(e => e.ProductId).HasColumnName("product_id");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 

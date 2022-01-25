@@ -88,9 +88,9 @@ namespace AliveStoreTemplate.Services
                 {
                     throw new Exception(baseQueryModel.Message);
                 }
-                var Data = baseQueryModel.Results.FirstOrDefault();
-                Data.RegisterTime = Data.RegisterTime.Date;
-                Data.UpdateTime = Data.UpdateTime.Date;
+                //var Data = baseQueryModel.Results.FirstOrDefault();
+                //Data.RegisterTime = Data.RegisterTime.Date;
+                //Data.UpdateTime = Data.UpdateTime.Date;
                 return baseQueryModel;
             }
             catch (Exception ex)
