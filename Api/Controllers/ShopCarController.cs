@@ -1,4 +1,5 @@
 ﻿using AliveStoreTemplate.Model.ReqModel;
+using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,11 @@ namespace AliveStoreTemplate.Api.Controllers
     [ApiController]
     public class ShopCarController : ControllerBase
     {
-        private readonly ShopCarService _shopdb;
+        private readonly ShopCarService _shopCarService;
 
         public ShopCarController(ShopCarService shopCarService)
         {
-            _shopdb = shopCarService;
+            _shopCarService = shopCarService;
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace AliveStoreTemplate.Api.Controllers
             {
                 var uid = int.Parse(Request.Cookies["id"]);
                 Req.uid = uid;
-                var result = _shopdb.AddToCart(Req);
+                var result = _shopCarService.AddToCart(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);
@@ -43,7 +44,39 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult User_shopcart_list()
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                var result = _shopCarService.User_shopcart_list(uid);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
             }
         }
     }

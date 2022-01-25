@@ -66,5 +66,27 @@ namespace AliveStoreTemplate.Services
                 };
             }
         }
+
+        public BaseQueryModel<ProductShopcar> User_shopcart_list(int uid)
+        {
+            try
+            {
+                return new BaseQueryModel<ProductShopcar>()
+                {
+                    Results = null,
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseQueryModel<ProductShopcar>()
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
     }
 }
