@@ -17,6 +17,8 @@ namespace AliveStoreTemplate.Model
         }
 
         public virtual DbSet<MemberInfo> MemberInfos { get; set; }
+        public virtual DbSet<MemberShopcar> MemberShopcars { get; set; }
+        public virtual DbSet<OrderAddress> OrderAddresses { get; set; }
         public virtual DbSet<OrderList> OrderLists { get; set; }
         public virtual DbSet<OrderProduct> OrderProducts { get; set; }
         public virtual DbSet<ProductList> ProductLists { get; set; }
@@ -60,19 +62,71 @@ namespace AliveStoreTemplate.Model
                 entity.Property(e => e.UpdateTime).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<OrderList>(entity =>
+            modelBuilder.Entity<MemberShopcar>(entity =>
             {
                 entity.HasNoKey();
 
+                entity.ToView("member_shopcar");
+
+                entity.Property(e => e.CardName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Category)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ImgUrl).HasColumnName("ImgURL");
+
+                entity.Property(e => e.Num).HasColumnName("num");
+
+                entity.Property(e => e.ProductId).HasColumnName("product_id");
+
+                entity.Property(e => e.Subcategory)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Uid).HasColumnName("uid");
+            });
+
+            modelBuilder.Entity<OrderAddress>(entity =>
+            {
+                entity.ToTable("orderAddress");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address).HasMaxLength(50);
+
+                entity.Property(e => e.City).HasMaxLength(50);
+
+                entity.Property(e => e.CreateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("createTime");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.PhoneNumber).HasMaxLength(50);
+
+                entity.Property(e => e.Town).HasMaxLength(50);
+
+                entity.Property(e => e.Uid).HasColumnName("uid");
+
+                entity.Property(e => e.UpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updateTime");
+            });
+
+            modelBuilder.Entity<OrderList>(entity =>
+            {
                 entity.ToTable("order_list");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AddressId).HasColumnName("addressId");
 
                 entity.Property(e => e.CreateTime)
                     .HasColumnType("datetime")
                     .HasColumnName("create_time");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
 
                 entity.Property(e => e.IsPay).HasColumnName("is_pay");
 
@@ -81,6 +135,7 @@ namespace AliveStoreTemplate.Model
                 entity.Property(e => e.IsShip).HasColumnName("is_ship");
 
                 entity.Property(e => e.OrderNumber)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("order_number");
 
@@ -90,11 +145,16 @@ namespace AliveStoreTemplate.Model
 
                 entity.Property(e => e.ReceiptTime).HasColumnName("receipt_time");
 
+                entity.Property(e => e.Remark)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("remark");
+
                 entity.Property(e => e.ShipNumber)
                     .HasMaxLength(50)
                     .HasColumnName("ship_number");
 
-                entity.Property(e => e.ShipTim).HasColumnName("ship_tim");
+                entity.Property(e => e.ShipTime).HasColumnName("ship_time");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 

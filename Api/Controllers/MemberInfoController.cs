@@ -36,7 +36,8 @@ namespace AliveStoreTemplate.Api.Controllers
         /// <summary>
         /// 登錄
         /// </summary>
-        /// <remarks>注意事項：請將Acct及pwd打包</remarks> 
+        /// <remarks>注意事項：請將Acct及pwd打包</remarks>
+        /// <param name="Req">登入帳密</param>
         /// <returns></returns>
         [HttpPost]
         [Route("Login")]
@@ -97,7 +98,7 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("Register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody] LoginReqModel Req)
+        public async Task<IActionResult> Register([FromBody]LoginReqModel Req)
         {
             try
             {
@@ -156,7 +157,7 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("PatchMemberInfo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PatchMemberInfo([FromBody] PatchMemberInfoReqModel Req)
+        public async Task<IActionResult> PatchMemberInfo([FromBody]PatchMemberInfoReqModel Req)
         {
             try
             {

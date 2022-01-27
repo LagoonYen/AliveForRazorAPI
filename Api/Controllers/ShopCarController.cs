@@ -34,7 +34,7 @@ namespace AliveStoreTemplate.Api.Controllers
             try
             {
                 var uid = int.Parse(Request.Cookies["id"]);
-                Req.uid = uid;
+                Req.Uid = uid;
                 var result = _shopCarService.AddToCart(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
@@ -53,9 +53,8 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// 取得Member購物車內清單
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("[action]")]
@@ -67,8 +66,97 @@ namespace AliveStoreTemplate.Api.Controllers
             {
                 var uid = int.Parse(Request.Cookies["id"]);
                 var result = _shopCarService.User_shopcart_list(uid);
-                return Ok();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+            }
+        }
 
+        /// <summary>
+        /// 取得Member購物車內清單
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult User_shopcart_listByView()
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                var result = _shopCarService.User_shopcart_listByView(uid);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+            }
+        }
+
+        /// <summary>
+        /// 刪除某一項商品
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult DelFromCart([FromBody]DelFromCartReqModel Req)
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                Req.uid = uid;
+                var result = _shopCarService.DelFromCart(Req);
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception(message: result.Message);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+            }
+        }
+
+        /// <summary>
+        /// 購物車更新單一項目數量
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        [Route("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpsertCart([FromBody]UpsertCartReqModel Req)
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                Req.uid = uid;
+                var result = _shopCarService.UpsertCart(Req);
+                if (result.StatusCode != HttpStatusCode.OK)
+                {
+                    throw new Exception(message: result.Message);
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

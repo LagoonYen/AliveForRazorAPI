@@ -24,7 +24,7 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                int uid = Req.uid;
+                int uid = Req.Uid;
                 int product_id = Req.product_id;
                 int num = Req.num;
 
@@ -34,11 +34,11 @@ namespace AliveStoreTemplate.Services
                 int product_inventory = _productRepository.Product_Info(product_id).Results.FirstOrDefault().Inventory;
 
                 //購物車內數量
-                var shopCar_product = _shopCarRepository.GetUserShopCarList(uid).Results.FirstOrDefault(x => x.ProductId == product_id);
+                var shopCar_product = _shopCarRepository.User_shopcart_list(uid).Results.FirstOrDefault(x => x.product_id == product_id);
 
                 if(shopCar_product != null)
                 {
-                    int shopCar_product_inventory = shopCar_product.Num;
+                    int shopCar_product_inventory = shopCar_product.num;
                     if ((num + shopCar_product_inventory) > product_inventory)
                     {
                         throw new Exception("商品數量不足");
@@ -67,26 +67,74 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseQueryModel<ProductShopcar> User_shopcart_list(int uid)
+        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int uid)
         {
             try
             {
-                return new BaseQueryModel<ProductShopcar>()
-                {
-                    Results = null,
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+                return _shopCarRepository.User_shopcart_list(uid);
+                //return result;
             }
             catch (Exception ex)
             {
-                return new BaseQueryModel<ProductShopcar>()
+                return new BaseQueryModel<shopcar_list_respModel>()
                 {
                     Results = null,
                     Message = ex.Message,
                     StatusCode = HttpStatusCode.BadRequest
                 };
             }
+        }
+
+        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid)
+        {
+            try
+            {
+                return _shopCarRepository.User_shopcart_listByView(uid);
+                //return result;
+            }
+            catch (Exception ex)
+            {
+                return new BaseQueryModel<MemberShopcar>()
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        public BaseResponseModel DelFromCart(DelFromCartReqModel Req)
+        {
+            try
+            {
+                return _shopCarRepository.DelFromCart(Req);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        public BaseResponseModel UpsertCart(UpsertCartReqModel Req)
+        {
+            try
+            {
+                Req.UpdateTime = DateTime.Now;
+                return _shopCarRepository.UpsertCart(Req);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+
         }
     }
 }

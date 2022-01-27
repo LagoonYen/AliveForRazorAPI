@@ -11,7 +11,7 @@ namespace AliveStoreTemplate.Services
 {
     public class MemberServiceImpl : MemberService
     {
-        public readonly MemberRepository _memberRepository;
+        private readonly MemberRepository _memberRepository;
         
         public MemberServiceImpl(MemberRepository memberRepository)
         {

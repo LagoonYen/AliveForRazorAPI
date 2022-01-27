@@ -10,7 +10,7 @@ namespace AliveStoreTemplate.Repositories
 {
     public class MemberRepositoryImpl : MemberRepository
     {
-        public readonly ShopContext _dbShop;
+        private readonly ShopContext _dbShop;
 
         public MemberRepositoryImpl(ShopContext shopContext)
         {

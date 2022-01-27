@@ -78,6 +78,8 @@ namespace AliveStoreTemplate
             services.AddScoped<ProductRepository, ProductRepositoryImpl>();
             services.AddScoped<ShopCarService, ShopCarServiceImpl>();
             services.AddScoped<ShopCarRepository, ShopCarRepositoryImpl>();
+            services.AddScoped<OrderService, OrderServiceImpl>();
+            services.AddScoped<OrderRepository, OrderRepositoryImpl>();
 
             // 注入驗證物件
             services.AddScoped(typeof(CodeValidator), typeof(CodeValidatorImpl));

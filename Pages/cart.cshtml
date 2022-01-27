@@ -28,55 +28,11 @@
 }
 
 
-@*cart 购物车*@
+@*cart 購物車*@
 <article class="page cart">
     <div class="content-con">
-        <h2 class="page-tit"><em>购物车</em><span>选购产品<em class="count spancc">3</em></span></h2>
-        @*cart-recipient 收件资料*@
-        <section class="forms-basic cart-recipient">
-            <dl class="col2">
-                <dt>收件人<em class="must">*</em></dt>
-                <dd>
-                    @*<input type="text" value="" placeholder="请填入收件人姓名" />*@
-                    <asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="请填入收件人姓名"></asp:TextBox>
-                </dd>
-                <dt>收件人手机号<em class="must">*</em></dt>
-                <dd>
-                    @*<input type="tel" value="" placeholder="请填入收件人手机号" />*@
-                    <asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="请填入收件人手机号"></asp:TextBox>
-                </dd>
-            </dl>
-            <dl>
-                <dt>收件人地址<em class="must">*</em></dt>
-                <dd>
-                    <div id="post" class="citys">
-                        @*							<asp:DropDownList runat="server" ID="province" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="city" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="area" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="town" ClientIDMode="Static" />*@
-                        <asp:HiddenField runat="server" ID="HiddenProvince" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenCity" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenArea" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenTown" ClientIDMode="Static"></asp:HiddenField>
-
-                        <select name="province" id="province"></select>
-                        <select name="city" id="city"></select>
-                        <select name="area" id="area"></select>
-                        <select name="town" id="town"></select>
-                        <asp:HiddenField runat="server" ID="addr" ClientIDMode="Static"></asp:HiddenField>
-                        @*<input class="form-control" type="text" id="addr" />*@
-                        <asp:TextBox runat="server" ID="AddrText" ClientIDMode="Static" placeholder="请填入地址"></asp:TextBox>
-                        @*<input type="text" value="" placeholder="请填入地址" />*@
-                    </div>
-                </dd>
-                <dt>备注</dt>
-                <dd>
-                    <asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>
-                    @*<textarea name cols="0" rows="3"></textarea>*@
-                </dd>
-            </dl>
-        </section>
-        @*cart-order 订单资料*@
+        <h2 class="page-tit"><em>購物車</em><span>選購產品<em class="count spancc">3</em></span></h2>
+        @*cart-order 訂單資料*@
         <section class="cart-order">
             <table class="forms-basic tab-basic tab-cart">
                 <thead>
@@ -87,14 +43,14 @@
                             </a>
                         </th>
                         <th class="td-prod">商品</th>
-                        <th>单价</th>
-                        <th class="td-count">数量</th>
-                        <th>小计</th>
+                        <th>單價</th>
+                        <th class="td-count">數量</th>
+                        <th>小計</th>
                         <th class="td-action">&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody id="tbOrder">
-                    <tr>
+                    @*<tr>
                         <td class="td-check">
                             <a class="btn-check">
                                 <input type="checkbox" value="1" /><i class="icon-check"></i>
@@ -102,10 +58,10 @@
                         </td>
                         <td class="td-prod">
                             <img src="img/ill_prod1.png" alt="" class="td-photo" />
-                            <p class="td-name">产品名称产品名称产品名称</p>
+                            <p class="td-name">產品名稱</p>
                         </td>
-                        <td class="td-price" data-th="单价"><span>300</span></td>
-                        <td class="td-count" data-th="数量">
+                        <td class="td-price" data-th="單價"><span>300</span></td>
+                        <td class="td-count" data-th="數量">
                             <div class="count-bar">
                                 <a class="btn-count"><i class="icon-minus"></i></a>
                                 <input type="number" value="1" />
@@ -116,19 +72,19 @@
                         <td class="td-action">
                             <a class="btn-delete"><i class="icon-trash"></i></a>
                         </td>
-                    </tr>
+                    </tr>*@
                 </tbody>
             </table>
         </section>
-        @*cart-total 总计*@
+        @*cart-total 總計*@
         <section class="cart-total">
             <table class="forms-basic tab-total">
                 <tr>
                     <th>
-                        <span class="td-item">合计</span>
+                        <span class="td-item">合計</span>
                     </th>
                     <td>
-                        <span class="ico_cgpCount " id="lbProdTPrice">720</span>
+                        <span class="ico_cgpCount" id="lbProdTPrice"></span>
                     </td>
                 </tr>
                 @*
@@ -150,32 +106,312 @@
                     </tr>*@
                 <tr>
                     <th>
-                        <span class="td-item">总计</span>
+                        <span class="td-item">總計</span>
                     </th>
                     <td class="td-total td-price">
-                        <span class="ico_cgpTotal td-total" id="lbTPrice">780</span>
+                        <span class="ico_cgpTotal td-total" id="lbTPrice"></span>
                     </td>
                 </tr>
             </table>
         </section>
-        <section class="cart-action">
-            <a href="checkout" class="btn-action">我要结算</a>
+
+        @*cart-recipient 收件資料*@
+        <section class="forms-basic cart-recipient">
+            <dl class="">
+                <dt>過去紀錄<em class="must">*</em></dt>
+                <dd>
+                    <div id="orderHistory" class="ui selection dropdown">
+                        <input type="hidden" name="orderHistory">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">請選擇</div>
+                        <div class="menu">
+                            <div class="item" data-value="1">Male</div>
+                            <div class="item" data-value="0">Female</div>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="col2">
+                
+                <dt>收件人<em class="must">*</em></dt>
+                <dd>
+                    <input type="text" id="orderName" value="" placeholder="請填入收件姓名" />
+                    @*<asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="請填入收件姓名"></asp:TextBox>*@
+                </dd>
+                <dt>收件人手機<em class="must">*</em></dt>
+                <dd>
+                    <input type="tel" id="orderPhoneNumber" value="" placeholder="請填入收件人手機" />
+                    @*<asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="請填入收件人手機"></asp:TextBox>*@
+                </dd>
+            </dl>
+            <dl>
+                <dt>收件人地址<em class="must">*</em></dt>
+                <dd>
+                    <div id="post" class="citys">
+                        @*<asp:DropDownList runat="server" ID="province" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="city" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="area" ClientIDMode="Static" />
+                            <asp:DropDownList runat="server" ID="town" ClientIDMode="Static" />*@
+                        @*<asp:HiddenField runat="server" ID="HiddenProvince" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenCity" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenArea" ClientIDMode="Static"></asp:HiddenField>
+                        <asp:HiddenField runat="server" ID="HiddenTown" ClientIDMode="Static"></asp:HiddenField>
+
+                        <select name="province" id="province"></select>
+                        <select name="city" id="city"></select>
+                        <select name="area" id="area"></select>
+                        <select name="town" id="town"></select>*@
+                        @*<asp:HiddenField runat="server" ID="addr" ClientIDMode="Static"></asp:HiddenField>*@
+                        @*<input class="form-control" type="text" id="addr" />*@
+                        @*<asp:TextBox runat="server" ID="AddrText" ClientIDMode="Static" placeholder="請填入地址"></asp:TextBox>*@
+                        <div id="twzipcode"></div>
+                        <input type="text" id="address" value="" placeholder="請填入地址" />
+                    </div>
+                </dd>
+                <dt>備註</dt>
+                <dd>
+                    @*<asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>*@
+                    <textarea id="remark" name="" style="resize:none;height:200px"></textarea>
+                </dd>
+            </dl>
         </section>
+
+        @*結算及提醒區*@
+        <section class="cart-action">
+            <span id="notice" style="color:red"></span>
+            <div type="button" class="btn-action" onclick="ToOrder()">我要结算</div>
+        </section>
+
+
     </div>
 </article>
 
 
 @section FOOTER{
-
     @*pgaeJs*@
     <script type="text/javascript">
         $(function () {
-            // 全选
+            // 全選
             $(".btn-check").click(function () {
                 $(this).toggleClass('active');
             });
 
+            //地址啟用
+            $("#twzipcode").twzipcode({
+                zipcodeIntoDistrict: true, // 郵遞區號自動顯示在區別選單中
+                css: ["city form-control", "town form-control"], // 自訂 "城市"、"地別" class 名稱 
+                countyName: "city", // 自訂城市 select 標籤的 name 值
+                districtName: "town" // 自訂區別 select 標籤的 name 值
+            });
+
+            //重刷購物車
+            freshShopCart();
+
         });
+
+        //增減商品
+        function product_count_change(){
+            //加減按鈕
+            let $this = $(event.target)
+            //目前顯示數量
+            let countNow = parseInt($this.parent().siblings(".CountInput").val())
+            //加減符號
+            let symbol = $this.data("value")
+            //目前庫存
+            let inventroy = $this.parent().siblings(".CountInput").data("inventory")
+            //目前點選商品編號
+            let product_id = $this.parent().siblings(".CountInput").data("product_id")
+            console.log(countNow, symbol, inventroy, product_id)
+            if(symbol == "+"){
+                countNow = countNow +1
+                if(countNow > inventroy){
+                    console.log("+0 商品總數 : ", inventroy)
+                }
+                else{
+                    $this.parent().siblings(".CountInput").attr("value", countNow)
+                    //更新項目數量
+                    Updatecart(product_id, countNow)
+                }
+            }
+            else if(symbol == "-"){
+                countNow = countNow -1
+                console.log(countNow)
+                if(countNow == 0){
+                    //刪除項目
+                    DelFromShopcar(product_id)
+                }
+                else{
+                    $this.parent().siblings(".CountInput").attr("value", countNow)
+                    //更新項目數量
+                    Updatecart(product_id, countNow)
+                }
+            }
+        }
+
+        //到0 或者刪除項目
+        function DelFromShopcar(product_id){
+            console.log(product_id)
+            $.ajax({
+                type:"Delete",
+                url:"@Url.Action("DelFromCart","ShopCar")",
+                dataType:"json",
+                data:JSON.stringify({
+                    'product_id' : product_id
+                }),
+                // 告訴jQuery不要去處理發送的資料
+                processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要
+                success:function(response){
+                    console.log("刪除成功")
+                    freshShopCart()
+                },
+                error:function(response){
+                    console.log(response)
+                }
+            })
+        }
+
+        //更新購物車內數量
+        function Updatecart(product_id, countNow){
+            console.log("商品編號", product_id,"更新的數量", countNow)
+            $.ajax({
+                type:"Patch",
+                url:"@Url.Action("UpsertCart","ShopCar")",
+                dataType:"json",
+                data:JSON.stringify({
+                    'product_id' : product_id,
+                    'num' : countNow
+                }),
+                // 告訴jQuery不要去處理發送的資料
+                processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要
+                success:function(response){
+                    console.log("更新數量成功")
+                    freshShopCart()
+                },
+                error:function(response){
+                    console.log(response)
+                }
+            })
+        }
+
+        //重新整理購物車
+        function freshShopCart(){
+            $.ajax({
+                type:"Get",
+                url:"@Url.Action("User_shopcart_list","ShopCar")",
+                dataType:"json",
+                // 告訴jQuery不要去處理發送的資料
+                processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要 
+                success:function(response){
+                    console.log(response.results)
+                    $("#tbOrder").empty()
+                    var TotalCountOrder = 0
+                    var TotalOrderPrice = 0
+                    response.results.forEach(x => {
+                        var total = x["price"] * x["num"];
+                        let shopcarList = $(`<tr></tr>`)
+                        shopcarList
+                            .append(`
+                                <td class="td-check">
+                                    <a class="btn-check">
+                                    <input type="checkbox" value="${x["product_id"]}" /><i class="icon-check"></i>
+                                    </a>
+                                </td>`)
+                            .append(`
+                                <td class="td-prod">
+                                    <img src="${x["imgUrl"]}" alt="" class="td-photo" />
+                                    <p class="td-name">${x["cardName"]}</p>
+                                    <p class="td-inventory">剩餘數量 : ${x["inventory"]}</p>
+                                </td>`)
+                            .append(`<td class="td-price" data-th="單價"><span>${x["price"]}</span></td>`)
+                            .append(`
+                                <td class="td-count" data-th="數量">
+                                    <div class="count-bar">
+                                    <a class="btn-count"><i class="icon-buy" data-value="-" onclick="product_count_change()"></i></a>
+                                    <input type="number" class="CountInput" value="${x["num"]}" data-inventory="${x["inventory"]}" data-product_id="${x["product_id"]}"/>
+                                    <a class="btn-count"><i class="icon-buy" data-value="+" onclick="product_count_change()"></i></a>
+                                    </div>
+                                </td>`)
+                            .append(`<td class="td-price" data-th="小計" id="total${x["product_id"]}"><span>${total}</span></td>`)
+                            .append(`
+                                <td class="td-action">
+                                    <a class="btn-delete" onclick="DelFromShopcar(${x["product_id"]})"><i class="icon-buy"></i></a>
+                                </td>`)
+                    $("#tbOrder").append(shopcarList)
+                    TotalOrderPrice += total
+                    TotalCountOrder += x["num"]
+                    })  
+                    console.log(TotalOrderPrice, TotalCountOrder, $('#lbProdTPrice'), $('#lbTPrice'))
+                    $("#lbProdTPrice").text(TotalCountOrder + "張卡")
+                    $("#lbTPrice").text(TotalOrderPrice)
+
+                },
+                error:function(response){
+                    location.href = "./Login"
+                }
+            })
+        }
+
+        //下訂單
+        function ToOrder(){
+            //收件人地址相關
+            if($("select[name='city']").val() == "" 
+                || $("select[name='city']").val() == "" 
+                || $("#address").val() == "" 
+                || $("#orderName").val() == ""
+                || $("#orderPhoneNumber").val() == ""){
+                    var noticeWord = "請填寫"
+                    noticeWord += " 收件人地址"
+                    $("#notice").text(noticeWord)
+            }
+            else{
+                $("#notice").text("")
+                console.log("地址填寫完成")
+
+                ToOrderAjax()
+            }
+        }
+
+        function ToOrderAjax(){
+            let orderName = $("#orderName").val()
+            let orderPhoneNumber =$("#orderPhoneNumber").val()
+            let city = $("select[name='city']").val()
+            let town = $("select[name='town']").val()
+            let address = $("#address").val()
+            let remark = $("#remark").val()
+            console.log(city, town, address, remark)
+
+            $.ajax({
+                type:"Post",
+                url:"@Url.Action("ToOrder","Order")",
+                data:JSON.stringify({
+                    'OrderName':orderName,
+                    'orderPhoneNumber':orderPhoneNumber,
+                    'OrderCity':city,
+                    'OrderTown':town,
+                    'OrderAddress':address,
+                    'Remark':remark,
+                }),
+                dataType:"json",
+                //// 告訴jQuery不要去處理發送的資料
+                //processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要 
+                success:function(response){
+                    console.log(response)
+                },
+                error:function(response){
+                    console.log(JSON.parse(response.responseText))
+                    let message = JSON.parse(response.responseText).message
+                    $("#notice").text(message)
+                }
+            })
+        }
     </script>
 
 
