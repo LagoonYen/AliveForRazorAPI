@@ -167,19 +167,18 @@ namespace AliveStoreTemplate.Model
 
             modelBuilder.Entity<OrderProduct>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("order_product");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreateTime)
                     .HasColumnType("datetime")
                     .HasColumnName("create_time");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.OrderId).HasColumnName("order_id");
+                entity.Property(e => e.OrderId)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("order_id");
 
                 entity.Property(e => e.ProductId).HasColumnName("product_id");
 
@@ -196,8 +195,6 @@ namespace AliveStoreTemplate.Model
 
             modelBuilder.Entity<ProductList>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ProductList");
 
                 entity.Property(e => e.CardName)
@@ -211,8 +208,6 @@ namespace AliveStoreTemplate.Model
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.ImgUrl).HasColumnName("ImgURL");
 

@@ -1,6 +1,7 @@
 ﻿using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ViewModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -14,9 +15,9 @@ namespace AliveStoreTemplate.Repositories
             _dbShop = shopContext;
         }
 
-        public BaseQueryModel<int> UpsertAddress(AddressUpserConditionModel AddressUpserCondi)
+        public int UpsertAddress(AddressUpserConditionModel AddressUpserCondi)
         {
-            int AddressId;
+            var AddressId = 0;
             var result = _dbShop.OrderAddresses
                             .Where(x => x.Uid == AddressUpserCondi.Uid)
                             .Where(x => x.Name == AddressUpserCondi.OrderName)
@@ -47,10 +48,38 @@ namespace AliveStoreTemplate.Repositories
                             .Where(x => x.Town == AddressUpserCondi.OrderTown)
                             .FirstOrDefault(x => x.Address == AddressUpserCondi.OrderAddress).Id;
             }
-            return new BaseQueryModel<int>
+            else
             {
-                Results = AddressId,
-                Message = string.Empty,
+                AddressId = result.Id;
+            }
+            var count = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).Count();
+            if(count > 3)
+            {
+                var oldAddress = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).FirstOrDefault();
+                _dbShop.OrderAddresses.Remove(oldAddress);
+                _dbShop.SaveChanges();
+            }
+            return AddressId;
+        }
+
+        public BaseResponseModel AddOrderDetail(OrderProduct orderProduct)
+        {
+            _dbShop.OrderProducts.Add(orderProduct);
+            _dbShop.SaveChanges();
+            return new BaseResponseModel
+            {
+                Message = "已購買",
+                StatusCode = HttpStatusCode.OK
+            };
+        }
+
+        public BaseResponseModel InsertOrder(OrderList orderList)
+        {
+            _dbShop.OrderLists.Add(orderList);
+            _dbShop.SaveChanges();
+            return new BaseResponseModel
+            {
+                Message = "已建立訂單",
                 StatusCode = HttpStatusCode.OK
             };
         }

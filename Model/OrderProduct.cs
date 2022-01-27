@@ -6,7 +6,7 @@ namespace AliveStoreTemplate.Model
     public partial class OrderProduct
     {
         public int Id { get; set; }
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public int ProductId { get; set; }
         public int ProductNum { get; set; }
         public int ProductPrice { get; set; }

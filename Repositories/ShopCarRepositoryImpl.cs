@@ -150,5 +150,18 @@ namespace AliveStoreTemplate.Repositories
                 };
             }
         }
+
+        public BaseResponseModel CleanShopcar(int Uid)
+        {
+            var result = _shopContext.ProductShopcars.Where(x => x.Uid == Uid);
+            _shopContext.ProductShopcars.RemoveRange(result);
+            _shopContext.SaveChanges();
+
+            return new BaseResponseModel
+            {
+                Message = "已清空購物車",
+                StatusCode = HttpStatusCode.OK
+            };
+        }
     }
 }

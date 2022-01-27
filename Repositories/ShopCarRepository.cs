@@ -15,5 +15,7 @@ namespace AliveStoreTemplate.Repositories
 
         public BaseResponseModel DelFromCart(DelFromCartReqModel Req);
         public BaseResponseModel UpsertCart(UpsertCartReqModel Req);
+
+        public BaseResponseModel CleanShopcar(int Uid);
     }
 }

@@ -64,5 +64,17 @@ namespace AliveStoreTemplate.Repositories
                 throw;
             }
         }
+
+        public BaseResponseModel PatchProductInfo(ProductList productList)
+        {
+            var result = _shopContext.ProductLists.FirstOrDefault(x => x.Id == productList.Id);
+            result.Inventory = productList.Inventory;
+            _shopContext.SaveChanges();
+            return new BaseResponseModel
+            {
+                Message = "修改總數",
+                StatusCode = HttpStatusCode.OK,
+            };
+        }
     }
 }

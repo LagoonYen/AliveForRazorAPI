@@ -8,8 +8,10 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface ProductRepository
     {
-        BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
+        public BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
 
-        BaseQueryModel<ProductList> Product_Info(int id);
+        public BaseQueryModel<ProductList> Product_Info(int id);
+
+        public BaseResponseModel PatchProductInfo(ProductList productList);
     }
 }
