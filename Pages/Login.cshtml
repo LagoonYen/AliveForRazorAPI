@@ -4,8 +4,7 @@
     ViewData["Title"] = "Login";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-@*reCaptcha JS引用*@
-@*<script src="https://www.google.com/recaptcha/api.js?render=6LegNyweAAAAAH_tWNYg8mN1j3aIq4BPKB4EUgdp"></script>*@
+
 <article class="page RegisterLoginPage">
     <div class="container">
         <div class="row">
@@ -33,7 +32,7 @@
 
                                     </p>
                                 </div>
-                                <button   class="ui blue button" type="submit" asp-page-handler="MyLogin">登錄</button>
+                                <button  class="ui blue button" type="submit" asp-page-handler="MyLogin">登錄</button>
                             </form>
                         </div>
                     </div>
@@ -56,4 +55,12 @@
             </div>
         </div>
     </div>
+    @if (ViewData["Message"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewData["Message"]");
+            };
+        </script>
+    }
 </article>

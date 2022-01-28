@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AliveStoreTemplate.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -16,7 +17,15 @@ namespace AliveStoreTemplate.Pages
 
         public void OnGet()
         {
-            Response.Redirect("/home");
+
+            var sessionUser = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
+
+            if(sessionUser == null)
+            {
+                Response.Redirect("/Login");
+            }
+
+
         }
     }
 }

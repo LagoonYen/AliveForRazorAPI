@@ -9,7 +9,9 @@ namespace AliveStoreTemplate.Services
     {
         //登錄帳戶
         Task<BaseQueryModel<MemberInfo>> PostLogin(LoginReqModel Req);
-        
+
+        Task<BaseQueryModel<MemberInfo>> PostLogin(string Account ,string Password);
+
         //會員註冊
         Task<BaseResponseModel> PostMemberRegister(LoginReqModel Req);
 

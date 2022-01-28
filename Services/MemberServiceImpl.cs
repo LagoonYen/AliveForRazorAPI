@@ -18,6 +18,26 @@ namespace AliveStoreTemplate.Services
             _memberRepository = memberRepository;
         }
 
+        public async Task<BaseQueryModel<MemberInfo>> PostLogin(string account, string password)
+        {
+            //先取得帳號存在
+            var baseQueryModel = await _memberRepository.GetMemberInfo(account);
+            if (baseQueryModel.Results == null)
+            {
+                return baseQueryModel;
+            }
+            var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
+            if (dbPassword != password)
+            {
+                return new BaseQueryModel<MemberInfo>()
+                {
+                    Results = null,
+                    Message = "密碼不同",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+            return baseQueryModel;
+        }
         //登錄
         public async Task<BaseQueryModel<MemberInfo>> PostLogin(LoginReqModel Req)
         {
@@ -152,5 +172,7 @@ namespace AliveStoreTemplate.Services
             //}
            
         }
+
+
     }
 }

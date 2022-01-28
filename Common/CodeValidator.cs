@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text;
@@ -84,4 +85,29 @@ namespace AliveStoreTemplate.Common
             return code;
         }
     }
+
+
+
+
+    public static class CommonUtil
+    {
+        public static void SessionSetObject<T>(this ISession session, string key, T value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T SessionGetObject<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+
+    }
+
+
+    public static class SessionKeys
+    {
+        public const string LoginSession = "MyUserInfo";
+    }
+
 }
