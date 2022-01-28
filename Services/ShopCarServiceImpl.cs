@@ -27,25 +27,28 @@ namespace AliveStoreTemplate.Services
                 int uid = Req.Uid;
                 int product_id = Req.product_id;
                 int num = Req.num;
-
                 var time = DateTime.Now;
 
                 //商品剩餘數量
                 int product_inventory = _productRepository.Product_Info(product_id).Results.FirstOrDefault().Inventory;
 
                 //購物車內數量
-                var shopCar_product = _shopCarRepository.User_shopcart_list(uid).Results.FirstOrDefault(x => x.product_id == product_id);
-
-                if(shopCar_product != null)
+                var result = _shopCarRepository.User_shopcart_list(uid);
+                if(result.Results != null)
                 {
-                    int shopCar_product_inventory = shopCar_product.num;
-                    if ((num + shopCar_product_inventory) > product_inventory)
+                    var shopCar_product = result.Results.FirstOrDefault(x => x.product_id == product_id);
+                    if(shopCar_product != null)
                     {
-                        throw new Exception("商品數量不足");
+                        int shopCar_product_inventory = shopCar_product.num;
+                        if ((num + shopCar_product_inventory) > product_inventory)
+                        {
+                            throw new Exception("商品數量不足");
+                        }
+                        //更新購物車
+                        num += shopCar_product_inventory;
                     }
-                    //更新購物車
-                    num += shopCar_product_inventory;
                 }
+                
 
                 ProductShopcar PostNewShopCar = new()
                 {

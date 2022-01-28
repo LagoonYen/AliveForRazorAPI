@@ -404,6 +404,7 @@
                 contentType : 'application/json;charset=UTF-8', //contentType很重要 
                 success:function(response){
                     console.log(response)
+                    location.href = "./order"
                 },
                 error:function(response){
                     console.log(JSON.parse(response.responseText))

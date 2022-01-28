@@ -60,7 +60,21 @@ namespace AliveStoreTemplate.Services
                     }
                 }
 
-                var orderId = DateTime.Now.ToString("yyMMdd") + Req.Uid;
+                var orderNumber = DateTime.Now.ToString("yyMMddhhmmss") + Req.Uid;
+
+                //建立訂單
+                OrderList orderList = new OrderList
+                {
+                    Uid = Req.Uid,
+                    OrderNumber = orderNumber,
+                    AddressId = OrderAddressId,
+                    Remark = Req.Remark,
+                    //PayPrice = TotalPrice,
+                    CreateTime = DateTime.Now,
+                    UpdateTime = DateTime.Now
+                };
+                var orderId = _orderRepository.InsertOrder(orderList);
+
                 var TotalPrice = 0;
                 foreach(var item in shopcarDetail.Results)
                 {
@@ -89,18 +103,7 @@ namespace AliveStoreTemplate.Services
                     _productRepository.PatchProductInfo(productList);
                 }
 
-                //建立訂單
-                OrderList orderList = new OrderList
-                {
-                    Uid = Req.Uid,
-                    OrderNumber = orderId,
-                    AddressId = OrderAddressId,
-                    Remark = Req.Remark,
-                    PayPrice = TotalPrice,
-                    CreateTime = DateTime.Now,
-                    UpdateTime= DateTime.Now
-                };
-                var OrderListResult = _orderRepository.InsertOrder(orderList);
+                var updateResult = _orderRepository.UpdateTotalPrice(orderId, TotalPrice);
 
                 //清空購物車
                 var CleanShopcarResult = _shopCarRepository.CleanShopcar(Req.Uid);
@@ -115,6 +118,38 @@ namespace AliveStoreTemplate.Services
             {
                 throw;
             }
+        }
+
+        public BaseQueryModel<OrderList> GetOrderList(int id)
+        {
+            try
+            {
+                if(id == 0)
+                {
+                    throw new Exception("id錯誤");
+                }
+                return _orderRepository.GetOrderList(id);
+            }
+            catch(Exception ex)
+            {
+                return new BaseQueryModel<OrderList>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        public BaseQueryModel<OrderDetailResponseModel> GetOrderDetail(OrderDetailReqModel Req)
+        {
+            var ProductDetail = _orderRepository.GetOrderDetailList(Req.OrderId);
+            return new BaseQueryModel<OrderDetailResponseModel>
+            {
+                Message = String.Empty,
+                Results = null,
+                StatusCode = HttpStatusCode.OK
+            };
         }
     }
 }

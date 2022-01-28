@@ -10,7 +10,7 @@ namespace AliveStoreTemplate.Model
         public int Uid { get; set; }
         public int? AddressId { get; set; }
         public string Remark { get; set; }
-        public int PayPrice { get; set; }
+        public int? PayPrice { get; set; }
         public byte? IsPay { get; set; }
         public int? PayTime { get; set; }
         public byte? IsShip { get; set; }

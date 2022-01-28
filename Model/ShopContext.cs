@@ -175,10 +175,7 @@ namespace AliveStoreTemplate.Model
                     .HasColumnType("datetime")
                     .HasColumnName("create_time");
 
-                entity.Property(e => e.OrderId)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .HasColumnName("order_id");
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
 
                 entity.Property(e => e.ProductId).HasColumnName("product_id");
 

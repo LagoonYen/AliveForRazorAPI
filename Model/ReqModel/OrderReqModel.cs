@@ -16,4 +16,17 @@
         public string OrderAddress { get; set; }
         public string Remark { get; set; }
     }
+
+    public class OrderDetailReqModel
+    {
+        public int OrderId { get; set; }
+    }
+
+    public class OrderDetailResponseModel : OrderList
+    {
+        public class OrderList : OrderProduct
+        {
+           
+        }
+    }
 }

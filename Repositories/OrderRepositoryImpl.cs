@@ -1,6 +1,7 @@
 ﻿using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -73,14 +74,73 @@ namespace AliveStoreTemplate.Repositories
             };
         }
 
-        public BaseResponseModel InsertOrder(OrderList orderList)
+        public int InsertOrder(OrderList orderList)
         {
             _dbShop.OrderLists.Add(orderList);
             _dbShop.SaveChanges();
-            return new BaseResponseModel
+            return _dbShop.OrderLists.FirstOrDefault(x => x.OrderNumber == orderList.OrderNumber).Id;
+        }
+
+        public BaseQueryModel<OrderList> GetOrderList(int id)
+        {
+            try
             {
-                Message = "已建立訂單",
-                StatusCode = HttpStatusCode.OK
+                var result = _dbShop.OrderLists.Where(x => x.Uid == id);
+                if(!result.Any())
+                {
+                    return new BaseQueryModel<OrderList>
+                    {
+                        Results = null,
+                        Message = "暫無歷史訂單",
+                        StatusCode = HttpStatusCode.Accepted
+                    };
+                }
+                return new BaseQueryModel<OrderList> {
+                    Results = result,
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseQueryModel<OrderList>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        public BaseResponseModel UpdateTotalPrice(int orderId, int TotalPrice)
+        {
+            try
+            {
+                var result = _dbShop.OrderLists.Find(orderId);
+                result.PayPrice = TotalPrice;
+                _dbShop.SaveChanges();
+                return new BaseResponseModel
+                {
+                    Message = "已更新售價",
+                    StatusCode = HttpStatusCode.OK,
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        public OrderProduct GetOrderDetailList(int orderId)
+        {
+            //return _dbShop.OrderLists.Where(x => x.OrderNumber ==orderId);
+            return new OrderProduct
+            {
+                OrderId = orderId,
             };
         }
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AliveStoreTemplate.Services;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
+using AliveStoreTemplate.Model;
 
 namespace AliveStoreTemplate.Api.Controllers
 {
@@ -44,6 +45,49 @@ namespace AliveStoreTemplate.Api.Controllers
                 {
                     Message = ex.Message,
                     StatusCode = HttpStatusCode.BadRequest,
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("action")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType (StatusCodes.Status400BadRequest)]
+        public IActionResult GetOrderList()
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                return Ok(_orderService.GetOrderList(uid));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+            }
+        }
+
+        [HttpGet]
+        [Route("action")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult GetOrderDetail(OrderDetailReqModel Req)
+        {
+            try
+            {
+                var uid = int.Parse(Request.Cookies["id"]);
+                var result = _orderService.GetOrderDetail(Req);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
                 });
             }
         }
