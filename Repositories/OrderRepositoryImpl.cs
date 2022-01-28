@@ -135,13 +135,27 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public OrderProduct GetOrderDetailList(int orderId)
+        public BaseQueryModel<OrderProduct> GetOrderDetailList(int orderId)
         {
-            //return _dbShop.OrderLists.Where(x => x.OrderNumber ==orderId);
-            return new OrderProduct
+            try
             {
-                OrderId = orderId,
-            };
+                var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId);
+                return new BaseQueryModel<OrderProduct>
+                {
+                    Results = result,
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseQueryModel<OrderProduct>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }            
         }
     }
 }
