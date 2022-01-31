@@ -43,7 +43,6 @@ namespace AliveStoreTemplate.Pages
                 product.ImgUrl = "./img/" + fileNames[new Random().Next(0, 61)];
                 ProductList.Add(product);
             }
-
         }
     }
 }

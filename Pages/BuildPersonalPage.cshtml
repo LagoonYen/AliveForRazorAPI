@@ -5,57 +5,30 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-@*<div class="container">
-    <div class="row">
-        <h4 class="ui dividing header">填寫個人資料</h4>
-        <div class="ui center aligned basic segment">
-            <form class="ui form" id="RegisterForm">
-                <div class="field">
-                    <label>Email</label>
-                    <input type="text" name="account" placeholder="請輸入電子信箱">
-                </div>
-                <div class="field">
-                    <label>password</label>
-                    <input type="password" name="password" placeholder="請輸入密碼">
-                </div>
-                <div>
-                    <p id="notice">
-
-                    </p>
-                </div>
-                
-            </form>
-                <button class="ui button" type="button" asp-page="./Login">返回</button>
-                <button class="ui button" type="submit">註冊</button>
-        </div>
-    </div>
-</div>*@
-
-
 <div class="ui text container">
     <div class="row">
         <h4 class="ui dividing header">填寫個人資料</h4>
          <div class="ui aligned basic segment">
-            <form method="post" class="ui form" id="RegisterForm">
+            <form method="post" class="ui form">
                 <div class="my-2">
-                    <label class="control-label">帳號</label>
-                    <input class="form-control" id="account" readonly="readonly"/>
+                    <label asp-for="@Model.member.Account" class="control-label"></label>
+                    <input asp-for="@Model.member.Account" class="form-control" readonly="readonly" />
                 </div>
                 <div class="my-2">
-                    <label class="control-label">暱稱(可修改)</label>
-                    <input class="form-control" id="nickName"/>
+                    <label asp-for="@Model.member.NickName" class="control-label"></label>
+                    <input asp-for="@Model.member.NickName" class="form-control"/>
                 </div>
                 <div class="my-2">
-                    <label class="control-label">電話號碼(可修改)</label>
-                    <input class="form-control" id="phoneNumber" />
+                    <label asp-for="@Model.member.PhoneNumber" class="control-label"></label>
+                    <input asp-for="@Model.member.PhoneNumber" class="form-control"/>
                 </div>
                 <div class="my-2">
-                    <label class="control-label">Email(可修改)</label>
-                    <input class="form-control" id="email" />
+                    <label asp-for="@Model.member.Email" class="control-label"></label>
+                    <input asp-for="@Model.member.Email" class="form-control"/>
                 </div>
                 <div class="my-2">
-                <label class="control-label">性別(可修改)</label>
-                    <div>
+                <label class="control-label" asp-for="@Model.member.Sex"></label>
+                    @*<div>
                         <input type="radio" id="male" name="drone" value="male">
                         <label for="male">男</label>
                     </div>
@@ -66,18 +39,24 @@
                     <div>
                       <input type="radio" id="secret" name="drone" value="secret">
                       <label for="secret">保密</label>
+                    </div>*@
+                    <div>
+                         @foreach (var gender in Model.Genders)
+                        {
+                            <input type="radio" asp-for="Gender" value="@gender" />@gender<br />
+                        }
                     </div>
                 </div>
                 <div class="my-2">
                     <img />
                 </div>
                 <div class="my-2">
-                    <label class="control-label">建立時間</label>
-                    <input class="form-control" readonly="readonly" id="registerTime"/>
+                    <label asp-for="@Model.member.RegisterTime" class="control-label"></label>
+                    <input asp-for="@Model.member.RegisterTime" class="form-control" readonly="readonly"/>
                 </div>
                 <div class="my-2">
-                    <label class="control-label">修改時間</label>
-                    <input class="form-control" readonly="readonly" id="updateTime"/>
+                    <label asp-for="@Model.member.UpdateTime" class="control-label"></label>
+                    <input asp-for="@Model.member.UpdateTime" class="form-control" readonly="readonly"/>
                 </div>
                 <div class="ui button center" onclick="PatchMemberInfo()">送出</div>
             </form>
@@ -86,29 +65,31 @@
 </div>
 
 <script>
-    $(function(){
-       $.ajax({
-            type:"Get",
-            url:"@Url.Action("MemberInfo","MemberInfo")",
-            dataType:"json",
-            success:function(response){
-                var data = response.results[0]
-                console.log(data)
-                $('#account').val(data.account)
-                $('#nickName').val(data.nickName)
-                $('#phoneNumber').val(data.phoneNumber)
-                $('#email').val(data.email)
-                $('#registerTime').val(data.registerTime)
-                $('#updateTime').val(data.updateTime)
-                console.log("Test")
-                var sex = data.sex
-                $("#"+sex).attr("checked", "checked");
-            },
-            error:function(response){
-                location.href = "./Login"
-            }
-        })
-    })
+    //$(function(){
+    //   $.ajax({
+    //        type:"Get",
+    //        url:"@Url.Action("MemberInfo","MemberInfo")",
+    //        dataType:"json",
+    //        success:function(response){
+    //            var data = response.results[0]
+    //            console.log(data)
+    //            $('#account').val(data.account)
+    //            $('#nickName').val(data.nickName)
+    //            $('#phoneNumber').val(data.phoneNumber)
+    //            $('#email').val(data.email)
+    //            $('#registerTime').val(data.registerTime)
+    //            $('#updateTime').val(data.updateTime)
+    //            console.log("Test")
+    //            var sex = data.sex
+    //            $("#"+sex).attr("checked", "checked");
+    //        },
+    //        error:function(response){
+    //            location.href = "./Login"
+    //        }
+    //    })
+
+
+    //})
 
     function PatchMemberInfo(){
         let account = $('#account').val()

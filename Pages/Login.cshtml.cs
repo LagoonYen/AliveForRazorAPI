@@ -24,7 +24,7 @@ namespace AliveStoreTemplate.Pages
 
         public void OnGet()
         {
-            var myAccount = Account;
+            //var myAccount = Account;
         }
 
         public void OnPostMyLogin()
@@ -34,16 +34,14 @@ namespace AliveStoreTemplate.Pages
             if (result.Result.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var user = result.Result.Results.FirstOrDefault();
-
+                
                 if (user != null)
                 {
                     Common.CommonUtil.SessionSetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession, user);
                     Response.Redirect("Home");
                 }
-
             }
-
-            ViewData["Message"] = string.Format("Loging Error");
+            ViewData["Message"] = string.Format("Login Error");
         }
     }
 }

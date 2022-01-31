@@ -12,25 +12,20 @@
                 <div class="ui center aligned basic segment">
                     <div class="ui left icon action input">
                         <div class="column">
-                            <form class="ui form" method="post">
+                            <form class="ui form" method="post"+>
                                 <div class="field">
-                                    <label>Username</label>
+                                    <label>電子信箱</label>
                                     <div class="ui left icon input">
                                        <input asp-for="Account" placeholder="請輸入信箱" />
                                         <i class="user icon"></i>
                                     </div>
                                 </div>
                                 <div class="field">
-                                    <label>Password</label>
+                                    <label>密碼</label>
                                     <div class="ui left icon input">
                                         <input asp-for="Password"  type="password"  placeholder="請輸入密碼" />
                                         <i class="lock icon"></i>
                                     </div>
-                                </div>
-                                <div>
-                                    <p id="notice">
-
-                                    </p>
                                 </div>
                                 <button  class="ui blue button" type="submit" asp-page-handler="MyLogin">登錄</button>
                             </form>

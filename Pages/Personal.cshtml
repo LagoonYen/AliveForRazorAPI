@@ -9,98 +9,100 @@
     <h4 class="ui dividing header">個人資料列表</h4>
     <div class="doubling stackable two column ui grid container">
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger">
                 帳號
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="account">
-            </div>
+            <span class="ui segment text-danger" >@Html.DisplayFor(model => model.member.Account)
+
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger">
                 暱稱
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="nickName">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.NickName)
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger" >
                 電話號碼
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="phoneNumber">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.PhoneNumber)
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger">
                 Email
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="email">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.Email)
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger" >
                 性別
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="sex">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.Sex)
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger">
                 建立時間
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="registerTime">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.RegisterTime)
+            </span>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment text-danger">
                 修改時間
             </div>
         </div>
         <div class="column">
-            <div class="ui segment" id="updateTime">
-            </div>
+            <span class="ui segment text-danger">@Html.DisplayFor(model => model.member.UpdateTime)
+            </span>
         </div>
     </div>
     <div class="ui container">
-        <div class="ui button center" onclick="goRewrite()">修改</div>
+        <a class="ui button center" asp-page="./BuildPersonalPage">修改</a>
     </div>
 </div>
-<script>
-    $(function(){
-        console.log("測試")
-        $.ajax({
-            type:"Get",
-            url:"@Url.Action("MemberInfo","MemberInfo")",
-            dataType:"json",
-            success:function(response){
-                var data = response.results[0]
-                $('#account').html((data.account) ? data.account : "無")
-                $('#nickName').html((data.nickName) ? data.nickName : "無")
-                $('#phoneNumber').html((data.phoneNumber) ? data.phoneNumber : "無")
-                $('#email').html((data.email) ? data.email : "無")
-                $('#registerTime').html((data.registerTime) ? data.registerTime : "無")
-                $('#updateTime').html((data.updateTime) ? data.updateTime : "無")
-                $('#sex').html((data.sex) ? data.sex : "無")
-            },
-            error:function(response){
-                location.href = "./Login"
-            }
-        })
-    })
+@*<script>
+    //$(function(){
+    //    console.log("測試")
+    //    $.ajax({
+    //        type:"Get",
+    //        url:"@Url.Action("MemberInfo","MemberInfo")",
+    //        dataType:"json",
+    //        success:function(response){
+    //            var data = response.results[0]
+    //            $('#account').html((data.account) ? data.account : "無")
+    //            $('#nickName').html((data.nickName) ? data.nickName : "無")
+    //            $('#phoneNumber').html((data.phoneNumber) ? data.phoneNumber : "無")
+    //            $('#email').html((data.email) ? data.email : "無")
+    //            $('#registerTime').html((data.registerTime) ? data.registerTime : "無")
+    //            $('#updateTime').html((data.updateTime) ? data.updateTime : "無")
+    //            $('#sex').html((data.sex) ? data.sex : "無")
+    //        },
+    //        error:function(response){
+    //            //location.href = "./Login"
+    //        }
+    //    })
+    //})
 
-    function goRewrite(){
-        location.href = "/BuildPersonalPage"
-    }
+    //function goRewrite(){
+    //    location.href = "/BuildPersonalPage"
+    //}
 
 </script>
+*@
