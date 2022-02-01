@@ -1,4 +1,5 @@
 using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,7 +21,7 @@ namespace AliveStoreTemplate.Pages
         public string Gender { get; set; }
         public string[] Genders = new[] { "Male", "Female", "Unspecified" };
     
-
+        [BindProperty]
         public MemberInfo member { get; set; }
 
         public void OnGet()
@@ -46,6 +47,35 @@ namespace AliveStoreTemplate.Pages
                 }
             }
             ViewData["Message"] = string.Format("Login Error");
+        }
+
+        public void OnPostPatchMemberInfo()
+        {
+            var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
+            if (userSession == null)
+            {
+                Response.Redirect("Login");
+                return;
+            }
+
+            var uid = userSession.Id;
+
+            PatchMemberInfoReqModel Req = new PatchMemberInfoReqModel
+            {
+                Id = uid,
+                Account = member.Account,
+                NickName = member.NickName,
+                Email = member.Email,
+                PhoneNumber = member.PhoneNumber
+            };
+
+            var result = _memberService.PatchMemberInfo(Req);
+            if (result.Result.StatusCode == HttpStatusCode.OK)
+            {
+                Response.Redirect("Personal");
+                return;
+            }
+            ViewData["Message"] = string.Format("Patch Error");
         }
     }
 }
