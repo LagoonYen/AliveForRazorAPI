@@ -2,7 +2,7 @@
 @model AliveStoreTemplate.Pages.BuildPersonalPageModel
 @{
     ViewData["Title"] = "BuildPersonalPage";
-    Layout = "~/Pages/Shared/_LayoutNew.cshtml";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="ui text container">
@@ -51,15 +51,18 @@
                     <img />
                 </div>
                 <div class="my-2">
-                    <label asp-for="@Model.member.RegisterTime" class="control-label"></label>
-                    <input asp-for="@Model.member.RegisterTime" class="form-control" readonly="readonly"/>
+                    <label asp-for="member.RegisterTime" class="control-label"></label>
+                    <input asp-for="member.RegisterTime" class="form-control" readonly="readonly"/>
                 </div>
                 <div class="my-2">
                     <label asp-for="@Model.member.UpdateTime" class="control-label"></label>
                     <input asp-for="@Model.member.UpdateTime" class="form-control" readonly="readonly"/>
                 </div>
                 <button class="ui button center" asp-page-handler="PatchMemberInfo">送出</button>
+                @*<button class="ui button center" asp-page-handler="ReturnNew" onsubmit="preventDefault()">送出123</button>*@
             </form>
+                @*<span class="text-danger">@Html.DisplayFor(model => model.Count)</span>*@
+
         </div>
     </div>
 </div>

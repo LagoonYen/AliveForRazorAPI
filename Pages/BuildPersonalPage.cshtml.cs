@@ -24,6 +24,9 @@ namespace AliveStoreTemplate.Pages
         [BindProperty]
         public MemberInfo member { get; set; }
 
+        [BindProperty]
+        public int Count { get; set; }
+
         public void OnGet()
         {
             //var uid = int.Parse(Request.Cookies["id"]);

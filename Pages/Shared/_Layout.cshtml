@@ -72,6 +72,7 @@ const { error } = require("jquery");
                     <button class="btn-cancel"><i class="icon-delete"></i><span>cancel</span></button>
                     <button class="btn-search"><i class="icon-search"></i><span>search</span></button>
                 </span>
+                @*<partial name="./_SearchBar.cshtml"/>*@
             </section>
             @*nav-self 功能選單*@
         <section class="nav-self">
@@ -89,8 +90,9 @@ const { error } = require("jquery");
         </section>
         </section>
         <!--nav-main 主导览列-->
-        <nav class="nav-main" id="layoutProductBar">
-            <ul>
+        <partial name="./_SearchBar.cshtml"/>
+        @*<nav class="nav-main" id="layoutProductBar">*@
+            @*<ul>
                 <li>
                     <a asp-page="category">蓝芽喇叭</a>
                     <ul class="lv2">
@@ -123,8 +125,8 @@ const { error } = require("jquery");
                 <li><a asp-page="category">光碟机</a></li>
                 <li><a asp-page="category">MP3</a></li>
                 <li><a asp-page="category">Wifi</a></li>
-            </ul>
-        </nav>
+            </ul>*@
+        @*</nav>*@
         <!--/nav-main 主导览列-->
     </section>
     <!--/fa-header 版头-->
@@ -199,42 +201,42 @@ const { error } = require("jquery");
 
     <script type="text/javascript">
         $(function () {
-            $.ajax({
-                type:"Get",
-                url:"@Url.Action("Product_CategoryList","Product")",
-                dataType:"json",
-                success:function(response){
-                    console.log("成功", response.results)
-                    $("#layoutProductBar").empty()
-                    let CategoryBar = $(`<ul></ul>`)
-                    response.results.forEach(x => {
-                        //底層
-                        let SubCategory = $(`<ul class="lv2"></ul>`)
-                        x.subCategory.forEach(y => {
-                            SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
-                        })
+            //$.ajax({
+            //    type:"Get",
+            //    url:"@Url.Action("Product_CategoryList","Product")",
+            //    dataType:"json",
+            //    success:function(response){
+            //        console.log("成功", response.results)
+            //        $("#layoutProductBar").empty()
+            //        let CategoryBar = $(`<ul></ul>`)
+            //        response.results.forEach(x => {
+            //            //底層
+            //            let SubCategory = $(`<ul class="lv2"></ul>`)
+            //            x.subCategory.forEach(y => {
+            //                SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
+            //            })
 
-                        //中層
-                        CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
-                    })
-                    $("#layoutProductBar").append(CategoryBar)
+            //            //中層
+            //            CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
+            //        })
+            //        $("#layoutProductBar").append(CategoryBar)
 
-                    // nav 導覽列開關
-                    $(".nav-main a").hover(function () {
-                        $(this).parent().children(".lv2").show();
-                    }, function () {
-                        $(this).parent().children(".lv2").hide();
-                    });
-                    $(".nav-main .lv2").hover(function () {
-                        $(this).show();
-                    }, function () {
-                        $(this).hide();
-                    });
-                },
-                error:function(response){
-                    console.log("失敗", response)
-                }
-            })
+            //        // nav 導覽列開關
+            //        $(".nav-main a").hover(function () {
+            //            $(this).parent().children(".lv2").show();
+            //        }, function () {
+            //            $(this).parent().children(".lv2").hide();
+            //        });
+            //        $(".nav-main .lv2").hover(function () {
+            //            $(this).show();
+            //        }, function () {
+            //            $(this).hide();
+            //        });
+            //    },
+            //    error:function(response){
+            //        console.log("失敗", response)
+            //    }
+            //})
 
             // 手機版選單
             // Initialize Slidebars
@@ -325,35 +327,35 @@ const { error } = require("jquery");
             $(".spancc").html(cc);
         });
 
-        function goCategory(){
-            let $this = $(event.target)
-            let parent = $this.parent().parent().prev().data("value")
-            let child = $this.data("value")
-            let category = (typeof(parent) == "undefined") ? child : parent
-            let subCategory = (typeof(parent) == "undefined") ? "" : child
-            console.log("呼叫取值", category, subCategory)
-            window.location.href = "Category?category="+category+"&subCategory="+subCategory
-            //$.ajax({
-            //    type:"Post",
-            //    url:"@Url.Action("SearchProduct","Product")",
-            //    data:JSON.stringify({
-            //        'category' : category,
-            //        'subCategory' : subCategory
-            //    }),
-            //    dataType:"json",
-            //    // 告訴jQuery不要去處理發送的資料
-            //    processData : false, 
-            //    // 告訴jQuery不要去設定Content-Type請求頭
-            //    contentType : 'application/json;charset=UTF-8', //contentType很重要 
-            //    success:function(response){
-            //        console.log(response)
-            //    },
-            //    error:function(response){
-            //        console.log("失敗", category, subCategory)
-            //        console.log(response)
-            //    }
-            //})
-        }
+        //function goCategory(){
+        //    let $this = $(event.target)
+        //    let parent = $this.parent().parent().prev().data("value")
+        //    let child = $this.data("value")
+        //    let category = (typeof(parent) == "undefined") ? child : parent
+        //    let subCategory = (typeof(parent) == "undefined") ? "" : child
+        //    console.log("呼叫取值", category, subCategory)
+        //    window.location.href = "Category?category="+category+"&subCategory="+subCategory
+        //    //$.ajax({
+        //    //    type:"Post",
+        //    //    url:"@Url.Action("SearchProduct","Product")",
+        //    //    data:JSON.stringify({
+        //    //        'category' : category,
+        //    //        'subCategory' : subCategory
+        //    //    }),
+        //    //    dataType:"json",
+        //    //    // 告訴jQuery不要去處理發送的資料
+        //    //    processData : false, 
+        //    //    // 告訴jQuery不要去設定Content-Type請求頭
+        //    //    contentType : 'application/json;charset=UTF-8', //contentType很重要 
+        //    //    success:function(response){
+        //    //        console.log(response)
+        //    //    },
+        //    //    error:function(response){
+        //    //        console.log("失敗", category, subCategory)
+        //    //        console.log(response)
+        //    //    }
+        //    //})
+        //}
     </script>
 
 

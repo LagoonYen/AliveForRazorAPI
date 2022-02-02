@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>
+    <nav class="nav-main" id="layoutProductBar">
+
+    </nav>
+</div>
+
+<script>
+    $(function () {
+        $.ajax({
+            type:"Get",
+            url:"@Url.Action("Product_CategoryList","Product")",
+            dataType:"json",
+            success:function(response){
+                console.log("成功", response.results)
+                $("#layoutProductBar").empty()
+                let CategoryBar = $(`<ul></ul>`)
+                response.results.forEach(x => {
+                    //底層
+                    let SubCategory = $(`<ul class="lv2"></ul>`)
+                    x.subCategory.forEach(y => {
+                        SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
+                    })
+
+                    //中層
+                    CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
+                })
+                $("#layoutProductBar").append(CategoryBar)
+
+                // nav 導覽列開關
+                $(".nav-main a").hover(function () {
+                    $(this).parent().children(".lv2").show();
+                }, function () {
+                    $(this).parent().children(".lv2").hide();
+                });
+                $(".nav-main .lv2").hover(function () {
+                    $(this).show();
+                }, function () {
+                    $(this).hide();
+                });
+            },
+            error:function(response){
+                console.log("失敗", response)
+            }
+        })
+    })
+
+    function goCategory(){
+        let $this = $(event.target)
+        let parent = $this.parent().parent().prev().data("value")
+        let child = $this.data("value")
+        let category = (typeof(parent) == "undefined") ? child : parent
+        let subCategory = (typeof(parent) == "undefined") ? "" : child
+        console.log("呼叫取值", category, subCategory)
+        window.location.href = "Category?category="+category+"&subCategory="+subCategory
+        //$.ajax({
+        //    type:"Post",
+        //    url:"@Url.Action("SearchProduct","Product")",
+        //    data:JSON.stringify({
+        //        'category' : category,
+        //        'subCategory' : subCategory
+        //    }),
+        //    dataType:"json",
+        //    // 告訴jQuery不要去處理發送的資料
+        //    processData : false, 
+        //    // 告訴jQuery不要去設定Content-Type請求頭
+        //    contentType : 'application/json;charset=UTF-8', //contentType很重要 
+        //    success:function(response){
+        //        console.log(response)
+        //    },
+        //    error:function(response){
+        //        console.log("失敗", category, subCategory)
+        //        console.log(response)
+        //    }
+        //})
+    }
+</script>
