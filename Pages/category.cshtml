@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{category?}/{subCategory?}"
 @model AliveStoreTemplate.Pages.categoryModel
 @{
     ViewData["Title"] = "category";
@@ -68,8 +68,25 @@
                         </section>
                     </div>
                 </li>*@
+                @foreach (var item in @Model.CardList)
+                {
+                    <li>
+                        <div class="prod">
+                        <a href="product" class="prod-photo" style="background-image: url('@item.ImgUrl');"></a>
+                        <section class="prod-info">
+                            <p class="prod-cate">@Html.DisplayFor(modelItem => item.CardName)</p>
+                            <a href="product" class="prod-name">@item.CardName</a>
+                            <p class="prod-intro"></p>
+                            <p class="prod-price">
+                                <span class="price-orignal">{OriginalPrice}</span>
+                                <span class="price-discount">@item.Price</span>
+                            </p>
+                        </section>
+                    </div>
+                    </li>
+                }
 
-                @foreach (var item in @Model.ProductList)
+               @* @foreach (var item in @Model.ProductList)
                {
                    <li>
                     <div class="prod">
@@ -86,7 +103,7 @@
                         </section>
                     </div>
                 </li>
-               }
+               }*@
                 
             </ul>
         </section>
