@@ -24,6 +24,7 @@ namespace AliveStoreTemplate.Model.ReqModel
         public string imgUrl { get; set; }
         public int price { get; set; }
         public int inventory { get; set; }
+        public int total { get; set; }
     }
 
     public class DelFromCartReqModel

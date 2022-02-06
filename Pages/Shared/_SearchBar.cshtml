@@ -57,25 +57,5 @@
         let subCategory = (typeof(parent) == "undefined") ? "" : child
         console.log("呼叫取值", category, subCategory)
         window.location.href = "Category?category="+category+"&subCategory="+subCategory
-        //$.ajax({
-        //    type:"Post",
-        //    url:"@Url.Action("SearchProduct","Product")",
-        //    data:JSON.stringify({
-        //        'category' : category,
-        //        'subCategory' : subCategory
-        //    }),
-        //    dataType:"json",
-        //    // 告訴jQuery不要去處理發送的資料
-        //    processData : false, 
-        //    // 告訴jQuery不要去設定Content-Type請求頭
-        //    contentType : 'application/json;charset=UTF-8', //contentType很重要 
-        //    success:function(response){
-        //        console.log(response)
-        //    },
-        //    error:function(response){
-        //        console.log("失敗", category, subCategory)
-        //        console.log(response)
-        //    }
-        //})
     }
 </script>

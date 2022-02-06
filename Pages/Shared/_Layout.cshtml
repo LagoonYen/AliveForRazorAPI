@@ -11,41 +11,40 @@
     <link rel="apple-touch-icon" sizes="76x76" href="favicon/touch-icon-ipad.png" />
     <link rel="apple-touch-icon" sizes="120x120" href="favicon/touch-icon-iphone-retina.png" />
     <link rel="apple-touch-icon" sizes="152x152" href="favicon/touch-icon-ipad-retina.png" />
-    @*semantic-ui*@
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-
+    
     <!--css-->
     <link href="css/alive.min.css" rel="stylesheet" asp-append-version="true" />
     <!--js-->
-    @*<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>*@
-    <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous">
-const { error } = require("jquery");
-</script>
+    @* <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>*@
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    
     <!--<script src="js/basic.js"></script>-->
+    <!-- 使 IE9 以下(不含 IE9)的 IE 瀏覽器載入 html5.js -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
     @*slidebars*@
     <link href="css/vender/slidebars.css" rel="stylesheet" asp-append-version="true"/>
     <script src="js/slidebars.js" asp-append-version="true"></script>
+
     @*slick*@
     <link href="css/vender/slick.css" rel="stylesheet" asp-append-version="true"/>
     <link href="css/vender/slick-theme.css" rel="stylesheet" asp-append-version="true"/>
     <script src="js/slick.min.js" asp-append-version="true"></script>
     <link href="css/vender/colorbox.css" rel="stylesheet" asp-append-version="true"/>
     <script src="js/jquery.colorbox-min.js" asp-append-version="true"></script>
-
-    @*semantic-ui*@
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
     <script src="js/Cart.js" asp-append-version="true"></script>
 
+    @*semantic-ui*@
+    @*<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
     @*地址使用*@
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>*@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
     
-
-    @RenderSection("HEAD", required: false);
+    @RenderSection("HEAD", required: false)
 
     <style>
         /* Chrome, Safari, Edge, Opera */
@@ -62,71 +61,36 @@ const { error } = require("jquery");
     </style>
 </head>
 <body>
-    <section class="fa-header" canvas style="z-index: 1000">
+    <section class="fa-header" canvas style=" z-index: 1000">
         <section class="header-bar">
-            <h1 class="branding"><a  asp-page="home">卡牌專門店</a></h1>
+            <h1 class="branding"><a  asp-page="home">有电3C数位城</a></h1>
             @*search 搜寻*@
             <section class="search">
                 <span class="search-form">
-                    <input type="text" placeholder="請輸入關鍵字" />
+                    <input type="text" placeholder="请输入关键字" />
                     <button class="btn-cancel"><i class="icon-delete"></i><span>cancel</span></button>
                     <button class="btn-search"><i class="icon-search"></i><span>search</span></button>
                 </span>
-                @*<partial name="./_SearchBar.cshtml"/>*@
             </section>
             @*nav-self 功能選單*@
-        <section class="nav-self">
-            <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
-            <a asp-page="./Login" class="btn-self"><i class="icon-star"></i><em>Login</em></a>
-            <a asp-page="./Personal" class="btn-self"><i class="icon-cate"></i><em>Personal</em></a>
-            <a asp-page="./Index" class="btn-self"><i class="icon-search"><em>swagger</em></i></a>
-            <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
+            <section class="nav-self">
+                <a id="search-open" class="btn-self"><i class="icon-search"></i></a>
+                <a asp-page="./Login" class="btn-self"><i class="icon-star"></i><em>Login</em></a>
+                <a asp-page="./Personal" class="btn-self"><i class="icon-cate"></i><em>Personal</em></a>
+                <a asp-page="./Index" class="btn-self"><i class="icon-search"><em>swagger</em></i></a>
+                <a id="btn-service" href="#lightbox-service" class="btn-self"><i class="icon-service"></i><em>service</em></a>
 
-            <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
-            <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
-            <a asp-page="order" class="btn-self"><i class="icon-service"></i><em>order</em></a>
-            <a id="btn-menu" class="btn-self lg-hide md-hide sm-show xs-show"><i class="icon-menu"></i><em>nav</em></a>
-            
-        </section>
+                <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
+                <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
+                <a asp-page="order" class="btn-self"><i class="icon-service"></i><em>order</em></a>
+                <a id="btn-menu" class="btn-self lg-hide md-hide sm-show xs-show"><i class="icon-menu"></i><em>nav</em></a>
+            </section>
         </section>
         <!--nav-main 主导览列-->
-        <partial name="./_SearchBar.cshtml"/>
-        @*<nav class="nav-main" id="layoutProductBar">*@
-            @*<ul>
-                <li>
-                    <a asp-page="category">蓝芽喇叭</a>
-                    <ul class="lv2">
-                        <li><a asp-page="category">喇叭1</a></li>
-                        <li><a asp-page="category">喇叭2</a></li>
-                        <li><a asp-page="category">喇叭3</a></li>
-                        <li><a asp-page="category">喇叭4</a></li>
-                        <li><a asp-page="category">喇叭5</a></li>
-                        <li><a asp-page="category">喇叭6</a></li>
-                        <li><a asp-page="category">喇叭7</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a asp-page="category">手机</a>
-                    <ul class="lv2">
-                        <li><a asp-page="category">手机1</a></li>
-                        <li><a asp-page="category">手机2</a></li>
-                        <li><a asp-page="category">手机3</a></li>
-                        <li><a asp-page="category">手机4</a></li>
-                        <li><a asp-page="category">手机5</a></li>
-                        <li><a asp-page="category">手机6</a></li>
-                        <li><a asp-page="category">手机7</a></li>
-                    </ul>
-                </li>
-                <li><a asp-page="category">iPhone</a></li>
-                <li><a asp-page="category">键盘</a></li>
-                <li><a asp-page="category">滑鼠</a></li>
-                <li><a asp-page="category">视讯镜头</a></li>
-                <li><a asp-page="category">监控设备</a></li>
-                <li><a asp-page="category">光碟机</a></li>
-                <li><a asp-page="category">MP3</a></li>
-                <li><a asp-page="category">Wifi</a></li>
-            </ul>*@
-        @*</nav>*@
+        @*<partial name="./_SearchBar.cshtml"/>*@
+        <nav class="nav-main" id="layoutProductBar">
+
+        </nav>
         <!--/nav-main 主导览列-->
     </section>
     <!--/fa-header 版头-->
@@ -201,42 +165,44 @@ const { error } = require("jquery");
 
     <script type="text/javascript">
         $(function () {
-            //$.ajax({
-            //    type:"Get",
-            //    url:"@Url.Action("Product_CategoryList","Product")",
-            //    dataType:"json",
-            //    success:function(response){
-            //        console.log("成功", response.results)
-            //        $("#layoutProductBar").empty()
-            //        let CategoryBar = $(`<ul></ul>`)
-            //        response.results.forEach(x => {
-            //            //底層
-            //            let SubCategory = $(`<ul class="lv2"></ul>`)
-            //            x.subCategory.forEach(y => {
-            //                SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
-            //            })
+            $.ajax({
+                type:"Get",
+                url:"@Url.Action("Product_CategoryList","Product")",
+                dataType:"json",
+                success:function(response){
+                    console.log("成功", response.results)
+                    //$("#layoutProductBar").empty()
+                    let CategoryBar = $(`<ul></ul>`)
+                    response.results.forEach(x => {
+                        //底層
+                        let SubCategory = $(`<ul class="lv2"></ul>`)
+                        x.subCategory.forEach(y => {
+                            SubCategory.append(`<li><a onclick="goCategory()" data-value="${y}">${y}</a></li>`)
+                        })
 
-            //            //中層
-            //            CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
-            //        })
-            //        $("#layoutProductBar").append(CategoryBar)
+                        //中層
+                        CategoryBar.append(`<li><a class="Cate" onclick="goCategory()" data-value="${x["category"]}">${x["category"]}</a>` + SubCategory[0].outerHTML +`</li>`)
+                    })
 
-            //        // nav 導覽列開關
-            //        $(".nav-main a").hover(function () {
-            //            $(this).parent().children(".lv2").show();
-            //        }, function () {
-            //            $(this).parent().children(".lv2").hide();
-            //        });
-            //        $(".nav-main .lv2").hover(function () {
-            //            $(this).show();
-            //        }, function () {
-            //            $(this).hide();
-            //        });
-            //    },
-            //    error:function(response){
-            //        console.log("失敗", response)
-            //    }
-            //})
+                    $("#layoutProductBar").append(CategoryBar)
+
+                    // nav 導覽列開關
+                    $(".nav-main a").hover(function () {
+                        $(this).parent().children(".lv2").show();
+                    }, function () {
+                        $(this).parent().children(".lv2").hide();
+                    });
+                    $(".nav-main .lv2").hover(function () {
+                        $(this).show();
+                    }, function () {
+                        $(this).hide();
+                    });
+                },
+                error:function(response){
+                    console.log("失敗", response)
+                }
+            })
+
 
             // 手機版選單
             // Initialize Slidebars
@@ -268,17 +234,17 @@ const { error } = require("jquery");
                 }
             });
 
-            // nav 導覽列開關
-            $(".nav-main a").hover(function () {
-                $(this).parent().children(".lv2").show();
-            }, function () {
-                $(this).parent().children(".lv2").hide();
-            });
-            $(".nav-main .lv2").hover(function () {
-                $(this).show();
-            }, function () {
-                $(this).hide();
-            });
+            //// nav 導覽列開關
+            //$(".nav-main a").hover(function () {
+            //    $(this).parent().children(".lv2").show();
+            //}, function () {
+            //    $(this).parent().children(".lv2").hide();
+            //});
+            //$(".nav-main .lv2").hover(function () {
+            //    $(this).show();
+            //}, function () {
+            //    $(this).hide();
+            //});
 
             //fa-mobile 手機導覽列開關
             $(".fa-mobile a").click(function () {
@@ -327,35 +293,15 @@ const { error } = require("jquery");
             $(".spancc").html(cc);
         });
 
-        //function goCategory(){
-        //    let $this = $(event.target)
-        //    let parent = $this.parent().parent().prev().data("value")
-        //    let child = $this.data("value")
-        //    let category = (typeof(parent) == "undefined") ? child : parent
-        //    let subCategory = (typeof(parent) == "undefined") ? "" : child
-        //    console.log("呼叫取值", category, subCategory)
-        //    window.location.href = "Category?category="+category+"&subCategory="+subCategory
-        //    //$.ajax({
-        //    //    type:"Post",
-        //    //    url:"@Url.Action("SearchProduct","Product")",
-        //    //    data:JSON.stringify({
-        //    //        'category' : category,
-        //    //        'subCategory' : subCategory
-        //    //    }),
-        //    //    dataType:"json",
-        //    //    // 告訴jQuery不要去處理發送的資料
-        //    //    processData : false, 
-        //    //    // 告訴jQuery不要去設定Content-Type請求頭
-        //    //    contentType : 'application/json;charset=UTF-8', //contentType很重要 
-        //    //    success:function(response){
-        //    //        console.log(response)
-        //    //    },
-        //    //    error:function(response){
-        //    //        console.log("失敗", category, subCategory)
-        //    //        console.log(response)
-        //    //    }
-        //    //})
-        //}
+    function goCategory(){
+        let $this = $(event.target)
+        let parent = $this.parent().parent().prev().data("value")
+        let child = $this.data("value")
+        let category = (typeof(parent) == "undefined") ? child : parent
+        let subCategory = (typeof(parent) == "undefined") ? "" : child
+        console.log("呼叫取值", category, subCategory)
+        window.location.href = "Category?category="+category+"&subCategory="+subCategory
+    }
     </script>
 
 

@@ -14,28 +14,16 @@ namespace AliveStoreTemplate.Pages
 {
     public class categoryModel : PageModel
     {
-
-        [BindProperty]
-        public List<ProductList> ProductList { get; set; }
-
-
+        [Obsolete]
         private IHostingEnvironment Environment;
         private readonly ProductService _productService;
 
+        [Obsolete]
         public categoryModel(IHostingEnvironment _environment, ProductService productService)
         {
             Environment = _environment;
             _productService = productService;
         }
-
-        //[BindProperty]
-        //public string Category { get; set; }
-
-        //[BindProperty]
-        //public string SubCategory { get; set; }
-
-        //[BindProperty]
-        //public ProductListReqModel Req { get; set; }
 
         [BindProperty]
         public List<ProductList> CardList { get; set; }
