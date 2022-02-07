@@ -139,7 +139,7 @@ namespace AliveStoreTemplate.Repositories
         {
             try
             {
-                var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId);
+                var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId).ToList();
                 return new BaseQueryModel<OrderProduct>
                 {
                     Results = result,

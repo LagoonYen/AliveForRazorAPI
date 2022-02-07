@@ -111,7 +111,7 @@
                         <span class="td-item">合計</span>
                     </th>
                     <td>
-                        <span class="ico_cgpCount" id="lbProdTPrice">@Model.TotalCountOrder 張卡</span>
+                        <span class="ico_cgpCount" id="lbProdTPrice"></span>
                     </td>
                 </tr>
                 @*
@@ -136,63 +136,64 @@
                         <span class="td-item">總計</span>
                     </th>
                     <td class="td-total td-price">
-                        <span class="ico_cgpTotal td-total" id="lbTPrice">@Model.TotalOrderPrice</span>
+                        <span class="ico_cgpTotal td-total" id="lbTPrice"></span>
                     </td>
                 </tr>
             </table>
         </section>
-
-        @*cart-recipient 收件資料*@
-        <section class="forms-basic cart-recipient">
-            <dl class="">
-                <dt>過去紀錄<em class="must">*</em></dt>
-                <dd>
-                    <div id="orderHistory" class="ui selection dropdown">
-                        <input type="hidden" name="orderHistory">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">請選擇</div>
-                        <div class="menu">
-                            <div class="item" data-value="1">Male</div>
-                            <div class="item" data-value="0">Female</div>
+        <form asp-page-handler="ToOrder" method="post">
+            @*cart-recipient 收件資料*@
+            <section class="forms-basic cart-recipient">
+                <dl class="">
+                    <dt>過去紀錄<em class="must">*</em></dt>
+                    <dd>
+                        <div id="orderHistory" class="ui selection dropdown">
+                            <input type="hidden" name="orderHistory">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">請選擇</div>
+                            <div class="menu">
+                                <div class="item" data-value="1">Male</div>
+                                <div class="item" data-value="0">Female</div>
+                            </div>
                         </div>
-                    </div>
-                </dd>
-            </dl>
-            <dl class="col2">
+                    </dd>
+                </dl>
+                <dl class="col2">
                 
-                <dt>收件人<em class="must">*</em></dt>
-                <dd>
-                    <input type="text" id="orderName" value="" placeholder="請填入收件姓名" />
-                    @*<asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="請填入收件姓名"></asp:TextBox>*@
-                </dd>
-                <dt>收件人手機<em class="must">*</em></dt>
-                <dd>
-                    <input type="tel" id="orderPhoneNumber" value="" placeholder="請填入收件人手機" />
-                    @*<asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="請填入收件人手機"></asp:TextBox>*@
-                </dd>
-            </dl>
-            <dl>
-                <dt>收件人地址<em class="must">*</em></dt>
-                <dd>
-                    <div id="post" class="citys">
-                        @*收件人地址選擇*@
-                        <div id="twzipcode"></div>
-                        <input type="text" id="address" value="" placeholder="請填入地址" />
-                    </div>
-                </dd>
-                <dt>備註</dt>
-                <dd>
-                    @*<asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>*@
-                    <textarea id="remark" name="" style="resize:none;height:200px"></textarea>
-                </dd>
-            </dl>
-        </section>
+                    <dt>收件人<em class="must">*</em></dt>
+                    <dd>
+                        <input type="text" id="orderName" value="" placeholder="請填入收件姓名" />
+                        @*<asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="請填入收件姓名"></asp:TextBox>*@
+                    </dd>
+                    <dt>收件人手機<em class="must">*</em></dt>
+                    <dd>
+                        <input type="tel" id="orderPhoneNumber" value="" placeholder="請填入收件人手機" />
+                        @*<asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="請填入收件人手機"></asp:TextBox>*@
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>收件人地址<em class="must">*</em></dt>
+                    <dd>
+                        <div id="post" class="citys">
+                            @*收件人地址選擇*@
+                            <div id="twzipcode"></div>
+                            <input type="text" id="address" value="" placeholder="請填入地址" />
+                        </div>
+                    </dd>
+                    <dt>備註</dt>
+                    <dd>
+                        @*<asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>*@
+                        <textarea id="remark" name="" style="resize:none;height:200px"></textarea>
+                    </dd>
+                </dl>
+            </section>
 
-        @*結算及提醒區*@
-        <section class="cart-action">
-            <span id="notice" style="color:red"></span>
-            <div type="button" class="btn-action" onclick="ToOrder()">我要结算</div>
-        </section>
+            @*結算及提醒區*@
+            <section class="cart-action">
+                <span id="notice" style="color:red"></span>
+                <div type="button" class="btn-action" onclick="ClickToOrder()">我要结算</div>
+            </section>
+        </form>
 
 
     </div>
@@ -380,7 +381,9 @@
         }
 
         //下訂單
-        function ToOrder(){
+        function ClickToOrder(){
+            console.log("下訂單")
+            event.preventDefault();
             //收件人地址相關
             if($("select[name='city']").val() == "" 
                 || $("select[name='city']").val() == "" 
@@ -390,48 +393,83 @@
                     var noticeWord = "請填寫"
                     noticeWord += " 收件人地址"
                     $("#notice").text(noticeWord)
+                    return false;
             }
-            else{
-                $("#notice").text("")
-                console.log("地址填寫完成")
+            
+            $("#notice").text("")
+            console.log("地址填寫完成")
 
-                ToOrderAjax()
-            }
-        }
-
-        function ToOrderAjax(){
             let orderName = $("#orderName").val()
             let orderPhoneNumber =$("#orderPhoneNumber").val()
             let city = $("select[name='city']").val()
             let town = $("select[name='town']").val()
             let address = $("#address").val()
             let remark = $("#remark").val()
-            console.log(city, town, address, remark)
+
+            var pathname = window.location.pathname;
+            var handler = "?handler=CSToOrder";
+            var actionpath = pathname + handler;
+
+            var data = {
+                    'OrderName': $("#orderName").val(),
+                    'orderPhoneNumber': $("#orderPhoneNumber").val(),
+                    'OrderCity': $("select[name='city']").val(),
+                    'OrderTown': $("select[name='town']").val(),
+                    'OrderAddress': $("#address").val(),
+                    'Remark':$("#remark").val()
+                }
 
             $.ajax({
                 type:"Post",
-                url:"@Url.Action("ToOrder","Order")",
-                data:JSON.stringify({
-                    'OrderName':orderName,
-                    'orderPhoneNumber':orderPhoneNumber,
-                    'OrderCity':city,
-                    'OrderTown':town,
-                    'OrderAddress':address,
-                    'Remark':remark,
-                }),
-                dataType:"json",
-                contentType : 'application/json;charset=UTF-8', //contentType很重要 
+                url:actionpath,
+                //dataType:"json",
+                data:JSON.stringify(data),
+                processData : false, 
+                headers:{"RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()},
+                contentType : 'application/json;charset=UTF-8', //contentType很重要
                 success:function(response){
-                    console.log(response)
                     location.href = "./order"
                 },
                 error:function(response){
-                    console.log(JSON.parse(response.responseText))
-                    let message = JSON.parse(response.responseText).message
-                    $("#notice").text(message)
+                    alert(response);
                 }
             })
+            
         }
+
+        //function ToOrderAjax(){
+        //    let orderName = $("#orderName").val()
+        //    let orderPhoneNumber =$("#orderPhoneNumber").val()
+        //    let city = $("select[name='city']").val()
+        //    let town = $("select[name='town']").val()
+        //    let address = $("#address").val()
+        //    let remark = $("#remark").val()
+        //    console.log(city, town, address, remark)
+
+        //    $.ajax({
+        //        type:"Post",
+        //        url:"@Url.Action("ToOrder","Order")",
+        //        data:JSON.stringify({
+        //            'OrderName':orderName,
+        //            'orderPhoneNumber':orderPhoneNumber,
+        //            'OrderCity':city,
+        //            'OrderTown':town,
+        //            'OrderAddress':address,
+        //            'Remark':remark,
+        //        }),
+        //        dataType:"json",
+        //        contentType : 'application/json;charset=UTF-8', //contentType很重要 
+        //        success:function(response){
+        //            console.log(response)
+        //            location.href = "./order"
+        //        },
+        //        error:function(response){
+        //            console.log(JSON.parse(response.responseText))
+        //            let message = JSON.parse(response.responseText).message
+        //            $("#notice").text(message)
+        //        }
+        //    })
+        //}
     </script>
 
 

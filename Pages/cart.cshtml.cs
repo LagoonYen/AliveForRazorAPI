@@ -15,10 +15,12 @@ namespace AliveStoreTemplate.Pages
     public class cartModel : PageModel
     {
         private readonly ShopCarService _shopCarService;
+        private readonly OrderService _orderService;
 
-        public cartModel(ShopCarService shopCarService)
+        public cartModel(ShopCarService shopCarService, OrderService orderService)
         {
             _shopCarService = shopCarService;
+            _orderService = orderService;
         }
 
         [BindProperty]
@@ -26,12 +28,6 @@ namespace AliveStoreTemplate.Pages
 
         [BindProperty]
         public int UID { get; set; }
-
-        [BindProperty]
-        public int TotalCountOrder { get; set; }
-
-        [BindProperty]
-        public int TotalOrderPrice { get; set; }
 
         public void OnGet()
         {
@@ -45,29 +41,16 @@ namespace AliveStoreTemplate.Pages
             UID = userSession.Id;
         }
 
-        //因為要用ajax刷新 所以用不到
-        public void FreshShopCar(int UID)
+        public IActionResult OnPostCSToOrder([FromBody]ToOrderReqModel Req)
         {
-            var result = _shopCarService.User_shopcart_list(UID);
-            if (result.StatusCode == HttpStatusCode.OK)
+            var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
+            if (userSession == null)
             {
-                //購物車商品總數
-                TotalCountOrder = 0;
-                //目前計算金額
-                TotalOrderPrice = 0;
-
-                Shopcar_list = (List<shopcar_list_respModel>)result.Results;
-                for (int i = 0; i < Shopcar_list.Count; i++)
-                {
-                    //單項小計
-                    var Total = Shopcar_list[i].num * Shopcar_list[i].price;
-                    Shopcar_list[i].total = Total;
-                    TotalOrderPrice += Total;
-                    TotalCountOrder += Shopcar_list[i].num;
-                }
-                return;
+                return RedirectToPage("./Login");
             }
-            ViewData["Message"] = string.Format("Login Error");
+            Req.Uid = userSession.Id;
+            _orderService.ToOrder(Req);
+            return null;
         }
     }
 

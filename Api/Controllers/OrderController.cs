@@ -57,7 +57,8 @@ namespace AliveStoreTemplate.Api.Controllers
         {
             try
             {
-                var uid = int.Parse(Request.Cookies["id"]);
+                var uid = 4;
+                //var uid = int.Parse(Request.Cookies["id"]);
                 return Ok(_orderService.GetOrderList(uid));
             }
             catch(Exception ex)

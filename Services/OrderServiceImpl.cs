@@ -114,9 +114,13 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK  
                 };
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
             }
         }
 
@@ -140,10 +144,15 @@ namespace AliveStoreTemplate.Services
                 };
             }
         }
-
+        
         public BaseQueryModel<OrderDetailResponseModel> GetOrderDetail(OrderDetailReqModel Req)
         {
+            
             var ProductDetail = _orderRepository.GetOrderDetailList(Req.OrderId);
+            OrderDetailResponseModel Resp = new OrderDetailResponseModel()
+            {
+                items = ProductDetail.Results.ToList()
+            };
             return new BaseQueryModel<OrderDetailResponseModel>
             {
                 Message = String.Empty,

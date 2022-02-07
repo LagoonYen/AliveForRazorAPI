@@ -66,7 +66,6 @@ namespace AliveStoreTemplate.Api.Controllers
             try
             {
                 int UID = Req.UID;
-                //int UID = 4;
                 var result = _shopCarService.User_shopcart_list(UID);
                 return Ok(result);
             }
