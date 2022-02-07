@@ -1,4 +1,6 @@
-﻿namespace AliveStoreTemplate.Model.ReqModel
+﻿using System.Collections.Generic;
+
+namespace AliveStoreTemplate.Model.ReqModel
 {
     public class ToOrderReqModel
     {
@@ -24,9 +26,6 @@
 
     public class OrderDetailResponseModel : OrderList
     {
-        public class OrderList : OrderProduct
-        {
-           
-        }
+        public List<OrderProduct> items { get; set; }
     }
 }
