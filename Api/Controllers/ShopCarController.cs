@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Api.Controllers
@@ -56,16 +57,17 @@ namespace AliveStoreTemplate.Api.Controllers
         /// 取得Member購物車內清單
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult User_shopcart_list()
+        public IActionResult User_shopcart_list([FromBody]UIDReqModel Req)
         {
             try
             {
-                var uid = int.Parse(Request.Cookies["id"]);
-                var result = _shopCarService.User_shopcart_list(uid);
+                int UID = Req.UID;
+                //int UID = 4;
+                var result = _shopCarService.User_shopcart_list(UID);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -149,8 +151,6 @@ namespace AliveStoreTemplate.Api.Controllers
         {
             try
             {
-                var uid = int.Parse(Request.Cookies["id"]);
-                Req.uid = uid;
                 var result = _shopCarService.UpsertCart(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {

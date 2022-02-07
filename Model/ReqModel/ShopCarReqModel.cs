@@ -49,4 +49,10 @@ namespace AliveStoreTemplate.Model.ReqModel
         
         public DateTime UpdateTime { get; set; }
     }
+
+    public class UIDReqModel
+    {
+        public int UID { get; set; }
+    }
+
 }

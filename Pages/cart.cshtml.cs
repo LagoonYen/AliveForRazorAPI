@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -21,14 +22,16 @@ namespace AliveStoreTemplate.Pages
         }
 
         [BindProperty]
-        public List<shopcar_list_respModel> shopcar_list { get; set; }
+        public List<shopcar_list_respModel> Shopcar_list { get; set; }
+
+        [BindProperty]
+        public int UID { get; set; }
 
         [BindProperty]
         public int TotalCountOrder { get; set; }
 
         [BindProperty]
         public int TotalOrderPrice { get; set; }
-
 
         public void OnGet()
         {
@@ -39,11 +42,10 @@ namespace AliveStoreTemplate.Pages
                 Response.Redirect("Login");
                 return;
             }
-            var UID = userSession.Id;
-
-            FreshShopCar(UID);
+            UID = userSession.Id;
         }
 
+        //因為要用ajax刷新 所以用不到
         public void FreshShopCar(int UID)
         {
             var result = _shopCarService.User_shopcart_list(UID);
@@ -54,14 +56,14 @@ namespace AliveStoreTemplate.Pages
                 //目前計算金額
                 TotalOrderPrice = 0;
 
-                shopcar_list = (List<shopcar_list_respModel>)result.Results;
-                for (int i = 0; i < shopcar_list.Count(); i++)
+                Shopcar_list = (List<shopcar_list_respModel>)result.Results;
+                for (int i = 0; i < Shopcar_list.Count; i++)
                 {
                     //單項小計
-                    var Total = shopcar_list[i].num * shopcar_list[i].price;
-                    shopcar_list[i].total = Total;
+                    var Total = Shopcar_list[i].num * Shopcar_list[i].price;
+                    Shopcar_list[i].total = Total;
                     TotalOrderPrice += Total;
-                    TotalCountOrder += shopcar_list[i].num;
+                    TotalCountOrder += Shopcar_list[i].num;
                 }
                 return;
             }

@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody id="tbOrder">
-                    @foreach (var item in @Model.shopcar_list)
+                    @*@foreach (var item in @Model.Shopcar_list)
                     {
                         <tr>
                             <td class="td-check">
@@ -61,14 +61,14 @@
                             <td class="td-prod">
                                 <img src="@item.imgUrl" alt="" class="td-photo" />
                                 <p class="td-name">@item.cardName</p>
-                                <p class="td-inventory">剩餘數量 : @item.inventory</p>
+                                <p class="td-inventory" >剩餘數量 : @item.inventory</p>
                             </td>
                             <td class="td-price" data-th="單價"><span>@item.price</span></td>
                             <td class="td-count" data-th="數量">
                                 <div class="count-bar">
-                                    <a class="btn-count"><i class="icon-buy" data-value="-"></i></a>
-                                    <input type="number" value="@item.num" data-inventory="@item.inventory" data-product_id="@item.product_id"/>
-                                    <a class="btn-count"><i class="icon-buy" data-value="+"></i></a>
+                                    <a class="btn-count" data-value="-" onclick="product_count_change()"><i class="icon-buy"></i></a>
+                                    <input type="number" class="CountInput" value="@item.num" data-inventory="@item.inventory" data-product_id="@item.product_id"/>
+                                    <a class="btn-count" data-value="+" onclick="product_count_change()"><i class="icon-buy"></i></a>
                                 </div>
                             </td>
                             <td class="td-price" data-th="小计"><span>@item.total</span></td>
@@ -76,7 +76,7 @@
                                 <a class="btn-delete"><i class="icon-trash"></i></a>
                             </td>
                         </tr>
-                    }
+                    }*@
                     @*<tr>
                         <td class="td-check">
                             <a class="btn-check">
@@ -175,22 +175,7 @@
                 <dt>收件人地址<em class="must">*</em></dt>
                 <dd>
                     <div id="post" class="citys">
-                        @*<asp:DropDownList runat="server" ID="province" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="city" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="area" ClientIDMode="Static" />
-                            <asp:DropDownList runat="server" ID="town" ClientIDMode="Static" />*@
-                        @*<asp:HiddenField runat="server" ID="HiddenProvince" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenCity" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenArea" ClientIDMode="Static"></asp:HiddenField>
-                        <asp:HiddenField runat="server" ID="HiddenTown" ClientIDMode="Static"></asp:HiddenField>
-
-                        <select name="province" id="province"></select>
-                        <select name="city" id="city"></select>
-                        <select name="area" id="area"></select>
-                        <select name="town" id="town"></select>*@
-                        @*<asp:HiddenField runat="server" ID="addr" ClientIDMode="Static"></asp:HiddenField>*@
-                        @*<input class="form-control" type="text" id="addr" />*@
-                        @*<asp:TextBox runat="server" ID="AddrText" ClientIDMode="Static" placeholder="請填入地址"></asp:TextBox>*@
+                        @*收件人地址選擇*@
                         <div id="twzipcode"></div>
                         <input type="text" id="address" value="" placeholder="請填入地址" />
                     </div>
@@ -242,12 +227,12 @@
             //目前顯示數量
             let countNow = parseInt($this.parent().siblings(".CountInput").val())
             //加減符號
-            let symbol = $this.data("value")
+            let symbol = $this.parent().data("value")
             //目前庫存
             let inventroy = $this.parent().siblings(".CountInput").data("inventory")
             //目前點選商品編號
             let product_id = $this.parent().siblings(".CountInput").data("product_id")
-            console.log(countNow, symbol, inventroy, product_id)
+            console.log($this, countNow, symbol, inventroy, product_id)
             if(symbol == "+"){
                 countNow = countNow +1
                 if(countNow > inventroy){
@@ -301,13 +286,17 @@
         //更新購物車內數量
         function Updatecart(product_id, countNow){
             console.log("商品編號", product_id,"更新的數量", countNow)
+
+            var uid = @Model.UID
+
             $.ajax({
                 type:"Patch",
                 url:"@Url.Action("UpsertCart","ShopCar")",
                 dataType:"json",
                 data:JSON.stringify({
                     'product_id' : product_id,
-                    'num' : countNow
+                    'num' : countNow,
+                    'uid' : uid
                 }),
                 // 告訴jQuery不要去處理發送的資料
                 processData : false, 
@@ -318,71 +307,77 @@
                     freshShopCart()
                 },
                 error:function(response){
-                    console.log(response)
+                    console.log("失敗", response)
                 }
             })
         }
 
         //重新整理購物車
-        //function freshShopCart(){
-        //    $.ajax({
-        //        type:"Get",
-        //        url:"@Url.Action("User_shopcart_list","ShopCar")",
-        //        dataType:"json",
-        //        // 告訴jQuery不要去處理發送的資料
-        //        processData : false, 
-        //        // 告訴jQuery不要去設定Content-Type請求頭
-        //        contentType : 'application/json;charset=UTF-8', //contentType很重要 
-        //        success:function(response){
-        //            console.log(response.results)
-        //            $("#tbOrder").empty()
-        //            var TotalCountOrder = 0
-        //            var TotalOrderPrice = 0
-        //            response.results.forEach(x => {
-        //                var total = x["price"] * x["num"];
-        //                let shopcarList = $(`<tr></tr>`)
-        //                shopcarList
-        //                    .append(`
-        //                        <td class="td-check">
-        //                            <a class="btn-check">
-        //                            <input type="checkbox" value="${x["product_id"]}" /><i class="icon-check"></i>
-        //                            </a>
-        //                        </td>`)
-        //                    .append(`
-        //                        <td class="td-prod">
-        //                            <img src="${x["imgUrl"]}" alt="" class="td-photo" />
-        //                            <p class="td-name">${x["cardName"]}</p>
-        //                            <p class="td-inventory">剩餘數量 : ${x["inventory"]}</p>
-        //                        </td>`)
-        //                    .append(`<td class="td-price" data-th="單價"><span>${x["price"]}</span></td>`)
-        //                    .append(`
-        //                        <td class="td-count" data-th="數量">
-        //                            <div class="count-bar">
-        //                            <a class="btn-count"><i class="icon-buy" data-value="-" onclick="product_count_change()"></i></a>
-        //                            <input type="number" class="CountInput" value="${x["num"]}" data-inventory="${x["inventory"]}" data-product_id="${x["product_id"]}"/>
-        //                            <a class="btn-count"><i class="icon-buy" data-value="+" onclick="product_count_change()"></i></a>
-        //                            </div>
-        //                        </td>`)
-        //                    .append(`<td class="td-price" data-th="小計" id="total${x["product_id"]}"><span>${total}</span></td>`)
-        //                    .append(`
-        //                        <td class="td-action">
-        //                            <a class="btn-delete" onclick="DelFromShopcar(${x["product_id"]})"><i class="icon-buy"></i></a>
-        //                        </td>`)
-        //            $("#tbOrder").append(shopcarList)
+        function freshShopCart(){
+            var uid = @Model.UID
+            console.log("UID", uid, typeof(uid))
 
-        //            TotalOrderPrice += total
-        //            TotalCountOrder += x["num"]
-        //            })
-        //            console.log(TotalOrderPrice, TotalCountOrder, $('#lbProdTPrice'), $('#lbTPrice'))
-        //            $("#lbProdTPrice").text(TotalCountOrder + "張卡")
-        //            $("#lbTPrice").text(TotalOrderPrice)
+            $.ajax({
+                type:"Post",
+                url:"@Url.Action("User_shopcart_list","ShopCar")",
+                dataType:"json",
+                data:JSON.stringify({
+                    'UID' : uid
+                }),
+                // 告訴jQuery不要去處理發送的資料
+                processData : false, 
+                // 告訴jQuery不要去設定Content-Type請求頭
+                contentType : 'application/json;charset=UTF-8', //contentType很重要 
+                success:function(response){
+                    console.log(response.results)
+                    $("#tbOrder").empty()
+                    var TotalCountOrder = 0
+                    var TotalOrderPrice = 0
+                    response.results.forEach(x => {
+                        var total = x["price"] * x["num"];
+                        let shopcarList = $(`<tr></tr>`)
+                        shopcarList
+                            .append(`
+                                <td class="td-check">
+                                    <a class="btn-check">
+                                    <input type="checkbox" value="${x["product_id"]}" /><i class="icon-check"></i>
+                                    </a>
+                                </td>`)
+                            .append(`
+                                <td class="td-prod">
+                                    <img src="${x["imgUrl"]}" alt="" class="td-photo" />
+                                    <p class="td-name">${x["cardName"]}</p>
+                                    <p class="td-inventory">剩餘數量 : ${x["inventory"]}</p>
+                                </td>`)
+                            .append(`<td class="td-price" data-th="單價"><span>${x["price"]}</span></td>`)
+                            .append(`
+                                <td class="td-count" data-th="數量">
+                                    <div class="count-bar">
+                                    <a class="btn-count" data-value="-"><i class="icon-buy" onclick="product_count_change()"></i></a>
+                                    <input type="number" class="CountInput" value="${x["num"]}" data-inventory="${x["inventory"]}" data-product_id="${x["product_id"]}"/>
+                                    <a class="btn-count" data-value="+"><i class="icon-buy" onclick="product_count_change()"></i></a>
+                                    </div>
+                                </td>`)
+                            .append(`<td class="td-price" data-th="小計" id="total${x["product_id"]}"><span>${total}</span></td>`)
+                            .append(`
+                                <td class="td-action">
+                                    <a class="btn-delete" onclick="DelFromShopcar(${x["product_id"]})"><i class="icon-buy"></i></a>
+                                </td>`)
+                    $("#tbOrder").append(shopcarList)
 
-        //        },
-        //        error:function(response){
-        //            location.href = "./Login"
-        //        }
-        //    })
-        //}
+                    TotalOrderPrice += total
+                    TotalCountOrder += x["num"]
+                    })
+                    console.log(TotalOrderPrice, TotalCountOrder, $('#lbProdTPrice'), $('#lbTPrice'))
+                    $("#lbProdTPrice").text(TotalCountOrder + "張卡")
+                    $("#lbTPrice").text(TotalOrderPrice)
+
+                },
+                error:function(response){
+                    console.log("出錯", response)
+                }
+            })
+        }
 
         //下訂單
         function ToOrder(){
