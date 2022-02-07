@@ -23,19 +23,21 @@ namespace AliveStoreTemplate.Pages
         }
 
         [BindProperty]
-        public ProductList cardInfo { get; set; }
+        public ProductList CardInfo { get; set; }
 
         public SelectList Options { get; set; }
+
+        [BindProperty]
+        public int OrderCount { get; set; }
 
         public void OnGet(int productId)
         {
             var result = _productService.Product_Info(productId);
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 if (result.Results != null)
                 {
-                    cardInfo = result.Results.FirstOrDefault();
-                    
+                    CardInfo = result.Results.FirstOrDefault();
                     return;
                 };
             }
@@ -51,18 +53,17 @@ namespace AliveStoreTemplate.Pages
                 return;
             }
 
-            var x = (int)Options.SelectedValue;
-
             AddToCartReqModel Req = new AddToCartReqModel
             {
-               Uid = userSession.Id,
-               product_id = cardInfo.Id,
-               num = (int)Options.SelectedValue,
+                Uid = userSession.Id,
+                product_id = CardInfo.Id,
+                num = OrderCount
             };
 
-            var result =  _shopCarService.AddToCart(Req);
+            var result = _shopCarService.AddToCart(Req);
             if(result.StatusCode == HttpStatusCode.OK)
             {
+                Response.Redirect("product?productId=" + CardInfo.Id);
                 return;
             }
             ViewData["Message"] = string.Format("Card Error");

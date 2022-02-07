@@ -48,7 +48,6 @@ namespace AliveStoreTemplate.Services
                         num += shopCar_product_inventory;
                     }
                 }
-                
 
                 ProductShopcar PostNewShopCar = new()
                 {

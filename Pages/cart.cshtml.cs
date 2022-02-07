@@ -49,12 +49,15 @@ namespace AliveStoreTemplate.Pages
             var result = _shopCarService.User_shopcart_list(UID);
             if (result.StatusCode == HttpStatusCode.OK)
             {
+                //購物車商品總數
                 TotalCountOrder = 0;
+                //目前計算金額
                 TotalOrderPrice = 0;
 
                 shopcar_list = (List<shopcar_list_respModel>)result.Results;
                 for (int i = 0; i < shopcar_list.Count(); i++)
                 {
+                    //單項小計
                     var Total = shopcar_list[i].num * shopcar_list[i].price;
                     shopcar_list[i].total = Total;
                     TotalOrderPrice += Total;

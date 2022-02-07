@@ -10,8 +10,8 @@
         @*path 路径*@
         <section class="path">
             <a href="/">HOME</a>
-            <a asp-page="category" asp-route-category="@Model.cardInfo.Category" asp-route-subCategory="">@Model.cardInfo.Category</a>
-            <a asp-page="category" asp-route-category="@Model.cardInfo.Category" asp-route-subCategory="@Model.cardInfo.Subcategory">@Model.cardInfo.Subcategory</a>
+            <a asp-page="category" asp-route-category="@Model.CardInfo.Category" asp-route-subCategory="">@Model.CardInfo.Category</a>
+            <a asp-page="category" asp-route-category="@Model.CardInfo.Category" asp-route-subCategory="@Model.CardInfo.Subcategory">@Model.CardInfo.Subcategory</a>
             @*<a href="/">HOME</a><a href="category?pid=<%=FCate.Id %>"><%=FCate.Name %></a><a href="category?pid=<%=FCate.Id %>"><%=Cate.Name %></a>*@
         </section>
         @* /path 路径*@
@@ -29,30 +29,25 @@
             <section class="product-info">
                 <div class="info-con">
                     <form class="ui form" method="post">
-                        @*<a asp-page="category" asp-route-category="@Model.cardInfo.Category" asp-route-subCategory="">@Model.cardInfo.Category</a>*@
-                        <h2 class="info-tit" id="info-tit">@Model.cardInfo.CardName</h2>
-                        <p class="info-intro" id="info-intro">@Model.cardInfo.Description</p>
+                        <h2 class="info-tit" id="info-tit">@Model.CardInfo.CardName</h2>
+                        <input type="hidden" asp-for="@Model.CardInfo.Id"/>
+                        <p class="info-intro" id="info-intro">@Model.CardInfo.Description</p>
                         <p class="info-price">
-                            <span class="price-orignal" id="info-price">1500</span><span class="price-discount" id="info-secprice">@Model.cardInfo.Price</span>
+                            <span class="price-orignal" id="info-price">1500</span><span class="price-discount" id="info-secprice">@Model.CardInfo.Price</span>
                         </p>
-                        <section class="forms-basic info-spec">
-                            <asp:DropDownList ID="ddlSpec" runat="server" ClientIDMode="Static" onchange="setSpecMaxCount(this.options[this.options.selectedIndex].value)" Width="100%"></asp:DropDownList>
-                            <asp:HiddenField ID="hfSpecId" ClientIDMode="Static" runat="server" Value=""/>
-
-                            <select class="inp-block" id="" asp-for=@Model.cardInfo.Inventory>
-                                @for(var x =1; x <= (Model.cardInfo.Inventory > 5 ? 5 : Model.cardInfo.Inventory); x++)
-                                {
-                                    <option value="@x">@x</option>
-                                }
-                            </select>
-                        </section>
+                        <select class="inp-block" id="orderCount" asp-for="@Model.OrderCount">
+                            @for(var x =1; x <= (Model.CardInfo.Inventory > 5 ? 5 : Model.CardInfo.Inventory); x++)
+                            {
+                                <option value="@x">@x</option>
+                            }
+                        </select>
                         @*<h4>优惠活动</h4>
                         <p>
                             全站买1111减111<br />
                             11/1-11/11,拍即享原价75折
                         </p>*@
                         <section class="info-action">
-                            <button type="button" class="" type="submit" asp-page-handler="AddToCart">加入購物車</button>
+                            <button  class="ui blue button" type="submit" asp-page-handler="AddToCart">加入購物車</button>
                         </section>
                     </form>
                 </div>
@@ -149,7 +144,7 @@
         @*/product 产品*@
     </div>
 </article>
-@*<script>
+<script>
     //$(function(){
     //    let getUrlString = location.href;
     //    let url = new URL(getUrlString);
@@ -228,4 +223,4 @@
     //        }
     //    })
     //}
-</script>*@
+</script>
