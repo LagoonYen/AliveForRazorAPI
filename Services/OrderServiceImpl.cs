@@ -147,16 +147,34 @@ namespace AliveStoreTemplate.Services
         
         public BaseQueryModel<OrderDetailResponseModel> GetOrderDetail(OrderDetailReqModel Req)
         {
-            
+            var OrderInfo = _orderRepository.GetOrderInfomation(Req.OrderId).Results.FirstOrDefault();
             var ProductDetail = _orderRepository.GetOrderDetailList(Req.OrderId);
             OrderDetailResponseModel Resp = new OrderDetailResponseModel()
             {
-                items = ProductDetail.Results.ToList()
+                OrderNumber = OrderInfo.OrderNumber,
+                Uid = OrderInfo.Uid,
+                Recipient = OrderInfo.Recipient,
+                RecipientPhone = OrderInfo.RecipientPhone,
+                RecipientCity = OrderInfo.RecipientCity,
+                RecipientTown = OrderInfo.RecipientTown,
+                RecipientAddress = OrderInfo.RecipientAddress,
+                Remark = OrderInfo.Remark,
+                PayPrice = OrderInfo.PayPrice,
+                IsPay = OrderInfo.IsPay,
+                PayTime = OrderInfo.PayTime,
+                IsShip = OrderInfo.IsShip,
+                ShipTime =  OrderInfo.ShipTime,
+                IsReceipt = OrderInfo.IsReceipt,
+                ReceiptTime = OrderInfo.ReceiptTime,
+                ShipNumber = OrderInfo.ShipNumber,
+                CreateTime = OrderInfo.CreateTime,
+                UpdateTime = OrderInfo.UpdateTime,
+                Products = ProductDetail.Results.ToList()
             };
             return new BaseQueryModel<OrderDetailResponseModel>
             {
                 Message = String.Empty,
-                Results = null,
+                Results = new List<OrderDetailResponseModel> { Resp },
                 StatusCode = HttpStatusCode.OK
             };
         }

@@ -157,5 +157,28 @@ namespace AliveStoreTemplate.Repositories
                 };
             }            
         }
+
+        public BaseQueryModel<OrderList> GetOrderInfomation(int orderId)
+        {
+            try
+            {
+                var result = _dbShop.OrderLists.FirstOrDefault(x => x.Id == orderId);
+                if(result == null)
+                {
+                    throw new Exception("找不到訂單資訊，請重新搜尋");
+                }
+                return new BaseQueryModel<OrderList>
+                {
+                    Results = new List<OrderList> { result },
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
     }
 }

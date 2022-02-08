@@ -9,6 +9,11 @@ namespace AliveStoreTemplate.Model
         public string OrderNumber { get; set; }
         public int Uid { get; set; }
         public int? AddressId { get; set; }
+        public string Recipient { get; set; }
+        public string RecipientPhone { get; set; }
+        public string RecipientCity { get; set; }
+        public string RecipientTown { get; set; }
+        public string RecipientAddress { get; set; }
         public string Remark { get; set; }
         public int? PayPrice { get; set; }
         public byte? IsPay { get; set; }

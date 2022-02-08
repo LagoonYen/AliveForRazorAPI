@@ -8,7 +8,8 @@ namespace AliveStoreTemplate.Services
     {
         public BaseResponseModel ToOrder(ToOrderReqModel Req);
         public BaseQueryModel<OrderList> GetOrderList(int id);
-
         public BaseQueryModel<OrderDetailResponseModel> GetOrderDetail(OrderDetailReqModel Req);
+
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AliveStoreTemplate.Model.ReqModel
 {
@@ -24,8 +25,27 @@ namespace AliveStoreTemplate.Model.ReqModel
         public int OrderId { get; set; }
     }
 
-    public class OrderDetailResponseModel : OrderList
+    public class OrderDetailResponseModel
     {
-        public List<OrderProduct> items { get; set; }
+        public string OrderNumber { get; set; }
+        public int Uid { get; set; }
+        public string Recipient { get; set; }
+        public string RecipientPhone { get; set; }
+        public string RecipientCity { get; set; }
+        public string RecipientTown { get; set; }
+        public string RecipientAddress { get; set; }
+        public string Remark { get; set; }
+        public int? PayPrice { get; set; }
+        public byte? IsPay { get; set; }
+        public int? PayTime { get; set; }
+        public byte? IsShip { get; set; }
+        public int? ShipTime { get; set; }
+        public byte? IsReceipt { get; set; }
+        public int? ReceiptTime { get; set; }
+        public string ShipNumber { get; set; }
+        public byte? Status { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime UpdateTime { get; set; }
+        public List<OrderProduct> Products { get; set; }
     }
 }

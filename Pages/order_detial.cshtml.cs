@@ -19,19 +19,25 @@ namespace AliveStoreTemplate.Pages
         {
             _orderService = orderService;
         }
-        [BindProperty]
-        public OrderList orderList { get; set; }
 
-        public List<OrderProduct> orderProducts { get; set; }
+        [BindProperty]
+        public OrderList OrderList { get; set; }
+
+        public List<OrderProduct> OrderProducts { get; set; }
+
+        [BindProperty]
+        public OrderDetailResponseModel orderDetailResponseModel { get; set; }
 
         public void OnGet(int orderId)
         {
-            OrderDetailReqModel Req  = new OrderDetailReqModel() { OrderId = orderId };
+            //ReqModel
+            OrderDetailReqModel Req = new OrderDetailReqModel() { OrderId = orderId };
             var result = _orderService.GetOrderDetail(Req);
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 if(result.Results != null)
                 {
+                    orderDetailResponseModel = (OrderDetailResponseModel)result.Results.FirstOrDefault();
                     return;
                 }
                 ViewData["Message"] = string.Format("Card Error");

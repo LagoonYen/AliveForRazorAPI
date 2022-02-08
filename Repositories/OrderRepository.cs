@@ -18,6 +18,9 @@ namespace AliveStoreTemplate.Repositories
 
         public BaseResponseModel UpdateTotalPrice(int orderId, int TotalPrice);
 
-        public BaseQueryModel<OrderProduct> GetOrderDetailList(int orderId);
+        public BaseQueryModel<OrderList> GetOrderInfomation(int orderId);
+
+        public BaseQueryModel<OrderProduct> GetOrderDetailList(int orderIxd);
+
     }
 }

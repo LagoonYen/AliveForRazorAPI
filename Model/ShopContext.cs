@@ -145,6 +145,26 @@ namespace AliveStoreTemplate.Model
 
                 entity.Property(e => e.ReceiptTime).HasColumnName("receipt_time");
 
+                entity.Property(e => e.Recipient)
+                    .HasMaxLength(50)
+                    .HasColumnName("recipient");
+
+                entity.Property(e => e.RecipientAddress)
+                    .HasMaxLength(50)
+                    .HasColumnName("recipientAddress");
+
+                entity.Property(e => e.RecipientCity)
+                    .HasMaxLength(50)
+                    .HasColumnName("recipientCity");
+
+                entity.Property(e => e.RecipientPhone)
+                    .HasMaxLength(50)
+                    .HasColumnName("recipientPhone");
+
+                entity.Property(e => e.RecipientTown)
+                    .HasMaxLength(50)
+                    .HasColumnName("recipientTown");
+
                 entity.Property(e => e.Remark)
                     .IsRequired()
                     .HasMaxLength(50)
