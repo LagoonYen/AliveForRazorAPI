@@ -31,9 +31,9 @@ namespace AliveStoreTemplate.Pages
         {
             var result = _memberService.PostLogin(Account, Password);
 
-            if (result.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var user = result.Result.Results.FirstOrDefault();
+                var user = result.Results.FirstOrDefault();
                 
                 if (user != null)
                 {

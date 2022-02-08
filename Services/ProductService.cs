@@ -9,10 +9,10 @@ namespace AliveStoreTemplate.Services
     public interface ProductService
     {
         //取全部商品資料
-        BaseQueryModel<ProductList> SearchProduct(ProductListReqModel Req);
+        public BaseQueryModel<ProductList> SearchProduct(ProductListReqModel Req);
 
-        BaseQueryModel<ProductViewModel> Product_CategoryList();
+        public BaseQueryModel<ProductViewModel> Product_CategoryList();
 
-        BaseQueryModel<ProductList> Product_Info(int id);
+        public BaseQueryModel<ProductList> Product_Info(int id);
     }
 }

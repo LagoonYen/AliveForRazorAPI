@@ -18,77 +18,36 @@ namespace AliveStoreTemplate.Services
             _memberRepository = memberRepository;
         }
 
-        public async Task<BaseQueryModel<MemberInfo>> PostLogin(string account, string password)
-        {
-            //先取得帳號存在
-            var baseQueryModel = await _memberRepository.GetMemberInfo(account);
-            if (baseQueryModel.Results == null)
-            {
-                return baseQueryModel;
-            }
-            var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
-            if (dbPassword != password)
-            {
-                return new BaseQueryModel<MemberInfo>()
-                {
-                    Results = null,
-                    Message = "密碼不同",
-                    StatusCode = HttpStatusCode.BadRequest
-                };
-            }
-            return baseQueryModel;
-        }
-        //登錄
-        public async Task<BaseQueryModel<MemberInfo>> PostLogin(LoginReqModel Req)
-        {
-            var account = Req.Account;
-            var password = Req.Password;
-            //先取得帳號存在
-            var baseQueryModel = await _memberRepository.GetMemberInfo(account);
-            if(baseQueryModel.Results == null)
-            {
-                return baseQueryModel;
-            }
-            var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
-            if(dbPassword != password)
-            {
-                return new BaseQueryModel<MemberInfo>()
-                {
-                    Results = null,
-                    Message = "密碼不同",
-                    StatusCode = HttpStatusCode.BadRequest
-                };
-            }
-            return baseQueryModel;
-        }
-
         //註冊
-        public async Task<BaseResponseModel> PostMemberRegister(LoginReqModel Req)
+        public BaseResponseModel PostMemberRegister(LoginReqModel Req)
         {
             try
             {
                 var account = Req.Account;
                 var password = Req.Password;
-                //先取得帳號不存在
-                var baseQueryModel = await _memberRepository.GetMemberInfo(account);
-                if(baseQueryModel.Results != null)
+
+                //取得帳號存在與否
+                var baseQueryModel = _memberRepository.GetMemberInfo(account);
+                if (baseQueryModel.Results != null)
                 {
                     throw new Exception("此帳號已被註冊過");
                 }
-                var TimeNow = DateTime.Now;
+
+                //開始建立新帳戶必要資料
                 MemberInfo member = new MemberInfo();
                 member.Account = member.Email = account;
                 member.Password = password;
-                member.RegisterTime = member.UpdateTime = TimeNow;
+                member.RegisterTime = member.UpdateTime = DateTime.Now;
+
                 //創建帳號
-                await _memberRepository.PostMemberRegister(member);
+                var result = _memberRepository.PostMemberRegister(member);
                 return new BaseResponseModel
                 {
                     Message = "註冊成功",
                     StatusCode = HttpStatusCode.OK,
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BaseResponseModel
                 {
@@ -98,20 +57,81 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        //讀取個人資料
-        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id)
+        //登入
+        public BaseQueryModel<MemberInfo> PostLogin(LoginReqModel Req)
         {
             try
             {
-                var baseQueryModel = await _memberRepository.GetMemberInfo(id);
-                if(baseQueryModel.Results == null)
+                var account = Req.Account;
+                var password = Req.Password;
+
+                //取得帳號存在與否
+                var baseQueryModel = _memberRepository.GetMemberInfo(account);
+                var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
+                if (dbPassword != password)
                 {
-                    throw new Exception(baseQueryModel.Message);
+                    throw new Exception("密碼錯誤");
                 }
-                //var Data = baseQueryModel.Results.FirstOrDefault();
-                //Data.RegisterTime = Data.RegisterTime.Date;
-                //Data.UpdateTime = Data.UpdateTime.Date;
-                return baseQueryModel;
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = baseQueryModel.Results,
+                    Message = "登入成功",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        //登入
+        public BaseQueryModel<MemberInfo> PostLogin(string account, string password)
+        {
+            try
+            {
+                //取得帳號存在與否
+                var baseQueryModel = _memberRepository.GetMemberInfo(account);
+                var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
+                if (dbPassword != password)
+                {
+                    throw new Exception("密碼錯誤");
+                }
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = baseQueryModel.Results,
+                    Message = "登入成功",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        }
+
+        //讀取個人資料
+        public BaseQueryModel<MemberInfo> GetMemberInfo(int UID)
+        {
+            try
+            {
+                var baseQueryModel = _memberRepository.GetMemberInfo(UID);
+                return new BaseQueryModel<MemberInfo>
+                {
+                    Results = baseQueryModel.Results,
+                    Message = "讀取資料正確",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -125,24 +145,27 @@ namespace AliveStoreTemplate.Services
         }
 
         //修改個人資料
-        public async Task<BaseResponseModel> PatchMemberInfo(PatchMemberInfoReqModel Req)
+        public BaseResponseModel PatchMemberInfo(PatchMemberInfoReqModel Req)
         {
             try
             {
-                int id = Req.Id;
-                //先取得帳號存在
-                var baseQueryModel = await _memberRepository.GetMemberInfo(id);
-                if (baseQueryModel.Results == null)
-                {
-                    throw new Exception(baseQueryModel.Message);
-                }
+                //先取得帳號存在 及資料
+                var baseQueryModel = _memberRepository.GetMemberInfo(Req.UID);
                 var memberInfo = baseQueryModel.Results.FirstOrDefault();
-                var DateTimeNow = DateTime.Now;
+
+                //預修改資料
                 memberInfo.NickName = Req.NickName;
                 memberInfo.PhoneNumber = Req.PhoneNumber;
                 memberInfo.Email = Req.Email;
-                memberInfo.UpdateTime = DateTimeNow;
-                return await _memberRepository.PatchMemberInfo(memberInfo);
+                memberInfo.UpdateTime = DateTime.Now;
+
+                //修改資料並回傳
+                var result = _memberRepository.PatchMemberInfo(memberInfo);
+                return new BaseResponseModel
+                {
+                    Message = "資料修改完畢",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -155,24 +178,28 @@ namespace AliveStoreTemplate.Services
         }
 
         //修改密碼前取得是否有帳號
-        public async Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account)
+        public BaseResponseModel GetMemberInfo(string account)
         {
-            //try
-            //{
-                var memberInfo = await _memberRepository.GetMemberInfo(account);
-                //if(memberInfo.Result == null)
-                //{
-                //    return memberInfo;
-                //}
-                return memberInfo;
-            //}
-            //catch(Exception ex)
-            //{
-            //    return null;
-            //}
-           
+            try
+            {
+                var memberInfo = _memberRepository.GetMemberInfo(account);
+                return new BaseResponseModel
+                {
+                    Message = "帳號存在, 已寄出認證信件",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch(Exception ex)
+            {
+                return new BaseResponseModel
+                {
+                    Message = ex.Message,
+                    StatusCode= HttpStatusCode.BadRequest
+                };
+            }
         }
 
+        //修改密碼
 
     }
 }

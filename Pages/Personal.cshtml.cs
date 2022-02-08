@@ -2,6 +2,7 @@ using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Linq;
 using System.Net;
 
@@ -21,26 +22,33 @@ namespace AliveStoreTemplate.Pages
 
         public void OnGet()
         {
-            var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
-            if (userSession == null)
+            try
             {
-                Response.Redirect("Login");
-                return;
-            }
-
-            var uid = userSession.Id;
-            var result = _memberService.GetMemberInfo(uid);
-
-            if (result.Result.StatusCode == HttpStatusCode.OK)
-            {
-                var memberInfo = result.Result.Results.FirstOrDefault();
-
-                if (memberInfo != null)
+                var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
+                if (userSession == null)
                 {
-                    member = memberInfo;
+                    Response.Redirect("Login");
+                    return;
                 }
+                var uid = userSession.Id;
+                var result = _memberService.GetMemberInfo(uid);
+
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    var memberInfo = result.Results.FirstOrDefault();
+
+                    if (memberInfo != null)
+                    {
+                        member = memberInfo;
+                        return;
+                    }
+                }
+                ViewData["Message"] = string.Format("Login Error");
             }
-            ViewData["Message"] = string.Format("Login Error");
+            catch (Exception ex)
+            {
+                ViewData["Message"] = string.Format(ex.Message);
+            }
         }
     }
 }

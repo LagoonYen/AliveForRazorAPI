@@ -2,6 +2,7 @@ using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net;
 
 namespace AliveStoreTemplate.Pages
 {
@@ -36,7 +37,7 @@ namespace AliveStoreTemplate.Pages
 
             var result = _memberService.PostMemberRegister(formData);
 
-            if(result.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            if(result.StatusCode == HttpStatusCode.OK)
             {
                 Response.Redirect("Home");
             }

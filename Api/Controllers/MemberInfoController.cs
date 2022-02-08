@@ -33,53 +33,23 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         /// <summary>
-        /// 登錄
+        /// 註冊帳號
         /// </summary>
-        /// <remarks>注意事項：請將Acct及pwd打包</remarks>
-        /// <param name="Req">登入帳密</param>
+        /// <param name="Req">帳號密碼</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("Login")]
+        [Route("Register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> Login([FromForm]LoginReqModel Req, [FromForm] string recaptcha)
-        public async Task<IActionResult> Login([FromForm]LoginReqModel Req)
+        public IActionResult Register([FromBody] LoginReqModel Req)
         {
             try
             {
-                //var form = new NameValueCollection()
-                //{
-                //    ["secret"] = "6LegNyweAAAAAEmqmofjJzoJElV4TXmdGuNHQ7yO",
-                //    ["response"] = recaptcha // 使用者傳到後端的Token
-                //};
-                ////StackExchange.Utils.Http套件下載
-                //var resultCAPTCHAR = await Http.Request("https://www.google.com/recaptcha/api/siteverify")
-                //    .SendForm(form)
-                //    .ExpectJson<reCAPTCHAResponse>()
-                //    .PostAsync();
-                var result = await _memberService.PostLogin(Req);
-                if(result.Results == null)
+                var result = _memberService.PostMemberRegister(Req);
+                if (result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);
                 }
-                var cookieOptions = new CookieOptions
-                {
-                    // Set the secure flag, which Chrome's changes will require for SameSite none.
-                    // Note this will also require you to be running on HTTPS.
-                    Secure = true,
-
-                    // Set the cookie to HTTP only which is good practice unless you really do need
-                    // to access it client side in scripts.
-                    HttpOnly = true,
-                    Expires = DateTime.UtcNow + TimeSpan.FromMinutes(10),
-                    // Add the SameSite attribute, this will emit the attribute with a value of none.
-                    // To not emit the attribute at all set
-                    // SameSite = (SameSiteMode)(-1)
-                    SameSite = SameSiteMode.None
-                };
-                // Add the cookie to the response cookie collection
-                Response.Cookies.Append("account", result.Results.FirstOrDefault().Account, cookieOptions);
-                Response.Cookies.Append("id", result.Results.FirstOrDefault().Id.ToString(), cookieOptions);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -89,33 +59,43 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         /// <summary>
-        /// 註冊帳號
+        /// 登錄
         /// </summary>
-        /// <param></param>
+        /// <param name="Req">帳號密碼</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("Register")]
+        [Route("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register([FromBody]LoginReqModel Req)
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponseModel))]
+        public IActionResult Login([FromForm]LoginReqModel Req)
         {
             try
             {
-                var result = await _memberService.PostMemberRegister(Req);
-                if(result.StatusCode != HttpStatusCode.OK)
+                //登入帳號
+                var result = _memberService.PostLogin(Req);
+                if(result.Results == null)
                 {
                     throw new Exception(message: result.Message);
                 }
+
+                //寫入cookies
                 var cookieOptions = new CookieOptions
                 {
+                    //取得或設定值，這個值會指出是否要使用安全通訊端層 (SSL) （也就是透過 HTTPS）來傳送 cookie。
                     Secure = true,
+                    //取得或設定值，這個值指定用戶端指令碼是否可以存取 Cookie。
                     HttpOnly = true,
-                    Expires = DateTime.UtcNow + TimeSpan.FromMinutes(10),
+                    //取得或設定 Cookie 的到期日和時間。
+                    Expires = DateTime.UtcNow + TimeSpan.FromMinutes(60),
+                    //取得或設定 Cookie 的 SameSite 屬性值。 預設值為 Unspecified
                     SameSite = SameSiteMode.None
                 };
+                Response.Cookies.Append("account", result.Results.FirstOrDefault().Account, cookieOptions);
+                Response.Cookies.Append("UID", result.Results.FirstOrDefault().Id.ToString(), cookieOptions);
+                
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -129,13 +109,13 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("MemberInfo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> MemberInfo()
+        public IActionResult MemberInfo()
         {
             try
             {
                 //取得cookie
-                var uid = int.Parse(Request.Cookies["id"]);
-                var result = await _memberService.GetMemberInfo(uid);
+                var UID = int.Parse(Request.Cookies["UID"]);
+                var result = _memberService.GetMemberInfo(UID);
                 if(result.StatusCode != HttpStatusCode.OK)
                 {
                     throw new Exception(message: result.Message);
@@ -156,13 +136,13 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("PatchMemberInfo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PatchMemberInfo([FromBody]PatchMemberInfoReqModel Req)
+        public IActionResult PatchMemberInfo([FromBody]PatchMemberInfoReqModel Req)
         {
             try
             {
                 //取得cookie
-                Req.Id = int.Parse(Request.Cookies["id"]);
-                var result = await _memberService.PatchMemberInfo(Req);
+                Req.UID = int.Parse(Request.Cookies["UID"]);
+                var result = _memberService.PatchMemberInfo(Req);
                 if (result.StatusCode != HttpStatusCode.OK)
                 {
                     new Exception(message: result.Message);
@@ -174,34 +154,5 @@ namespace AliveStoreTemplate.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        ///// <summary>
-        ///// 登出
-        ///// </summary>
-        ///// <returns></returns>
-        //登出 Action 記得別加上[Authorize]，不管用戶是否登入，都可以執行Logout
-        //[HttpGet]
-        //[Route("Logout")]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await HttpContext.SignOutAsync();
-        //    return RedirectToPage("/Home");
-        //}
-
-        ///// <summary>
-        ///// 判斷是否有此帳號
-        ///// </summary>
-        ///// <param name="account"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("GetHasAccount")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> GetMemberInfo(string account)
-        //{
-        //    return NotFound();
-        //    await _memberService.GetMemberInfo(account);
-        //    var State = HttpStatusCode.BadRequest;
-        //}
     }
 }

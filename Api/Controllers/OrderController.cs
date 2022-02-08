@@ -11,7 +11,7 @@ using AliveStoreTemplate.Model;
 
 namespace AliveStoreTemplate.Api.Controllers
 {
-    [Route("/api[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class OrderController: ControllerBase
     {
@@ -22,11 +22,16 @@ namespace AliveStoreTemplate.Api.Controllers
             _orderService = orderService;
         }
 
+        /// <summary>
+        /// 下訂單
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("action")]
+        [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult ToOrder(ToOrderReqModel Req)
+        public IActionResult ToOrder([FromBody]ToOrderReqModel Req)
         {
             try
             {
@@ -49,17 +54,20 @@ namespace AliveStoreTemplate.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// 取得所有購物訂單
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("action")]
+        [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType (StatusCodes.Status400BadRequest)]
         public IActionResult GetOrderList()
         {
             try
             {
-                var uid = 4;
-                //var uid = int.Parse(Request.Cookies["id"]);
-                return Ok(_orderService.GetOrderList(uid));
+                var UID = int.Parse(Request.Cookies["UID"]);
+                return Ok(_orderService.GetOrderList(UID));
             }
             catch(Exception ex)
             {
@@ -71,15 +79,19 @@ namespace AliveStoreTemplate.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// 取得單筆購物清單及資訊
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("action")]
+        [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GetOrderDetail(OrderDetailReqModel Req)
+        public IActionResult GetOrderDetail([FromBody] OrderDetailReqModel Req)
         {
             try
             {
-                var uid = int.Parse(Request.Cookies["id"]);
                 var result = _orderService.GetOrderDetail(Req);
                 return Ok(result);
             }

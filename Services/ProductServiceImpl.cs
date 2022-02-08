@@ -78,7 +78,8 @@ namespace AliveStoreTemplate.Services
         //取卡資訊
         public BaseQueryModel<ProductList> Product_Info(int id)
         {
-            try {
+            try 
+            {
                 return _productRepository.Product_Info(id);
             }
             catch

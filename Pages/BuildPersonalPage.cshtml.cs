@@ -40,9 +40,9 @@ namespace AliveStoreTemplate.Pages
             var uid = user.Id;
             var result = _memberService.GetMemberInfo(uid);
 
-            if (result.Result.StatusCode == HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
-                var memberInfo = result.Result.Results.FirstOrDefault();
+                var memberInfo = result.Results.FirstOrDefault();
 
                 if (memberInfo != null)
                 {
@@ -65,7 +65,7 @@ namespace AliveStoreTemplate.Pages
 
             PatchMemberInfoReqModel Req = new PatchMemberInfoReqModel
             {
-                Id = uid,
+                UID = uid,
                 Account = member.Account,
                 NickName = member.NickName,
                 Email = member.Email,
@@ -73,7 +73,7 @@ namespace AliveStoreTemplate.Pages
             };
 
             var result = _memberService.PatchMemberInfo(Req);
-            if (result.Result.StatusCode == HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 Response.Redirect("Personal");
                 return;

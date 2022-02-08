@@ -7,21 +7,25 @@ namespace AliveStoreTemplate.Services
 {
     public interface MemberService
     {
-        //登錄帳戶
-        Task<BaseQueryModel<MemberInfo>> PostLogin(LoginReqModel Req);
-
-        Task<BaseQueryModel<MemberInfo>> PostLogin(string Account ,string Password);
-
         //會員註冊
-        Task<BaseResponseModel> PostMemberRegister(LoginReqModel Req);
+        BaseResponseModel PostMemberRegister(LoginReqModel Req);
 
-        //修改密碼前取得是否有帳號
-        Task<BaseQueryModel<MemberInfo>> GetMemberInfo(string account);
+        //登入會員
+        BaseQueryModel<MemberInfo> PostLogin(LoginReqModel Req);
+
+        //登入會員
+        BaseQueryModel<MemberInfo> PostLogin(string Account ,string Password);
 
         //讀取個人資料
-        Task<BaseQueryModel<MemberInfo>> GetMemberInfo(int id);
+        BaseQueryModel<MemberInfo> GetMemberInfo(int id);
+
+        //修改個人資料
+        BaseResponseModel PatchMemberInfo(PatchMemberInfoReqModel Req);
+
+        //修改密碼前取得是否有帳號
+        BaseResponseModel GetMemberInfo(string account);
 
         //修改密碼
-        Task<BaseResponseModel> PatchMemberInfo(PatchMemberInfoReqModel Req);
+        //BaseResponseModel PatchPassword()
     }
 }
