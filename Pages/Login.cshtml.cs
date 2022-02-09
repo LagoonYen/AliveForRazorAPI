@@ -37,6 +37,7 @@ namespace AliveStoreTemplate.Pages
                 
                 if (user != null)
                 {
+                    //³]©wsession
                     Common.CommonUtil.SessionSetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession, user);
                     Response.Redirect("Home");
                 }

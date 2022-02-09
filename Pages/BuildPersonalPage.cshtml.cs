@@ -30,14 +30,14 @@ namespace AliveStoreTemplate.Pages
         public void OnGet()
         {
             //var uid = int.Parse(Request.Cookies["id"]);
-            var user = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
-            if(user == null)
+            var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
+            if(userSession == null)
             {
                 Response.Redirect("Login");
                 return;
             }
 
-            var uid = user.Id;
+            var uid = userSession.Id;
             var result = _memberService.GetMemberInfo(uid);
 
             if (result.StatusCode == HttpStatusCode.OK)

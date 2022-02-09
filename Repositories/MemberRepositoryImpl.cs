@@ -24,7 +24,13 @@ namespace AliveStoreTemplate.Repositories
                 var member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
                 if (member == null)
                 {
-                    throw new Exception("此帳號未被註冊!");
+                    return new BaseQueryModel<MemberInfo>
+                    {
+                        //初始化
+                        Results = null,
+                        Message = "此帳號尚未被註冊",
+                        StatusCode = HttpStatusCode.OK,
+                    };
                 }
                 return new BaseQueryModel<MemberInfo>
                 {

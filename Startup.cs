@@ -29,6 +29,7 @@ namespace AliveStoreTemplate
             services.AddRazorPages();
             services.AddControllers();
 
+            //swagger相關
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new OpenApiInfo
@@ -43,11 +44,17 @@ namespace AliveStoreTemplate
                 x.IncludeXmlComments(xmlPath);
             });
 
+            //session相關
             // 注入分散式記憶體快取
             services.AddDistributedMemoryCache();
             // 注入Session
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(10);  //可以設定時間
+                //session過期時間
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                //設置為true表示前端js等腳本無法讀取cookie,防止了xss攻擊(默認為true)
+                options.Cookie.HttpOnly = true;
+                //Cookies是必須的(默認為false)
+                options.Cookie.IsEssential = true;
             });
 
             // 注入 HttpContextAccessor
@@ -112,6 +119,7 @@ namespace AliveStoreTemplate
             app.UseStaticFiles();
 
             app.UseRouting();
+
 
             // 使用Session
             app.UseSession();

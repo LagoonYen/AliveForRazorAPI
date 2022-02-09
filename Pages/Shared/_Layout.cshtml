@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@Layout
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="utf-8" />
@@ -44,6 +45,8 @@
     @*地址使用*@
     <script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
     
+    
+
     @RenderSection("HEAD", required: false)
 
     <style>
@@ -82,6 +85,7 @@
 
                 <a asp-page="inquire" class="btn-self"><i class="icon-list"></i><em>order list</em></a>
                 <a asp-page="cart" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
+                <a asp-page="cartBySession" class="btn-self"><i class="icon-buy"></i><em>cart</em><span class="cart-count spancc" id="spancc">0</span></a>
                 <a asp-page="order" class="btn-self"><i class="icon-service"></i><em>order</em></a>
                 <a id="btn-menu" class="btn-self lg-hide md-hide sm-show xs-show"><i class="icon-menu"></i><em>nav</em></a>
             </section>

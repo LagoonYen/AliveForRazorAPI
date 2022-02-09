@@ -1,0 +1,409 @@
+﻿@page
+@model AliveStoreTemplate.Pages.cartBySessionModel
+@{
+    ViewData["Title"] = "cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@section HEAD{
+    <style>
+        .ico_cgpCount {
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-image: url(/img/ico_cgpCount.png);
+            padding-left: 1em;
+        }
+
+        .ico_cgpTotal {
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-image: url(/img/ico_cgpBan.png);
+            padding-left: 1em;
+        }
+
+        .td-price:before {
+            content: "" !important;
+        }
+    </style>
+}
+
+@*cart 購物車*@
+<article class="page cart">
+    <div class="content-con">
+        <h2 class="page-tit"><em>購物車</em><span>選購產品<em class="count spancc">3</em></span></h2>
+        @*cart-order 訂單資料*@
+        <section class="cart-order">
+            <table class="forms-basic tab-basic tab-cart">
+                <thead>
+                    <tr>
+                        <th class="td-check">
+                            <a class="btn-check">
+                                <input id="clickAll" type="checkbox" /><i class="icon-check"></i>
+                            </a>
+                        </th>
+                        <th class="td-prod">商品</th>
+                        <th>單價</th>
+                        <th class="td-count">數量</th>
+                        <th>小計</th>
+                        <th class="td-action">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody id="tbOrder">
+                    @if(@Model.CartItems != null)
+                    {
+                        @foreach (var item in @Model.CartItems)
+                        {
+                            <tr>
+                                <td class="td-check">
+                                    <a class="btn-check">
+                                        <input type="checkbox" value="@item.Product.CardName" /><i class="icon-check"></i>
+                                    </a>
+                                </td>
+                                <td class="td-prod">
+                                    <img src="@item.Product.ImgUrl" alt="" class="td-photo" />
+                                    <p class="td-name">@item.Product.CardName</p>
+                                    <p class="td-inventory" >剩餘數量 : @item.Product.Inventory</p>
+                                </td>
+                                <td class="td-price" data-th="單價"><span>@item.Product.Price</span></td>
+                                <td class="td-count" data-th="數量">
+                                    <div class="count-bar">
+                                        @*<a class="btn-count" data-value="-" onclick="product_count_change()"><i class="icon-buy"></i></a>*@
+                                        <input type="number" class="CountInput" value="@item.Amount" data-inventory="@item.Product.Inventory" data-product_id="@item.Product.Id"/>
+                                        @*<a class="btn-count" data-value="+" onclick="product_count_change()"><i class="icon-buy"></i></a>*@
+                                        @*<a class="" type="submit" asp-page-handler="DeleteItem" value="@item.Product.Id"></a>*@
+                                        <form asp-page-handler="DeleteItem" method="post">
+                                            <input type="hidden" name="id" value="@item.Product.Id" />
+                                            <button type="submit">
+                                                <i class="icon-delete"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="td-price" data-th="小计"><span>@item.SubTotal</span></td>
+                                <td class="td-action">
+                                    <a class="btn-delete"><i class="icon-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </section>
+        @*cart-total 總計*@
+        <section class="cart-total">
+            <table class="forms-basic tab-total">
+                <tr>
+                    <th>
+                        <span class="td-item">合計</span>
+                    </th>
+                    <td>
+                        <span class="ico_cgpCount" id="lbProdTPrice"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <span class="td-item">總計</span>
+                    </th>
+                    <td class="td-total td-price">
+                        <span class="ico_cgpTotal td-total" id="lbTPrice"></span>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <form asp-page-handler="ToOrder" method="post">
+            @*cart-recipient 收件資料*@
+            <section class="forms-basic cart-recipient">
+                <dl class="">
+                    <dt>過去紀錄<em class="must">*</em></dt>
+                    <dd>
+                        <div id="orderHistory" class="ui selection dropdown">
+                            <input type="hidden" name="orderHistory">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">請選擇</div>
+                            <div class="menu">
+                                <div class="item" data-value="1">Male</div>
+                                <div class="item" data-value="0">Female</div>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="col2">
+                
+                    <dt>收件人<em class="must">*</em></dt>
+                    <dd>
+                        <input type="text" id="orderName" value="" placeholder="請填入收件姓名" />
+                        @*<asp:TextBox runat="server" ID="Name" ClientIDMode="Static" placeholder="請填入收件姓名"></asp:TextBox>*@
+                    </dd>
+                    <dt>收件人手機<em class="must">*</em></dt>
+                    <dd>
+                        <input type="tel" id="orderPhoneNumber" value="" placeholder="請填入收件人手機" />
+                        @*<asp:TextBox runat="server" ID="Phone" ClientIDMode="Static" TextMode="Phone" placeholder="請填入收件人手機"></asp:TextBox>*@
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>收件人地址<em class="must">*</em></dt>
+                    <dd>
+                        <div id="post" class="citys">
+                            @*收件人地址選擇*@
+                            <div id="twzipcode"></div>
+                            <input type="text" id="address" value="" placeholder="請填入地址" />
+                        </div>
+                    </dd>
+                    <dt>備註</dt>
+                    <dd>
+                        @*<asp:TextBox runat="server" ClientIDMode="Static" TextMode="MultiLine" ID="Memo"></asp:TextBox>*@
+                        <textarea id="remark" name="" style="resize:none;height:200px"></textarea>
+                    </dd>
+                </dl>
+            </section>
+
+            @*結算及提醒區*@
+            <section class="cart-action">
+                <span id="notice" style="color:red"></span>
+                <div type="button" class="btn-action" onclick="ClickToOrder()">我要结算</div>
+            </section>
+        </form>
+
+
+    </div>
+</article>
+
+
+@section FOOTER{
+    @*pgaeJs*@
+    <script type="text/javascript">
+        $(function () {
+            // 全選
+            $(".btn-check").click(function () {
+                $(this).toggleClass('active');
+            });
+
+            //地址啟用
+            $("#twzipcode").twzipcode({
+                zipcodeIntoDistrict: true, // 郵遞區號自動顯示在區別選單中
+                css: ["city form-control", "town form-control"], // 自訂 "城市"、"地別" class 名稱 
+                countyName: "city", // 自訂城市 select 標籤的 name 值
+                districtName: "town" // 自訂區別 select 標籤的 name 值
+            });
+
+            //重刷購物車
+            //freshShopCart();
+        });
+
+        ////增減商品
+        //function product_count_change(){
+        //    //加減按鈕
+        //    let $this = $(event.target)
+        //    //目前顯示數量
+        //    let countNow = parseInt($this.parent().siblings(".CountInput").val())
+        //    //加減符號
+        //    let symbol = $this.parent().data("value")
+        //    //目前庫存
+        //    let inventroy = $this.parent().siblings(".CountInput").data("inventory")
+        //    //目前點選商品編號
+        //    let product_id = $this.parent().siblings(".CountInput").data("product_id")
+        //    console.log($this, countNow, symbol, inventroy, product_id)
+        //    if(symbol == "+"){
+        //        countNow = countNow +1
+        //        if(countNow > inventroy){
+        //            console.log("+0 商品總數 : ", inventroy)
+        //        }
+        //        else{
+        //            $this.parent().siblings(".CountInput").attr("value", countNow)
+        //            //更新項目數量
+        //            Updatecart(product_id, countNow)
+        //        }
+        //    }
+        //    else if(symbol == "-"){
+        //        countNow = countNow -1
+        //        console.log(countNow)
+        //        if(countNow == 0){
+        //            //刪除項目
+        //            DelFromShopcar(product_id)
+        //        }
+        //        else{
+        //            $this.parent().siblings(".CountInput").attr("value", countNow)
+        //            //更新項目數量
+        //            Updatecart(product_id, countNow)
+        //        }
+        //    }
+        //}
+
+        ////到0 或者刪除項目
+        //function DelFromShopcar(product_id){
+        //    console.log(product_id)
+        //    $.ajax({
+        //        type:"Delete",
+        //        url:"@Url.Action("DelFromCart","ShopCar")",
+        //        dataType:"json",
+        //        data:JSON.stringify({
+        //            'product_id' : product_id
+        //        }),
+        //        // 告訴jQuery不要去處理發送的資料
+        //        processData : false, 
+        //        // 告訴jQuery不要去設定Content-Type請求頭
+        //        contentType : 'application/json;charset=UTF-8', //contentType很重要
+        //        success:function(response){
+        //            console.log("刪除成功")
+        //            freshShopCart()
+        //        },
+        //        error:function(response){
+        //            console.log(response)
+        //        }
+        //    })
+        //}
+
+        ////更新購物車內數量
+        //function Updatecart(product_id, countNow){
+        //    console.log("商品編號", product_id,"更新的數量", countNow)
+
+        //    var uid = 4
+
+        //    $.ajax({
+        //        type:"Patch",
+        //        url:"@Url.Action("UpsertCart","ShopCar")",
+        //        dataType:"json",
+        //        data:JSON.stringify({
+        //            'product_id' : product_id,
+        //            'num' : countNow,
+        //            'uid' : uid
+        //        }),
+        //        // 告訴jQuery不要去處理發送的資料
+        //        processData : false, 
+        //        // 告訴jQuery不要去設定Content-Type請求頭
+        //        contentType : 'application/json;charset=UTF-8', //contentType很重要
+        //        success:function(response){
+        //            console.log("更新數量成功")
+        //            freshShopCart()
+        //        },
+        //        error:function(response){
+        //            console.log("失敗", response)
+        //        }
+        //    })
+        //}
+
+        ////重新整理購物車
+        //function freshShopCart(){
+        //    var uid = 4
+        //    console.log("UID", uid, typeof(uid))
+
+        //    $.ajax({
+        //        type:"Post",
+        //        url:"@Url.Action("User_shopcart_list","ShopCar")",
+        //        dataType:"json",
+        //        data:JSON.stringify({
+        //            'UID' : uid
+        //        }),
+        //        // 告訴jQuery不要去處理發送的資料
+        //        processData : false, 
+        //        // 告訴jQuery不要去設定Content-Type請求頭
+        //        contentType : 'application/json;charset=UTF-8', //contentType很重要 
+        //        success:function(response){
+        //            console.log(response.results)
+        //            $("#tbOrder").empty()
+        //            var TotalCountOrder = 0
+        //            var TotalOrderPrice = 0
+        //            response.results.forEach(x => {
+        //                var total = x["price"] * x["num"];
+        //                let shopcarList = $(`<tr></tr>`)
+        //                shopcarList
+        //                    .append(`
+        //                        <td class="td-check">
+        //                            <a class="btn-check">
+        //                            <input type="checkbox" value="${x["product_id"]}" /><i class="icon-check"></i>
+        //                            </a>
+        //                        </td>`)
+        //                    .append(`
+        //                        <td class="td-prod">
+        //                            <img src="${x["imgUrl"]}" alt="" class="td-photo" />
+        //                            <p class="td-name">${x["cardName"]}</p>
+        //                            <p class="td-inventory">剩餘數量 : ${x["inventory"]}</p>
+        //                        </td>`)
+        //                    .append(`<td class="td-price" data-th="單價"><span>${x["price"]}</span></td>`)
+        //                    .append(`
+        //                        <td class="td-count" data-th="數量">
+        //                            <div class="count-bar">
+        //                            <a class="btn-count" data-value="-"><i class="icon-buy" onclick="product_count_change()"></i></a>
+        //                            <input type="number" class="CountInput" value="${x["num"]}" data-inventory="${x["inventory"]}" data-product_id="${x["product_id"]}"/>
+        //                            <a class="btn-count" data-value="+"><i class="icon-buy" onclick="product_count_change()"></i></a>
+        //                            </div>
+        //                        </td>`)
+        //                    .append(`<td class="td-price" data-th="小計" id="total${x["product_id"]}"><span>${total}</span></td>`)
+        //                    .append(`
+        //                        <td class="td-action">
+        //                            <a class="btn-delete" onclick="DelFromShopcar(${x["product_id"]})"><i class="icon-buy"></i></a>
+        //                        </td>`)
+        //            $("#tbOrder").append(shopcarList)
+
+        //            TotalOrderPrice += total
+        //            TotalCountOrder += x["num"]
+        //            })
+        //            console.log(TotalOrderPrice, TotalCountOrder, $('#lbProdTPrice'), $('#lbTPrice'))
+        //            $("#lbProdTPrice").text(TotalCountOrder + "張卡")
+        //            $("#lbTPrice").text(TotalOrderPrice)
+
+        //        },
+        //        error:function(response){
+        //            console.log("出錯", response)
+        //        }
+        //    })
+        //}
+
+        ////下訂單
+        //function ClickToOrder(){
+        //    console.log("下訂單")
+        //    event.preventDefault();
+        //    //收件人地址相關
+        //    if($("select[name='city']").val() == "" 
+        //        || $("select[name='city']").val() == "" 
+        //        || $("#address").val() == "" 
+        //        || $("#orderName").val() == ""
+        //        || $("#orderPhoneNumber").val() == ""){
+        //            var noticeWord = "請填寫"
+        //            noticeWord += " 收件人地址"
+        //            $("#notice").text(noticeWord)
+        //            return false;
+        //    }
+            
+        //    $("#notice").text("")
+        //    console.log("地址填寫完成")
+
+        //    let orderName = $("#orderName").val()
+        //    let orderPhoneNumber =$("#orderPhoneNumber").val()
+        //    let city = $("select[name='city']").val()
+        //    let town = $("select[name='town']").val()
+        //    let address = $("#address").val()
+        //    let remark = $("#remark").val()
+
+        //    var pathname = window.location.pathname;
+        //    var handler = "?handler=CSToOrder";
+        //    var actionpath = pathname + handler;
+
+        //    var data = {
+        //            'OrderName': $("#orderName").val(),
+        //            'orderPhoneNumber': $("#orderPhoneNumber").val(),
+        //            'OrderCity': $("select[name='city']").val(),
+        //            'OrderTown': $("select[name='town']").val(),
+        //            'OrderAddress': $("#address").val(),
+        //            'Remark':$("#remark").val()
+        //        }
+
+        //    $.ajax({
+        //        type:"Post",
+        //        url:actionpath,
+        //        //dataType:"json",
+        //        data:JSON.stringify(data),
+        //        processData : false, 
+        //        headers:{"RequestVerificationToken": $('input:hidden[name="__RequestVerificationToken"]').val()},
+        //        contentType : 'application/json;charset=UTF-8', //contentType很重要
+        //        success:function(response){
+        //            location.href = "./order"
+        //        },
+        //        error:function(response){
+        //            alert(response);
+        //        }
+        //    })
+        //}
+    </script>
+}
+

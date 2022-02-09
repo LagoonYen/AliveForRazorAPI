@@ -24,6 +24,7 @@ namespace AliveStoreTemplate.Pages
         {
             try
             {
+                //¨ú±osession
                 var userSession = Common.CommonUtil.SessionGetObject<MemberInfo>(HttpContext.Session, Common.SessionKeys.LoginSession);
                 if (userSession == null)
                 {

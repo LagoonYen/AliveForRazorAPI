@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AliveStoreTemplate.Model;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -88,9 +91,10 @@ namespace AliveStoreTemplate.Common
 
 
 
-
+    
     public static class CommonUtil
     {
+        //session擴展，利用Newtonsoft.Json
         public static void SessionSetObject<T>(this ISession session, string key, T value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
@@ -102,12 +106,60 @@ namespace AliveStoreTemplate.Common
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
 
-    }
+        public static void Remove(this ISession session, string key)
+        {
+            session.Remove(key);
+        }
 
+        //session擴展，利用protobuf-net
+        //通过Nuget安装程序集【protobuf-net】，这是谷歌的一个程序集，序列化和反序列效率更高
+        //public static void SetSesson2<T>(this ISession session, string key, T value)
+        //{
+        //    using (MemoryStream stream = new MemoryStream())
+        //    {
+        //        Serializer.Serialize(stream, value);
+        //        byte[] byteArrary = stream.ToArray();
+        //        session.Set(key, byteArrary);
+        //    }
+        //}
+
+
+        //public static T Get2<T>(this ISession session, string key)
+        //{
+        //    byte[] byteArray = session.Get(key);
+        //    if (byteArray == null)
+        //    {
+        //        return default(T);
+        //    }
+        //    else
+        //    {
+        //        using (MemoryStream stream = new MemoryStream(byteArray))
+        //        {
+        //            return Serializer.Deserialize<T>(stream);
+        //        }
+        //    }
+        //}
+    }
 
     public static class SessionKeys
     {
         public const string LoginSession = "MyUserInfo";
+        public const string shopcarSession = "MyUserShopcar";
+    }
+
+    public class OrderItem
+    {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }  //商品ID
+        public int Amount { get; set; }     //數量
+        public int SubTotal { get; set; }   //小計
+    }
+
+    public class CartItem : OrderItem
+    {
+        public ProductList Product { get; set; } //商品內容
+        public string imageSrc { get; set; } //商品圖片
     }
 
 }

@@ -82,9 +82,14 @@ namespace AliveStoreTemplate.Services
             {
                 return _productRepository.Product_Info(id);
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                return new BaseQueryModel<ProductList>
+                {
+                    Results = null,
+                    Message = ex.Message,
+                    StatusCode = HttpStatusCode.BadRequest
+                };
             }
         }
     }
