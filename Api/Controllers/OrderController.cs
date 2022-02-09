@@ -8,6 +8,7 @@ using AliveStoreTemplate.Services;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.DTOModel;
 
 namespace AliveStoreTemplate.Api.Controllers
 {

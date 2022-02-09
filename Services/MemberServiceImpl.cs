@@ -1,11 +1,10 @@
 ﻿using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.ReqModel;
+using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using System;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Services
 {

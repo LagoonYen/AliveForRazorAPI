@@ -1,5 +1,5 @@
 ﻿using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.ReqModel;
+using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ViewModel;
 
 namespace AliveStoreTemplate.Services

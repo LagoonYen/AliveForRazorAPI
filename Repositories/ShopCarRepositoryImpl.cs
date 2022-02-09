@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net;
 using System;
+using AliveStoreTemplate.Model.DTOModel;
 
 namespace AliveStoreTemplate.Repositories
 {

@@ -1,16 +1,5 @@
 ﻿namespace AliveStoreTemplate.Model.ReqModel
 {
-    public class ProductListReqModel
-    {
-        public string Category { get; set; }
-        public string SubCategory { get; set; }
-    }
-
-    public class ProductInfoReqModel
-    {
-        public int product_id { get; set; }
-    }
-
     public class ProductSearchRespModel
     {
         public int ProductId { get; set; }

@@ -1,18 +1,11 @@
-﻿using AliveStoreTemplate.Common;
-using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.ReqModel;
+﻿using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ViewModel;
-using AliveStoreTemplate.Repositories;
 using AliveStoreTemplate.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Api.Controllers
 {

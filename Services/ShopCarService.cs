@@ -1,8 +1,7 @@
 ﻿using AliveStoreTemplate.Model;
+using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
-
-using System.Threading.Tasks;
 
 namespace AliveStoreTemplate.Services
 {
@@ -13,7 +12,5 @@ namespace AliveStoreTemplate.Services
         public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid);
         public BaseResponseModel DelFromCart(DelFromCartReqModel Req);
         public BaseResponseModel UpsertCart(UpsertCartReqModel Req);
-
-
     }
 }

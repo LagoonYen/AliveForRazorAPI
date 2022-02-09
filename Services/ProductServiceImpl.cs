@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AliveStoreTemplate.Model.ReqModel;
+using AliveStoreTemplate.Model.DTOModel;
 
 namespace AliveStoreTemplate.Services
 {

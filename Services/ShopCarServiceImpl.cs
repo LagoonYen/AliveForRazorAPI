@@ -6,6 +6,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
+using AliveStoreTemplate.Model.DTOModel;
 
 namespace AliveStoreTemplate.Services
 {
