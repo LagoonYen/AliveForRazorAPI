@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace AliveStoreTemplate.Model.DTOModel
@@ -146,12 +147,21 @@ namespace AliveStoreTemplate.Model.DTOModel
         public int UID { get; set; }
     }
 
-    public class ProductReqModel : ProductListReqModel
+    public class ProductReqModel
     {
+        [Required]
+        public string Category { get; set; }
+        [Required]
+        public string Subcategory { get; set; }
+        [Required]
         public string CardName { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public int Price { get; set; }
+        [Required]
         public int Inventory { get; set; }
         public string ImgUrl { get; set; }
+        public IFormFile CardImg { get; set; }
     }
 }

@@ -8,16 +8,18 @@
     <div class="container">
         <div class="row">
             <h1 class="">寶可夢卡牌清單</h1>
+            <a asp-page="./productCreate">
+                <button class="col-2 my-2 btn-success" >建立新卡</button>
+            </a>
+            
 
-            <button class=" col-2 my-2 btn-danger" asp-page="productCreate">建立新卡</button>
-
-            <div class="col-12 px-0 mr-2" style="overflow-y:auto;max-height:450px;">
-                <table class="table table-striped table-bordered table-hover" style="background-color:lightblue;">
-                    <thead class="">
+            <div class="col-12 px-0 mr-2" style="overflow-y:auto;max-height:550px;">
+                <table class="table table-striped table-bordered table-hover table-active">
+                    <thead class="table-info">
                         <tr>
                             <th>
                                 @Html.DisplayNameFor(model => model.CardList[0].Category)
-                            </th>
+                            </th >
                             <th>
                                 @Html.DisplayNameFor(model => model.CardList[0].Subcategory)
                             </th>
@@ -36,32 +38,36 @@
                             <th>
                                 上次修改Time
                             </th>
+                            <th>
+                                操作功能
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.CardList)
                         {
-                            <tr>
+                            <tr class="table-warning">
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Category)
+                                    @item.Category
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Subcategory)
+                                    @item.Subcategory
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CardName)
+                                    @item.CardName
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ImgUrl)
+                                    @item.ImgUrl
+                                    <img asp-append-version="true" src="@item.ImgUrl"  style="max-width:42px; max-height:150px"/>
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Price)
+                                    @item.Price
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Inventory)
+                                    @item.Inventory
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UpdateTime)
+                                    @item.UpdateTime
                                 </td>
                                 <td>
                                     <a asp-page="./productEdit" asp-route-id="@item.Id">編輯</a> |

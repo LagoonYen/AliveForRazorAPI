@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.DTOModel;
+using System.IO;
 
 namespace AliveStoreTemplate.Services
 {
@@ -134,6 +135,33 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
+                //取出所有的卡片清單
+                var category = "";
+                var subcategory = "";
+                var cardList = _productRepository.SearchProduct(category, subcategory).Results;
+                var NewcardPathInDb = "";
+                if (Req.CardImg != null)
+                {
+                    Req.ImgUrl = Req.CardImg.FileName;
+                    //比對是否有重複的圖片名稱
+                    var fileName = Req.CardImg.FileName;
+                    foreach (var item in cardList)
+                    {
+                        var dbfileName = item.ImgUrl.Split("/").TakeLast(1).FirstOrDefault();
+                        fileName = (fileName == dbfileName) ? "card" + DateTime.Now.ToString("yyyyMMddHHmm") : fileName;
+                    }
+
+                    //建造儲存路徑
+                    var fileExtension = Req.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
+                    NewcardPathInDb = $"img/{fileName}.{fileExtension}";
+
+                    //感謝Kevin指引 [該死的] 路徑要加在哪邊www
+                    using (var stream = new FileStream($"./wwwroot/" + NewcardPathInDb, FileMode.Create))
+                    {
+                        Req.CardImg.CopyTo(stream);
+                    }
+                }
+
                 ProductList product = new ProductList
                 {
                     CardName = Req.CardName,
@@ -142,7 +170,7 @@ namespace AliveStoreTemplate.Services
                     Description = Req.Description,
                     Price = Req.Price,
                     Inventory = Req.Inventory,
-                    ImgUrl = Req.ImgUrl,
+                    ImgUrl = NewcardPathInDb,
                     RealseTime = DateTime.Now,
                     UpdateTime = DateTime.Now
                 };
