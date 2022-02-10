@@ -26,7 +26,7 @@ namespace AliveStoreTemplate.Services
             {
                 //取得Category及SubCategory分類
                 var category = Req.Category;
-                var subCategory =  Req.SubCategory;
+                var subCategory =  Req.Subcategory;
 
                 var baseQueryModel = _productRepository.SearchProduct(category, subCategory);
                 return new BaseQueryModel<ProductList>
@@ -130,12 +130,22 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseResponseModel InsertProduct(ProductList product)
+        public BaseResponseModel InsertProduct(ProductReqModel Req)
         {
             try
             {
-                product.RealseTime = DateTime.Now;
-                product.UpdateTime = DateTime.Now;
+                ProductList product = new ProductList
+                {
+                    CardName = Req.CardName,
+                    Category = Req.Category,
+                    Subcategory = Req.Subcategory,
+                    Description = Req.Description,
+                    Price = Req.Price,
+                    Inventory = Req.Inventory,
+                    ImgUrl = Req.ImgUrl,
+                    RealseTime = DateTime.Now,
+                    UpdateTime = DateTime.Now
+                };
                 var baseResponseModel = _productRepository.InsertProduct(product);
                 return new BaseResponseModel
                 {

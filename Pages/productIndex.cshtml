@@ -1,0 +1,86 @@
+﻿@page
+@model AliveStoreTemplate.Pages.ProductIndexModel
+@{
+    ViewData["Title"] = "productIndex";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<article class="my-5">
+    <div class="container">
+        <div class="row">
+            <h1 class="">寶可夢卡牌清單</h1>
+
+            <button class=" col-2 my-2 btn-danger" asp-page="productCreate">建立新卡</button>
+
+            <div class="col-12 px-0 mr-2" style="overflow-y:auto;max-height:450px;">
+                <table class="table table-striped table-bordered table-hover" style="background-color:lightblue;">
+                    <thead class="">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].Category)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].Subcategory)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].CardName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].ImgUrl)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardList[0].Inventory)
+                            </th>
+                            <th>
+                                上次修改Time
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CardList)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Category)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Subcategory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CardName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImgUrl)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Inventory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateTime)
+                                </td>
+                                <td>
+                                    <a asp-page="./productEdit" asp-route-id="@item.Id">編輯</a> |
+                                    @*<a asp-page="./Details" asp-route-id="@item.Id">查看</a> |*@
+                                    <a asp-page="./productDelete" asp-route-id="@item.Id">刪除</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @if (ViewData["Message"] != null)
+        {
+            <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewData["Message"]");
+                };
+            </script>
+        }
+</article>

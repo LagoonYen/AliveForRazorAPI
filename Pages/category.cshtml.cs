@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,10 +32,10 @@ namespace AliveStoreTemplate.Pages
             if (category != null)
             {
                 Req.Category = category;
-                Req.SubCategory = "";
+                Req.Subcategory = "";
                 if(subCategory != null)
                 {
-                    Req.SubCategory = subCategory;
+                    Req.Subcategory = subCategory;
                 }
             }
             

@@ -39,9 +39,9 @@ namespace AliveStoreTemplate.Services
         /// <summary>
         /// 新增卡片資料
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="Req"></param>
         /// <returns></returns>
-        BaseResponseModel InsertProduct(ProductList product);
+        BaseResponseModel InsertProduct(ProductReqModel Req);
 
         /// <summary>
         /// 刪除卡片

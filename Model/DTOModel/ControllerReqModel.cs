@@ -95,7 +95,7 @@ namespace AliveStoreTemplate.Model.DTOModel
     public class ProductListReqModel
     {
         public string Category { get; set; }
-        public string SubCategory { get; set; }
+        public string Subcategory { get; set; }
     }
 
     public class ProductInfoReqModel
@@ -144,5 +144,14 @@ namespace AliveStoreTemplate.Model.DTOModel
     public class UIDReqModel
     {
         public int UID { get; set; }
+    }
+
+    public class ProductReqModel : ProductListReqModel
+    {
+        public string CardName { get; set; }
+        public string Description { get; set; }
+        public int Price { get; set; }
+        public int Inventory { get; set; }
+        public string ImgUrl { get; set; }
     }
 }
