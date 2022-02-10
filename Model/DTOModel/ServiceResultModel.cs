@@ -1,6 +1,14 @@
-﻿namespace AliveStoreTemplate.Model.DTOModel
+﻿using System.Collections.Generic;
+
+namespace AliveStoreTemplate.Model.DTOModel
 {
-    public class ServiceResultModel
+    /// <summary>
+    /// Product相關
+    /// </summary>
+    public class ProductResultModel
     {
+        public string Category { get; set; }
+
+        public List<string> SubCategory { get; set; }
     }
 }

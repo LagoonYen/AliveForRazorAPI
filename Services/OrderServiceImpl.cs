@@ -101,7 +101,7 @@ namespace AliveStoreTemplate.Services
                         Id = item.product_id,
                         Inventory = inventory,
                     };
-                    _productRepository.PatchProductInfo(productList);
+                    _productRepository.PatchProduct(productList);
                 }
 
                 var updateResult = _orderRepository.UpdateTotalPrice(orderId, TotalPrice);

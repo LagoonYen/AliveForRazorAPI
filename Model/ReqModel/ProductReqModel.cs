@@ -5,7 +5,4 @@
         public int ProductId { get; set; }
         public int ProductNum { get; set; }
     }
-    
-
-
 }

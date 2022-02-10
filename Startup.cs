@@ -120,7 +120,6 @@ namespace AliveStoreTemplate
 
             app.UseRouting();
 
-
             // ¨Ï¥ÎSession
             app.UseSession();
 

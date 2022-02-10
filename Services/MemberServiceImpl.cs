@@ -66,6 +66,12 @@ namespace AliveStoreTemplate.Services
 
                 //取得帳號存在與否
                 var baseQueryModel = _memberRepository.GetMemberInfo(account);
+                //查無帳號 回傳底層訊息
+                if (baseQueryModel.Results == null)
+                {
+                    throw new Exception(baseQueryModel.Message);
+                }
+                //比對密碼正確
                 var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
                 if (dbPassword != password)
                 {
@@ -96,6 +102,12 @@ namespace AliveStoreTemplate.Services
             {
                 //取得帳號存在與否
                 var baseQueryModel = _memberRepository.GetMemberInfo(account);
+                //查無帳號 回傳底層訊息
+                if(baseQueryModel.Results == null)
+                {
+                    throw new Exception(baseQueryModel.Message);
+                }
+                //比對密碼正確
                 var dbPassword = baseQueryModel.Results.FirstOrDefault(x => x.Account == account).Password;
                 if (dbPassword != password)
                 {

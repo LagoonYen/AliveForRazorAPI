@@ -55,6 +55,7 @@ namespace AliveStoreTemplate.Repositories
                 _dbShop.SaveChanges();
                 return new BaseResponseModel
                 {
+                    Message = String.Empty,
                     StatusCode = (HttpStatusCode)200  //弱轉型
                     //StatusCode = HttpStatusCode.OK
                 };
