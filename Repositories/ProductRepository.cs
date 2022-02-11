@@ -10,11 +10,12 @@ namespace AliveStoreTemplate.Repositories
     {
         public BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
 
-        public BaseQueryModel<ProductList> Product_Info(int id);
+        public BaseQueryModel<ProductList> GetProductInfo(int id);
 
         public BaseResponseModel PatchProduct(ProductList product);
 
         public BaseResponseModel InsertProduct(ProductList product);
+
         public BaseResponseModel DeleteProduct(int productId);
     }
 }

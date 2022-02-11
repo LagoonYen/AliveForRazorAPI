@@ -27,14 +27,14 @@ namespace AliveStoreTemplate.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        BaseQueryModel<ProductList> Product_Info(int id);
+        BaseQueryModel<ProductList> GetProductInfo(int id);
 
         /// <summary>
         /// 修改卡片資料
         /// </summary>
-        /// <param name="product"></param>
+        /// <param name="productReqModel"></param>
         /// <returns></returns>
-        BaseResponseModel PatchProductAllInfo(ProductList product);
+        BaseResponseModel PatchProductAllInfo(ProductReqModel productReqModel);
 
         /// <summary>
         /// 新增卡片資料
@@ -48,6 +48,6 @@ namespace AliveStoreTemplate.Services
         /// </summary>
         /// <param name="productId"></param>
         /// <returns></returns>
-        BaseResponseModel DeleteProduct(int productId);
+        BaseResponseModel DeleteProduct(int productId, string ImgUrl);
     }
 }

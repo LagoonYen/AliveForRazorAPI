@@ -44,7 +44,7 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<ProductList> Product_Info(int id)
+        public BaseQueryModel<ProductList> GetProductInfo(int id)
         {
             try
             {

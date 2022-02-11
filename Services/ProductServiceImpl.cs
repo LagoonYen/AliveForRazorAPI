@@ -86,11 +86,11 @@ namespace AliveStoreTemplate.Services
         }
 
         //取單卡資訊
-        public BaseQueryModel<ProductList> Product_Info(int id)
+        public BaseQueryModel<ProductList> GetProductInfo(int id)
         {
             try 
             {
-                var baseQueryModel = _productRepository.Product_Info(id);
+                var baseQueryModel = _productRepository.GetProductInfo(id);
                 return new BaseQueryModel<ProductList>
                 {
                     Results = baseQueryModel.Results,
@@ -109,12 +109,42 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseResponseModel PatchProductAllInfo(ProductList product)
+        //更改資料
+        public BaseResponseModel PatchProductAllInfo(ProductReqModel productReqModel)
         {
             try
             {
-                product.UpdateTime = DateTime.Now;
-                var baseResponseModel = _productRepository.PatchProduct(product);
+                //先抓舊的ImgUrl
+                var fileName = productReqModel.ImgUrl;
+
+                if (
+                    //productReqModel.ImgUrl != null 
+                    productReqModel.CardImg.FileName != null)
+                    //&& string.Empty is var fileName
+                    //&& productReqModel.ImgUrl.Split("/").TakeLast(1).FirstOrDefault() != productReqModel.CardImg.FileName)
+                {
+                    var fileExtension = productReqModel.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
+                    fileName = !string.IsNullOrWhiteSpace(fileName) ? fileName :$"img/{Guid.NewGuid().ToString()}.{fileExtension}";
+                    using (var stream = new FileStream($"./wwwroot/" + fileName, FileMode.Create))
+                    {
+                        productReqModel.CardImg.CopyTo(stream);
+                    }
+                }
+
+                ProductList productList = new ProductList()
+                {
+                    Id = productReqModel.Id,
+                    Category = productReqModel.Category,
+                    Subcategory = productReqModel.Subcategory,
+                    CardName = productReqModel.CardName,
+                    Description = productReqModel.Description,
+                    Price = productReqModel.Price,
+                    Inventory = productReqModel.Inventory,
+                    ImgUrl = fileName,
+                    UpdateTime = DateTime.Now
+                };
+
+                var baseResponseModel = _productRepository.PatchProduct(productList);
                 return new BaseResponseModel
                 {
                     Message = baseResponseModel.Message,
@@ -144,18 +174,19 @@ namespace AliveStoreTemplate.Services
                 {
                     Req.ImgUrl = Req.CardImg.FileName;
                     //比對是否有重複的圖片名稱
-                    var fileName = Req.CardImg.FileName;
+                    //var fileName = Req.CardImg.FileName;
+                    var fileName = Guid.NewGuid().ToString();
                     foreach (var item in cardList)
                     {
-                        var dbfileName = item.ImgUrl.Split("/").TakeLast(1).FirstOrDefault();
-                        fileName = (fileName == dbfileName) ? "card" + DateTime.Now.ToString("yyyyMMddHHmm") : fileName;
+                        var dbfileName = item.ImgUrl.Split(".").TakeLast(1).FirstOrDefault();
+                        fileName = (fileName == dbfileName) ? Guid.NewGuid().ToString() : fileName;
                     }
 
                     //建造儲存路徑
                     var fileExtension = Req.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
                     NewcardPathInDb = $"img/{fileName}.{fileExtension}";
 
-                    //感謝Kevin指引 [該死的] 路徑要加在哪邊www
+                    //感謝Kevin指引 [走丟的] 路徑要加在哪邊www
                     using (var stream = new FileStream($"./wwwroot/" + NewcardPathInDb, FileMode.Create))
                     {
                         Req.CardImg.CopyTo(stream);
@@ -191,10 +222,16 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseResponseModel DeleteProduct(int productId)
+        public BaseResponseModel DeleteProduct(int productId, string ImgUrl)
         {
             try
             {
+                if(ImgUrl != null)
+                {
+                    var path = $"./wwwroot/" + ImgUrl;
+                    File.Delete(path);
+                }
+                
                 var baseResponseModel = _productRepository.DeleteProduct(productId);
                 return new BaseResponseModel
                 {

@@ -70,7 +70,7 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult PatchProductAllInfo([FromBody] ProductList product)
+        public IActionResult PatchProductAllInfo([FromBody] ProductReqModel product)
         {
             try
             {
@@ -91,11 +91,11 @@ namespace AliveStoreTemplate.Api.Controllers
         [Route("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult DeleteProduct([FromBody]int productId)
+        public IActionResult DeleteProduct([FromBody]int productId, string ImgUrl)
         {
             try
             {
-                return Ok(_productService.DeleteProduct(productId));
+                return Ok(_productService.DeleteProduct(productId, ImgUrl));
             }
             catch (Exception ex)
             {

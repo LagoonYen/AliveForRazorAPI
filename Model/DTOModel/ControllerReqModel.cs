@@ -149,6 +149,7 @@ namespace AliveStoreTemplate.Model.DTOModel
 
     public class ProductReqModel
     {
+        public int Id { get; set; }
         [Required]
         public string Category { get; set; }
         [Required]

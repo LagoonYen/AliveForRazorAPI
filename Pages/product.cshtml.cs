@@ -33,7 +33,7 @@ namespace AliveStoreTemplate.Pages
 
         public void OnGet(int productId)
         {
-            var result = _productService.Product_Info(productId);
+            var result = _productService.GetProductInfo(productId);
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 if (result.Results != null)
@@ -75,7 +75,7 @@ namespace AliveStoreTemplate.Pages
         {
             //資料存放於session
             //<ShopcarSession來自Common>
-            var result = _productService.Product_Info(CardInfo.Id);
+            var result = _productService.GetProductInfo(CardInfo.Id);
             
             //建立下訂商品
             CartItem item = new CartItem

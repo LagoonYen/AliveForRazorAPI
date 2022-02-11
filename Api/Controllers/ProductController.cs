@@ -81,7 +81,7 @@ namespace AliveStoreTemplate.Api.Controllers
         {
             try
             {
-                var result = _productService.Product_Info(Req.product_id);
+                var result = _productService.GetProductInfo(Req.product_id);
                 return Ok(result);
             }
             catch (Exception ex)

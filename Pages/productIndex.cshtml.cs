@@ -41,5 +41,15 @@ namespace AliveStoreTemplate.Pages
             }
             ViewData["Message"] = string.Format(baseQueryModel.Message);
         }
+
+        public void OnPostDeleteProduct(int productId, string ImgUrl)
+        {
+            var baseResponseModel = _productService.DeleteProduct(productId, ImgUrl);
+            if(baseResponseModel.StatusCode != HttpStatusCode.BadRequest)
+            {
+                Response.Redirect("productIndex");
+            }
+            ViewData["Message"] = string.Format(baseResponseModel.Message);
+        }
     }
 }
