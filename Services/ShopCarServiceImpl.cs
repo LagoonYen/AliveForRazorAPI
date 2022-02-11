@@ -25,40 +25,46 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                int uid = Req.Uid;
-                int product_id = Req.product_id;
+                int UID = Req.Uid;
+                int productId = Req.product_id;
                 int num = Req.num;
                 var time = DateTime.Now;
 
                 //商品剩餘數量
-                int product_inventory = _productRepository.GetProductInfo(product_id).Results.FirstOrDefault().Inventory;
+                int productInventory = _productRepository.GetProductInfo(productId).Results.FirstOrDefault().Inventory;
 
-                //購物車內數量
-                var result = _shopCarRepository.User_shopcart_list(uid);
+                //叫出購物車清單
+                var result = _shopCarRepository.User_shopcart_list(UID);
                 if(result.Results != null)
                 {
-                    var shopCar_product = result.Results.FirstOrDefault(x => x.product_id == product_id);
+                    //找同一份商品在購物車內數量
+                    var shopCar_product = result.Results.FirstOrDefault(x => x.product_id == productId);
                     if(shopCar_product != null)
                     {
-                        int shopCar_product_inventory = shopCar_product.num;
-                        if ((num + shopCar_product_inventory) > product_inventory)
+                        int shopCarProductInventory = shopCar_product.num;
+                        if ((num + shopCarProductInventory) > productInventory)
                         {
                             throw new Exception("商品數量不足");
                         }
                         //更新購物車
-                        num += shopCar_product_inventory;
+                        num += shopCarProductInventory;
                     }
                 }
 
-                ProductShopcar PostNewShopCar = new()
+                ProductShopcar PostNewShopCar = new ProductShopcar
                 {
-                    Uid = uid,
-                    ProductId = product_id,
+                    Uid = UID,
+                    ProductId = productId,
                     Num = num,
                     CreateTime = time,
                     UpdateTime = time
                 };
-                return _shopCarRepository.AddToCart(PostNewShopCar);
+                var baseResponseModel = _shopCarRepository.AddToCart(PostNewShopCar);
+                return new BaseResponseModel
+                {
+                    Message = baseResponseModel.Message,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -70,12 +76,17 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int uid)
+        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int UID)
         {
             try
             {
-                return _shopCarRepository.User_shopcart_list(uid);
-                //return result;
+                var baseQueryModel = _shopCarRepository.User_shopcart_list(UID);
+                return new BaseQueryModel<shopcar_list_respModel>
+                {
+                    Results = baseQueryModel.Results,
+                    Message = baseQueryModel.Message,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -88,11 +99,16 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid)
+        /// <summary>
+        /// 廢棄用
+        /// </summary>
+        /// <param name="UID"></param>
+        /// <returns></returns>
+        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int UID)
         {
             try
             {
-                return _shopCarRepository.User_shopcart_listByView(uid);
+                return _shopCarRepository.User_shopcart_listByView(UID);
                 //return result;
             }
             catch (Exception ex)
@@ -110,7 +126,12 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                return _shopCarRepository.DelFromCart(Req);
+                var baseResponseModel = _shopCarRepository.DelFromCart(Req);
+                return new BaseResponseModel
+                {
+                    Message = baseResponseModel.Message,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -127,7 +148,12 @@ namespace AliveStoreTemplate.Services
             try
             {
                 Req.UpdateTime = DateTime.Now;
-                return _shopCarRepository.UpsertCart(Req);
+                var baseResponseModel = _shopCarRepository.UpsertCart(Req);
+                return new BaseResponseModel
+                {
+                    Message = baseResponseModel.Message,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch (Exception ex)
             {
@@ -137,7 +163,6 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.BadRequest
                 };
             }
-
         }
     }
 }

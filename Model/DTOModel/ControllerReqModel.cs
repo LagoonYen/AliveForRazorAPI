@@ -104,6 +104,12 @@ namespace AliveStoreTemplate.Model.DTOModel
         public int product_id { get; set; }
     }
 
+    public class DeleteProductReqModel
+    {
+        public int productId { get; set;}
+        public string ImgUrl { get; set; }
+    }
+
     /// <summary>
     /// Shopcar相關
     /// </summary>

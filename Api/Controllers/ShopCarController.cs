@@ -42,11 +42,7 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -68,11 +64,7 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -94,11 +86,7 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -126,11 +114,7 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                });
+                return BadRequest(ex.Message);
             }
         }
 
@@ -156,11 +140,7 @@ namespace AliveStoreTemplate.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                });
+                return BadRequest(ex.Message);
             }
         }
     }

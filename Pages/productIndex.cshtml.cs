@@ -44,7 +44,12 @@ namespace AliveStoreTemplate.Pages
 
         public void OnPostDeleteProduct(int productId, string ImgUrl)
         {
-            var baseResponseModel = _productService.DeleteProduct(productId, ImgUrl);
+            DeleteProductReqModel Req = new DeleteProductReqModel
+            {
+                productId = productId,
+                ImgUrl = ImgUrl
+            };
+            var baseResponseModel = _productService.DeleteProduct(Req);
             if(baseResponseModel.StatusCode != HttpStatusCode.BadRequest)
             {
                 Response.Redirect("productIndex");

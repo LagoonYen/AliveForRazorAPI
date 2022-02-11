@@ -46,8 +46,8 @@ namespace AliveStoreTemplate.Services
         /// <summary>
         /// 刪除卡片
         /// </summary>
-        /// <param name="productId"></param>
+        /// <param name="Req"></param>
         /// <returns></returns>
-        BaseResponseModel DeleteProduct(int productId, string ImgUrl);
+        BaseResponseModel DeleteProduct(DeleteProductReqModel Req);
     }
 }

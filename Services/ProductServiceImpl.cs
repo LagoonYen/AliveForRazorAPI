@@ -222,11 +222,14 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseResponseModel DeleteProduct(int productId, string ImgUrl)
+        public BaseResponseModel DeleteProduct(DeleteProductReqModel Req)
         {
             try
             {
-                if(ImgUrl != null)
+                var productId = Req.productId;
+                var ImgUrl = Req.ImgUrl;
+
+                if (ImgUrl != null)
                 {
                     var path = $"./wwwroot/" + ImgUrl;
                     File.Delete(path);

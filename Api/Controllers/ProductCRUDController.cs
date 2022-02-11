@@ -95,7 +95,12 @@ namespace AliveStoreTemplate.Api.Controllers
         {
             try
             {
-                return Ok(_productService.DeleteProduct(productId, ImgUrl));
+                DeleteProductReqModel Req = new DeleteProductReqModel()
+                {
+                    productId = productId,
+                    ImgUrl = ImgUrl
+                };
+                return Ok(_productService.DeleteProduct(Req));
             }
             catch (Exception ex)
             {

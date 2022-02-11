@@ -22,7 +22,9 @@ namespace AliveStoreTemplate.Repositories
         {
             try
             {
+                //找到USER下的購物清單
                 var result = _shopContext.ProductShopcars.Where(x => x.Uid == ProductShopcar.Uid).FirstOrDefault(x => x.ProductId == ProductShopcar.ProductId);
+                //有同商品 更新
                 if (result != null)
                 {
                     result.Num = ProductShopcar.Num;
@@ -35,6 +37,7 @@ namespace AliveStoreTemplate.Repositories
                     };
                 };
 
+                //無同商品 新增
                 _shopContext.ProductShopcars.Add(ProductShopcar);
                 _shopContext.SaveChanges();
                 return new BaseResponseModel()
@@ -80,6 +83,11 @@ namespace AliveStoreTemplate.Repositories
 
         }
 
+        /// <summary>
+        /// 廢棄用
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid)
         {
             try
@@ -106,11 +114,16 @@ namespace AliveStoreTemplate.Repositories
                 throw;
             }
         }
+
         public BaseResponseModel DelFromCart(DelFromCartReqModel Req)
         {
             try
             {
-                _shopContext.ProductShopcars.Remove(_shopContext.ProductShopcars.Where(x => x.Uid == Req.uid).FirstOrDefault(x => x.ProductId == Req.product_id));
+                var result = _shopContext.ProductShopcars.Remove(_shopContext.ProductShopcars.Where(x => x.Uid == Req.uid).FirstOrDefault(x => x.ProductId == Req.product_id));
+                if (result == null)
+                {
+                    throw new Exception("查無此商品");
+                }
                 _shopContext.SaveChanges();
                 return new BaseResponseModel
                 {
@@ -118,13 +131,9 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                 return new BaseResponseModel
-                 {
-                     Message = ex.Message,
-                     StatusCode = HttpStatusCode.BadRequest,
-                 };
+                throw;
             }
         }
 
@@ -133,6 +142,10 @@ namespace AliveStoreTemplate.Repositories
             try
             {
                 var result = _shopContext.ProductShopcars.Where(x => x.Uid == Req.uid).FirstOrDefault(x => x.ProductId == Req.product_id);
+                if (result == null)
+                {
+                    throw new Exception("查無此商品");
+                }
                 result.UpdateTime = Req.UpdateTime;
                 result.Num = Req.num;
                 _shopContext.SaveChanges();
@@ -142,27 +155,34 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                return new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest,
-                };
+                throw;
             }
         }
 
         public BaseResponseModel CleanShopcar(int Uid)
         {
-            var result = _shopContext.ProductShopcars.Where(x => x.Uid == Uid);
-            _shopContext.ProductShopcars.RemoveRange(result);
-            _shopContext.SaveChanges();
-
-            return new BaseResponseModel
+            try
             {
-                Message = "已清空購物車",
-                StatusCode = HttpStatusCode.OK
-            };
+                var result = _shopContext.ProductShopcars.Where(x => x.Uid == Uid);
+                if(result == null)
+                {
+                    throw new Exception("查無此商品");
+                }
+                _shopContext.ProductShopcars.RemoveRange(result);
+                _shopContext.SaveChanges();
+
+                return new BaseResponseModel
+                {
+                    Message = "已清空購物車",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
