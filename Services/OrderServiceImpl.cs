@@ -56,6 +56,7 @@ namespace AliveStoreTemplate.Services
                     }
                 }
 
+                //訂單編號
                 var orderNumber = "OrderNum" + DateTime.Now.ToString("yyMMddhhmmss") + Req.Uid;
 
                 //建立訂單 並取得訂單編號
