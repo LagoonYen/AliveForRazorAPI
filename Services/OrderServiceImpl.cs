@@ -44,11 +44,11 @@ namespace AliveStoreTemplate.Services
 
                 //取得購物車 及 庫存資料
                 var shopcarDetail = _shopCarRepository.GetUserShopcartList(Req.Uid);
-                if (shopcarDetail.Results == null)
+                if (shopcarDetail == null)
                 {
-                    throw new Exception(shopcarDetail.Message);
+                    throw new Exception("購物車內無商品");
                 }
-                foreach (var item in shopcarDetail.Results)
+                foreach (var item in shopcarDetail)
                 {
                     if (item.inventory < item.num)
                     {
@@ -72,7 +72,7 @@ namespace AliveStoreTemplate.Services
 
                 //建立訂單內的
                 var TotalPrice = 0;
-                foreach(var item in shopcarDetail.Results)
+                foreach(var item in shopcarDetail)
                 {
                     TotalPrice += item.price * item.num;
 
@@ -102,7 +102,7 @@ namespace AliveStoreTemplate.Services
                 var updateResult = _orderRepository.UpdateTotalPrice(orderId, TotalPrice);
 
                 //清空購物車
-                var CleanShopcarResult = _shopCarRepository.CleanShopcar(Req.Uid);
+                _shopCarRepository.CleanShopcar(Req.Uid);
 
                 return new BaseResponseModel
                 {
