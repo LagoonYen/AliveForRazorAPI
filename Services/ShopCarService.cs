@@ -1,6 +1,5 @@
 ﻿using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 
 namespace AliveStoreTemplate.Services
@@ -19,7 +18,7 @@ namespace AliveStoreTemplate.Services
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int uid);
+        public BaseQueryModel<ShopcarListConditionModel> User_shopcart_list(int uid);
         
         /// <summary>
         /// 廢棄用

@@ -1,7 +1,4 @@
-﻿using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
-using AliveStoreTemplate.Model.ViewModel;
+﻿using AliveStoreTemplate.Model.DTOModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,4 @@
 ﻿using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using System;
@@ -34,7 +33,7 @@ namespace AliveStoreTemplate.Services
                 int productInventory = _productRepository.GetProductInfo(productId).Results.FirstOrDefault().Inventory;
 
                 //叫出購物車清單
-                var result = _shopCarRepository.User_shopcart_list(UID);
+                var result = _shopCarRepository.GetUserShopcartList(UID);
                 if(result.Results != null)
                 {
                     //找同一份商品在購物車內數量
@@ -76,12 +75,12 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int UID)
+        public BaseQueryModel<ShopcarListConditionModel> User_shopcart_list(int UID)
         {
             try
             {
-                var baseQueryModel = _shopCarRepository.User_shopcart_list(UID);
-                return new BaseQueryModel<shopcar_list_respModel>
+                var baseQueryModel = _shopCarRepository.GetUserShopcartList(UID);
+                return new BaseQueryModel<ShopcarListConditionModel>
                 {
                     Results = baseQueryModel.Results,
                     Message = baseQueryModel.Message,
@@ -90,7 +89,7 @@ namespace AliveStoreTemplate.Services
             }
             catch (Exception ex)
             {
-                return new BaseQueryModel<shopcar_list_respModel>()
+                return new BaseQueryModel<ShopcarListConditionModel>()
                 {
                     Results = null,
                     Message = ex.Message,

@@ -1,6 +1,5 @@
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

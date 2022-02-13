@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AliveStoreTemplate.Services;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;

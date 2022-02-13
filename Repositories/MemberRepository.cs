@@ -7,16 +7,14 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface MemberRepository
     {
-        //帳號取得登入資訊
-        BaseQueryModel<MemberInfo> GetMemberInfo(string account);
+        public bool IsMemberExist(string account);
 
-        //註冊帳號
-        BaseResponseModel PostMemberRegister(MemberInfo member);
+        public MemberInfo GetMemberInfo(string account);
 
-        //讀取個人資料
-        BaseQueryModel<MemberInfo> GetMemberInfo(int UID);
+        public void PostMemberRegister(MemberInfo member);
 
-        //修改個人資料
-        BaseResponseModel PatchMemberInfo(MemberInfo member);
+        public MemberInfo GetMemberInfo(int UID);
+
+        public void PatchMemberInfo(MemberInfo member);
     }
 }

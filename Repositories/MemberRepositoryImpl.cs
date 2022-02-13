@@ -17,28 +17,21 @@ namespace AliveStoreTemplate.Repositories
             _dbShop = shopContext;
         }
 
-        public BaseQueryModel<MemberInfo> GetMemberInfo(string account)
+        /// <summary>
+        /// 利用account尋找該帳號
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public bool IsMemberExist(string account)
         {
             try
             {
                 var member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
                 if (member == null)
                 {
-                    return new BaseQueryModel<MemberInfo>
-                    {
-                        //初始化
-                        Results = null,
-                        Message = "此帳號尚未被註冊",
-                        StatusCode = HttpStatusCode.OK,
-                    };
+                    return false; //此帳號尚未被註冊
                 }
-                return new BaseQueryModel<MemberInfo>
-                {
-                    //初始化
-                    Results = new List<MemberInfo> { member },
-                    Message = String.Empty,
-                    StatusCode = HttpStatusCode.OK,
-                };
+                return true;
             }
             catch
             {
@@ -46,19 +39,35 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        //建立帳號
-        public BaseResponseModel PostMemberRegister(MemberInfo member)
+        /// <summary>
+        /// 取得帳號資料
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public MemberInfo GetMemberInfo(string account)
+        {
+            try
+            {
+                var member = _dbShop.MemberInfos.FirstOrDefault(x => x.Account == account);
+                return member;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 建立帳號
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public void PostMemberRegister(MemberInfo member)
         {
             try
             {
                 _dbShop.MemberInfos.Add(member);
                 _dbShop.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = String.Empty,
-                    StatusCode = (HttpStatusCode)200  //弱轉型
-                    //StatusCode = HttpStatusCode.OK
-                };
             }
             catch
             {
@@ -66,7 +75,12 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<MemberInfo> GetMemberInfo(int UID)
+        /// <summary>
+        /// 利用UID取得MemberInfo
+        /// </summary>
+        /// <param name="UID"></param>
+        /// <returns></returns>
+        public MemberInfo GetMemberInfo(int UID)
         {
             try
             {
@@ -75,13 +89,7 @@ namespace AliveStoreTemplate.Repositories
                 {
                     throw new Exception("此帳號未被註冊!");
                 }
-                return new BaseQueryModel<MemberInfo>
-                {
-                    //初始化
-                    Results = new List<MemberInfo> { member },
-                    Message = String.Empty,
-                    StatusCode = HttpStatusCode.OK,
-                };
+                return member;
             }
             catch
             {
@@ -89,11 +97,20 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseResponseModel PatchMemberInfo(MemberInfo member)
+        /// <summary>
+        /// 修改帳號資訊
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public void PatchMemberInfo(MemberInfo member)
         {
             try
             {
                 var dbmember = _dbShop.MemberInfos.Find(member.Id);
+                if(dbmember == null)
+                {
+                    throw new Exception("找不到該帳號資料");
+                }
                 dbmember.Password = member.Password;
                 dbmember.NickName = member.NickName;
                 dbmember.PhoneNumber = member.PhoneNumber;
@@ -101,11 +118,7 @@ namespace AliveStoreTemplate.Repositories
                 dbmember.ProfilePhotoUrl = member.ProfilePhotoUrl;
                 dbmember.UpdateTime = member.UpdateTime;
                 _dbShop.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = "資料已變更",
-                    StatusCode = HttpStatusCode.OK
-                };
+                //回傳狀態碼
             }
             catch
             {

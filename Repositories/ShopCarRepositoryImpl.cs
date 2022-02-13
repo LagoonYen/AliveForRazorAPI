@@ -1,5 +1,4 @@
 ﻿using AliveStoreTemplate.Model;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using System.Threading.Tasks;
 using System.Linq;
@@ -52,24 +51,25 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<shopcar_list_respModel> User_shopcart_list(int uid)
+        public BaseQueryModel<ShopcarListConditionModel> GetUserShopcartList(int uid)
         {
             try
             {
+                //製作ShopcarListConditionModel
                 var result = _shopContext.ProductShopcars.Where(x => x.Uid == uid).Join(_shopContext.ProductLists,
                     x => x.ProductId,
                     o => o.Id,
-                    (x, o) => new shopcar_list_respModel { uid = x.Uid, product_id = x.ProductId, cardName = o.CardName, num = x.Num, imgUrl = o.ImgUrl, price = o.Price, inventory = o.Inventory }).ToList();
+                    (x, o) => new ShopcarListConditionModel { uid = x.Uid, product_id = x.ProductId, cardName = o.CardName, num = x.Num, imgUrl = o.ImgUrl, price = o.Price, inventory = o.Inventory }).ToList();
                 if (result.Count ==0 )
                 {
-                    return new BaseQueryModel<shopcar_list_respModel>
+                    return new BaseQueryModel<ShopcarListConditionModel>
                     {
                         Results = null,
                         Message = "目前購物車無商品",
                         StatusCode = HttpStatusCode.OK
                     };
                 }
-                return new BaseQueryModel<shopcar_list_respModel>
+                return new BaseQueryModel<ShopcarListConditionModel>
                 {
                     Results = result,
                     Message = string.Empty,

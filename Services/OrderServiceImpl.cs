@@ -1,7 +1,6 @@
 ﻿
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Model.ViewModel;
 using AliveStoreTemplate.Repositories;
 using System;
@@ -28,7 +27,7 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                //寫入地址 
+                //建立新的地址
                 AddressUpserConditionModel AddressUpserCondi = new AddressUpserConditionModel
                 {
                     OrderCity = Req.OrderCity,
@@ -43,8 +42,8 @@ namespace AliveStoreTemplate.Services
                 //取得地址id
                 var OrderAddressId = _orderRepository.UpsertAddress(AddressUpserCondi);
 
-                //商品區
-                var shopcarDetail = _shopCarRepository.User_shopcart_list(Req.Uid);
+                //取得購物車 及 庫存資料
+                var shopcarDetail = _shopCarRepository.GetUserShopcartList(Req.Uid);
                 if (shopcarDetail.Results == null)
                 {
                     throw new Exception(shopcarDetail.Message);
@@ -53,29 +52,25 @@ namespace AliveStoreTemplate.Services
                 {
                     if (item.inventory < item.num)
                     {
-                        return new BaseResponseModel
-                        {
-                            Message = "商品庫存不足",
-                            StatusCode = HttpStatusCode.NotAcceptable
-                        };
+                        throw new Exception("庫存不足");
                     }
                 }
 
-                var orderNumber = DateTime.Now.ToString("yyMMddhhmmss") + Req.Uid;
+                var orderNumber = "OrderNum" + DateTime.Now.ToString("yyMMddhhmmss") + Req.Uid;
 
-                //建立訂單
+                //建立訂單 並取得訂單編號
                 OrderList orderList = new OrderList
                 {
                     Uid = Req.Uid,
                     OrderNumber = orderNumber,
                     AddressId = OrderAddressId,
                     Remark = Req.Remark,
-                    //PayPrice = TotalPrice,
                     CreateTime = DateTime.Now,
                     UpdateTime = DateTime.Now
                 };
                 var orderId = _orderRepository.InsertOrder(orderList);
 
+                //建立訂單內的
                 var TotalPrice = 0;
                 foreach(var item in shopcarDetail.Results)
                 {

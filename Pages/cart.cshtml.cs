@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ReqModel;
 using AliveStoreTemplate.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +24,7 @@ namespace AliveStoreTemplate.Pages
         }
 
         [BindProperty]
-        public List<shopcar_list_respModel> Shopcar_list { get; set; }
+        public List<ShopcarListConditionModel> Shopcar_list { get; set; }
 
         [BindProperty]
         public int UID { get; set; }

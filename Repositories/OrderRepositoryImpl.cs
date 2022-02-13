@@ -18,67 +18,97 @@ namespace AliveStoreTemplate.Repositories
 
         public int UpsertAddress(AddressUpserConditionModel AddressUpserCondi)
         {
-            var AddressId = 0;
-            var result = _dbShop.OrderAddresses
-                            .Where(x => x.Uid == AddressUpserCondi.Uid)
-                            .Where(x => x.Name == AddressUpserCondi.OrderName)
-                            .Where(x => x.PhoneNumber == AddressUpserCondi.OrderPhoneNumber)
-                            .Where(x => x.City == AddressUpserCondi.OrderCity)
-                            .Where(x => x.Town == AddressUpserCondi.OrderTown)
-                            .FirstOrDefault(x => x.Address == AddressUpserCondi.OrderAddress);
-            if(result == null)
+            try
             {
-                OrderAddress orderAddress = new OrderAddress
+                //初始化回傳ID
+                var AddressId = 0;
+
+                //尋找是否有相同地址跟收件人資料的資料
+                var result = _dbShop.OrderAddresses
+                                .Where(x => x.Uid == AddressUpserCondi.Uid)
+                                .Where(x => x.Name == AddressUpserCondi.OrderName)
+                                .Where(x => x.PhoneNumber == AddressUpserCondi.OrderPhoneNumber)
+                                .Where(x => x.City == AddressUpserCondi.OrderCity)
+                                .Where(x => x.Town == AddressUpserCondi.OrderTown)
+                                .FirstOrDefault(x => x.Address == AddressUpserCondi.OrderAddress);
+
+                //找不到相同的 新增新的一筆
+                if (result == null)
                 {
-                    Uid = AddressUpserCondi.Uid,
-                    Name = AddressUpserCondi.OrderName,
-                    PhoneNumber = AddressUpserCondi.OrderPhoneNumber,
-                    City = AddressUpserCondi.OrderCity,
-                    Town = AddressUpserCondi.OrderTown,
-                    Address = AddressUpserCondi.OrderAddress,
-                    CreateTime = AddressUpserCondi.DateTime,
-                    UpdateTime = AddressUpserCondi.DateTime
-                };
-                var newAddress = _dbShop.OrderAddresses.Add(orderAddress);
-                _dbShop.SaveChanges();
-                AddressId = _dbShop.OrderAddresses
-                            .Where(x => x.Uid == AddressUpserCondi.Uid)
-                            .Where(x => x.Name == AddressUpserCondi.OrderName)
-                            .Where(x => x.PhoneNumber == AddressUpserCondi.OrderPhoneNumber)
-                            .Where(x => x.City == AddressUpserCondi.OrderCity)
-                            .Where(x => x.Town == AddressUpserCondi.OrderTown)
-                            .FirstOrDefault(x => x.Address == AddressUpserCondi.OrderAddress).Id;
+                    OrderAddress orderAddress = new OrderAddress
+                    {
+                        Uid = AddressUpserCondi.Uid,
+                        Name = AddressUpserCondi.OrderName,
+                        PhoneNumber = AddressUpserCondi.OrderPhoneNumber,
+                        City = AddressUpserCondi.OrderCity,
+                        Town = AddressUpserCondi.OrderTown,
+                        Address = AddressUpserCondi.OrderAddress,
+                        CreateTime = AddressUpserCondi.DateTime,
+                        UpdateTime = AddressUpserCondi.DateTime
+                    };
+                    var newAddress = _dbShop.OrderAddresses.Add(orderAddress);
+                    _dbShop.SaveChanges();
+                    AddressId = _dbShop.OrderAddresses
+                                .Where(x => x.Uid == AddressUpserCondi.Uid)
+                                .Where(x => x.Name == AddressUpserCondi.OrderName)
+                                .Where(x => x.PhoneNumber == AddressUpserCondi.OrderPhoneNumber)
+                                .Where(x => x.City == AddressUpserCondi.OrderCity)
+                                .Where(x => x.Town == AddressUpserCondi.OrderTown)
+                                .FirstOrDefault(x => x.Address == AddressUpserCondi.OrderAddress).Id;
+                }
+                else
+                {
+                    AddressId = result.Id;
+                }
+
+                //若大於3筆 刪除最舊的一筆資料 維持三筆最新
+                var count = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).Count();
+                if (count > 3)
+                {
+                    var oldAddress = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).FirstOrDefault();
+                    _dbShop.OrderAddresses.Remove(oldAddress);
+                    _dbShop.SaveChanges();
+                }
+                return AddressId;
             }
-            else
+            catch
             {
-                AddressId = result.Id;
+                throw;
             }
-            var count = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).Count();
-            if(count > 3)
-            {
-                var oldAddress = _dbShop.OrderAddresses.Where(x => x.Uid == AddressUpserCondi.Uid).FirstOrDefault();
-                _dbShop.OrderAddresses.Remove(oldAddress);
-                _dbShop.SaveChanges();
-            }
-            return AddressId;
+            
         }
 
         public BaseResponseModel AddOrderDetail(OrderProduct orderProduct)
         {
-            _dbShop.OrderProducts.Add(orderProduct);
-            _dbShop.SaveChanges();
-            return new BaseResponseModel
+            try
             {
-                Message = "已購買",
-                StatusCode = HttpStatusCode.OK
-            };
+                _dbShop.OrderProducts.Add(orderProduct);
+                _dbShop.SaveChanges();
+                return new BaseResponseModel
+                {
+                    Message = "已購買",
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch
+            {
+                throw;
+            }
+            
         }
 
         public int InsertOrder(OrderList orderList)
         {
-            _dbShop.OrderLists.Add(orderList);
-            _dbShop.SaveChanges();
-            return _dbShop.OrderLists.FirstOrDefault(x => x.OrderNumber == orderList.OrderNumber).Id;
+            try
+            {
+                _dbShop.OrderLists.Add(orderList);
+                _dbShop.SaveChanges();
+                return _dbShop.OrderLists.FirstOrDefault(x => x.OrderNumber == orderList.OrderNumber).Id;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public BaseQueryModel<OrderList> GetOrderList(int id)
@@ -92,7 +122,7 @@ namespace AliveStoreTemplate.Repositories
                     {
                         Results = null,
                         Message = "暫無歷史訂單",
-                        StatusCode = HttpStatusCode.Accepted
+                        StatusCode = HttpStatusCode.OK
                     };
                 }
                 return new BaseQueryModel<OrderList> {
@@ -101,14 +131,9 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                return new BaseQueryModel<OrderList>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -125,13 +150,9 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK,
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                return new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -147,14 +168,9 @@ namespace AliveStoreTemplate.Repositories
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                return new BaseQueryModel<OrderProduct>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }            
         }
 
