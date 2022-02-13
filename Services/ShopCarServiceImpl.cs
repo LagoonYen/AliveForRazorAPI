@@ -33,11 +33,11 @@ namespace AliveStoreTemplate.Services
                 int productInventory = _productRepository.GetProductInfo(productId).Inventory;
 
                 //叫出購物車清單
-                var result = _shopCarRepository.GetUserShopcartList(UID);
-                if(result.Results != null)
+                var shopcartList = _shopCarRepository.GetUserShopcartList(UID);
+                if(shopcartList != null)
                 {
                     //找同一份商品在購物車內數量
-                    var shopCar_product = result.Results.FirstOrDefault(x => x.product_id == productId);
+                    var shopCar_product = shopcartList.FirstOrDefault(x => x.product_id == productId);
                     if(shopCar_product != null)
                     {
                         int shopCarProductInventory = shopCar_product.num;
@@ -58,10 +58,10 @@ namespace AliveStoreTemplate.Services
                     CreateTime = time,
                     UpdateTime = time
                 };
-                var baseResponseModel = _shopCarRepository.AddToCart(PostNewShopCar);
+                _shopCarRepository.AddToCart(PostNewShopCar);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "新增完畢",
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -79,11 +79,15 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                var baseQueryModel = _shopCarRepository.GetUserShopcartList(UID);
+                var shopcartList = _shopCarRepository.GetUserShopcartList(UID);
+                if(shopcartList == null)
+                {
+                    throw new Exception("購物車內無商品");
+                }
                 return new BaseQueryModel<ShopcarListConditionModel>
                 {
-                    Results = baseQueryModel.Results,
-                    Message = baseQueryModel.Message,
+                    Results = shopcartList,
+                    Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -125,10 +129,10 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                var baseResponseModel = _shopCarRepository.DelFromCart(Req);
+                _shopCarRepository.DelFromCart(Req);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "刪除完畢",
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -147,10 +151,10 @@ namespace AliveStoreTemplate.Services
             try
             {
                 Req.UpdateTime = DateTime.Now;
-                var baseResponseModel = _shopCarRepository.UpsertCart(Req);
+                _shopCarRepository.UpsertCart(Req);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "修改完畢",
                     StatusCode = HttpStatusCode.OK
                 };
             }

@@ -23,6 +23,11 @@ namespace AliveStoreTemplate.Services
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// 下訂單
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
         public BaseResponseModel ToOrder(ToOrderReqModel Req)
         {
             try
@@ -44,11 +49,11 @@ namespace AliveStoreTemplate.Services
 
                 //取得購物車 及 庫存資料
                 var shopcarDetail = _shopCarRepository.GetUserShopcartList(Req.Uid);
-                if (shopcarDetail.Results == null)
+                if (shopcarDetail == null)
                 {
-                    throw new Exception(shopcarDetail.Message);
+                    throw new Exception("購物車內無商品");
                 }
-                foreach (var item in shopcarDetail.Results)
+                foreach (var item in shopcarDetail)
                 {
                     if (item.inventory < item.num)
                     {
@@ -73,7 +78,7 @@ namespace AliveStoreTemplate.Services
 
                 //建立訂單內的
                 var TotalPrice = 0;
-                foreach(var item in shopcarDetail.Results)
+                foreach(var item in shopcarDetail)
                 {
                     TotalPrice += item.price * item.num;
 
@@ -87,7 +92,7 @@ namespace AliveStoreTemplate.Services
                         CreateTime = DateTime.Now,
                         UpdateTime = DateTime.Now
                     };
-                    var result = _orderRepository.AddOrderDetail(orderProduct);
+                    _orderRepository.AddOrderDetail(orderProduct);
 
 
                     //修改inventory數量
@@ -100,10 +105,10 @@ namespace AliveStoreTemplate.Services
                     _productRepository.PatchProduct(productList);
                 }
 
-                var updateResult = _orderRepository.UpdateTotalPrice(orderId, TotalPrice);
+                _orderRepository.UpdateTotalPrice(orderId, TotalPrice);
 
                 //清空購物車
-                var CleanShopcarResult = _shopCarRepository.CleanShopcar(Req.Uid);
+                _shopCarRepository.CleanShopcar(Req.Uid);
 
                 return new BaseResponseModel
                 {
@@ -121,6 +126,11 @@ namespace AliveStoreTemplate.Services
             }
         }
 
+        /// <summary>
+        /// 取得歷史訂單基本資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public BaseQueryModel<OrderList> GetOrderList(int id)
         {
             try
@@ -129,7 +139,13 @@ namespace AliveStoreTemplate.Services
                 {
                     throw new Exception("id錯誤");
                 }
-                return _orderRepository.GetOrderList(id);
+                var orderList = _orderRepository.GetOrderList(id);
+                return new BaseQueryModel<OrderList>
+                {
+                    Results = orderList,
+                    Message = String.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch(Exception ex)
             {
@@ -141,10 +157,17 @@ namespace AliveStoreTemplate.Services
                 };
             }
         }
-        
+
+        /// <summary>
+        /// 取得單筆訂單詳細資料
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
         public BaseQueryModel<OrderDetailResponseModel> GetOrderDetail(OrderDetailReqModel Req)
         {
-            var OrderInfo = _orderRepository.GetOrderInfomation(Req.OrderId).Results.FirstOrDefault();
+            //取得訂單資料
+            var OrderInfo = _orderRepository.GetOrderInfomation(Req.OrderId);
+            //取得訂單詳細商品資料
             var ProductDetail = _orderRepository.GetOrderDetailList(Req.OrderId);
             OrderDetailResponseModel Resp = new OrderDetailResponseModel()
             {
@@ -166,7 +189,7 @@ namespace AliveStoreTemplate.Services
                 ShipNumber = OrderInfo.ShipNumber,
                 CreateTime = OrderInfo.CreateTime,
                 UpdateTime = OrderInfo.UpdateTime,
-                Products = ProductDetail.Results.ToList()
+                Products = ProductDetail
             };
             return new BaseQueryModel<OrderDetailResponseModel>
             {

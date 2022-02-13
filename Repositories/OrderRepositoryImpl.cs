@@ -102,6 +102,11 @@ namespace AliveStoreTemplate.Repositories
             
         }
 
+        /// <summary>
+        /// 新增訂單
+        /// </summary>
+        /// <param name="orderList"></param>
+        /// <returns></returns>
         public int InsertOrder(OrderList orderList)
         {
             try
@@ -116,13 +121,18 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<OrderList> GetOrderList(int id)
         {
             try
             {
-                var result = _dbShop.OrderLists.Where(x => x.Uid == id);
+                var result = _dbShop.OrderLists.Where(x => x.Uid == id).ToList();
 
-                return new List<OrderList> result;
+                return result;
             }
             catch
             {
@@ -130,18 +140,22 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseResponseModel UpdateTotalPrice(int orderId, int TotalPrice)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="TotalPrice"></param>
+        public void UpdateTotalPrice(int orderId, int TotalPrice)
         {
             try
             {
                 var result = _dbShop.OrderLists.Find(orderId);
+                if(result == null)
+                {
+                    throw new Exception("查無商品");
+                }
                 result.PayPrice = TotalPrice;
                 _dbShop.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = "已更新售價",
-                    StatusCode = HttpStatusCode.OK,
-                };
             }
             catch
             {
@@ -149,17 +163,17 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<OrderProduct> GetOrderDetailList(int orderId)
+        /// <summary>
+        /// 取得訂單詳細資料
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public OrderList GetOrderInfomation(int orderId)
         {
             try
             {
-                var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId).ToList();
-                return new BaseQueryModel<OrderProduct>
-                {
-                    Results = result,
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+                var result = _dbShop.OrderLists.FirstOrDefault(x => x.Id == orderId);
+                return result;
             }
             catch
             {
@@ -167,21 +181,21 @@ namespace AliveStoreTemplate.Repositories
             }            
         }
 
-        public BaseQueryModel<OrderList> GetOrderInfomation(int orderId)
+        /// <summary>
+        /// 單筆訂單細項
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public List<OrderProduct> GetOrderDetailList(int orderId)
         {
             try
             {
-                var result = _dbShop.OrderLists.FirstOrDefault(x => x.Id == orderId);
+                var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId).ToList();
                 if(result == null)
                 {
                     throw new Exception("找不到訂單資訊，請重新搜尋");
                 }
-                return new BaseQueryModel<OrderList>
-                {
-                    Results = new List<OrderList> { result },
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+                return result;
             }
             catch
             {

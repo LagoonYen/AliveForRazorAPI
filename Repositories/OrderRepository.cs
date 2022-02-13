@@ -14,13 +14,14 @@ namespace AliveStoreTemplate.Repositories
 
         public int InsertOrder(OrderList orderList);
 
-        public BaseQueryModel<OrderList> GetOrderList(int id);
+        public List<OrderList> GetOrderList(int id);
 
-        public BaseResponseModel UpdateTotalPrice(int orderId, int TotalPrice);
+        public void UpdateTotalPrice(int orderId, int TotalPrice);
 
-        public BaseQueryModel<OrderList> GetOrderInfomation(int orderId);
+        public OrderList GetOrderInfomation(int orderId);
 
-        public BaseQueryModel<OrderProduct> GetOrderDetailList(int orderIxd);
+        public List<OrderProduct> GetOrderDetailList(int orderIxd);
+
 
     }
 }
