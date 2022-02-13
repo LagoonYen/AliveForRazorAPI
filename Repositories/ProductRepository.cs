@@ -8,14 +8,14 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface ProductRepository
     {
-        public BaseQueryModel<ProductList> SearchProduct(string category, string subCategory);
+        public IEnumerable<ProductList> SearchProduct(string category, string subCategory);
 
-        public BaseQueryModel<ProductList> GetProductInfo(int id);
+        public ProductList GetProductInfo(int id);
 
-        public BaseResponseModel PatchProduct(ProductList product);
+        public void PatchProduct(ProductList product);
 
-        public BaseResponseModel InsertProduct(ProductList product);
+        public void InsertProduct(ProductList product);
 
-        public BaseResponseModel DeleteProduct(int productId);
+        public void DeleteProduct(int productId);
     }
 }

@@ -17,7 +17,13 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        public BaseQueryModel<ProductList> SearchProduct(string category, string subCategory)
+        /// <summary>
+        /// 利用category及subcategory搜尋
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="subCategory"></param>
+        /// <returns></returns>
+        public IEnumerable<ProductList> SearchProduct(string category, string subCategory)
         {
             try
             {
@@ -27,16 +33,12 @@ namespace AliveStoreTemplate.Repositories
                      _shopContext.ProductLists.Where(x => x.Category == category).Where(x => x.Subcategory == subCategory).ToList()
                     : _shopContext.ProductLists.Where(x => x.Category == category).ToList()
                     :  _shopContext.ProductLists.ToList();
+
                 if(productList == null)
                 {
                     throw new Exception("這一彈沒有此類卡片喔!");
                 }
-                return new BaseQueryModel<ProductList>
-                {
-                    Results = productList,
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+                return productList;
             }
             catch
             {
@@ -44,22 +46,22 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<ProductList> GetProductInfo(int id)
+        /// <summary>
+        /// 利用ProductId取得卡片完整資訊
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ProductList GetProductInfo(int id)
         {
             try
             {
                 var productList = _shopContext.ProductLists.FirstOrDefault(x => x.Id == id);
+
                 if (productList == null)
                 {
                     throw new Exception("找不到此卡資訊");
                 }
-                return new BaseQueryModel<ProductList>
-                {
-                    //初始化
-                    Results = new List<ProductList> { productList },
-                    Message = String.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+                return productList;
             }
             catch
             {
@@ -67,7 +69,13 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseResponseModel PatchProduct(ProductList product)
+        /// <summary>
+        /// 修改單一卡片資訊
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public void PatchProduct(ProductList product)
         {
             try
             {
@@ -76,6 +84,7 @@ namespace AliveStoreTemplate.Repositories
                 {
                     throw new Exception ("修改不成功，未取得卡片正確資訊");
                 }
+
                 dbData.CardName = (dbData.CardName != product.CardName) ? product.CardName : dbData.CardName;
                 dbData.Category = (dbData.Category != product.Category) ? product.Category : dbData.Category;
                 dbData.Subcategory = (dbData.Subcategory != product.Subcategory) ? product.Subcategory : dbData.Subcategory;
@@ -85,12 +94,6 @@ namespace AliveStoreTemplate.Repositories
                 dbData.ImgUrl = (dbData.ImgUrl != product.ImgUrl) ? product.ImgUrl : dbData.ImgUrl;
                 dbData.UpdateTime = (dbData.UpdateTime != product.UpdateTime) ? product.UpdateTime : dbData.UpdateTime;
                 _shopContext.SaveChanges();
-
-                return new BaseResponseModel
-                {
-                    Message = "卡片修改完畢",
-                    StatusCode = HttpStatusCode.OK,
-                };
             }
             catch
             {
@@ -98,26 +101,29 @@ namespace AliveStoreTemplate.Repositories
             }
 
         }
-
-        public BaseResponseModel InsertProduct(ProductList product)
+        
+        /// <summary>
+        /// 新增商品
+        /// </summary>
+        /// <param name="product"></param>
+        public void InsertProduct(ProductList product)
         {
             try
             {
                 _shopContext.ProductLists.Add(product);
                 _shopContext.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = "卡片新增完畢",
-                    StatusCode = HttpStatusCode.OK,
-                };
             }
             catch
             {
                 throw;
             }
         }
-
-        public BaseResponseModel DeleteProduct(int productId)
+        
+        /// <summary>
+        /// 刪除商品
+        /// </summary>
+        /// <param name="productId"></param>
+        public void DeleteProduct(int productId)
         {
             try
             {
@@ -128,11 +134,6 @@ namespace AliveStoreTemplate.Repositories
                 }
                 _shopContext.ProductLists.Remove(dbData);
                 _shopContext.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = "卡片刪除完畢",
-                    StatusCode = HttpStatusCode.OK,
-                };
             }
             catch
             {

@@ -30,7 +30,7 @@ namespace AliveStoreTemplate.Services
                 var time = DateTime.Now;
 
                 //商品剩餘數量
-                int productInventory = _productRepository.GetProductInfo(productId).Results.FirstOrDefault().Inventory;
+                int productInventory = _productRepository.GetProductInfo(productId).Inventory;
 
                 //叫出購物車清單
                 var result = _shopCarRepository.GetUserShopcartList(UID);

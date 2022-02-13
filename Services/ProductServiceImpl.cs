@@ -20,6 +20,11 @@ namespace AliveStoreTemplate.Services
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// 搜尋卡片列表
+        /// </summary>
+        /// <param name="Req"></param>
+        /// <returns></returns>
         public BaseQueryModel<ProductList> SearchProduct(ProductListReqModel Req)
         {
             try
@@ -28,10 +33,10 @@ namespace AliveStoreTemplate.Services
                 var category = Req.Category;
                 var subCategory =  Req.Subcategory;
 
-                var baseQueryModel = _productRepository.SearchProduct(category, subCategory);
+                var productList = _productRepository.SearchProduct(category, subCategory);
                 return new BaseQueryModel<ProductList>
                 {
-                    Results = baseQueryModel.Results,
+                    Results = productList,
                     Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                     
@@ -48,6 +53,10 @@ namespace AliveStoreTemplate.Services
             }
         }
 
+        /// <summary>
+        /// 卡片大小分類
+        /// </summary>
+        /// <returns></returns>
         public BaseQueryModel<ProductResultModel> Product_CategoryList()
         {
             try
@@ -56,8 +65,9 @@ namespace AliveStoreTemplate.Services
                 string subCategory = "";
 
                 //先取出所有卡片的資料
-                var product_list = _productRepository.SearchProduct(category, subCategory).Results;
-                var productViewModel = product_list.Select(x => new 
+                var productList = _productRepository.SearchProduct(category, subCategory);
+                //製作卡片大小分類
+                var productViewModel = productList.Select(x => new 
                 {
                     Category = x.Category,
                     SubCategory = x.Subcategory
@@ -66,7 +76,8 @@ namespace AliveStoreTemplate.Services
                     Category = x.Key,
                     SubCategory = x.Select(x => x.SubCategory).Distinct().ToList()
                 });
-            return new BaseQueryModel<ProductResultModel>
+
+                return new BaseQueryModel<ProductResultModel>
                 {
                     Results = productViewModel,
                     Message = String.Empty,
@@ -83,16 +94,20 @@ namespace AliveStoreTemplate.Services
                 };
             }
         }
-
-        //取單卡資訊
+        
+        /// <summary>
+        /// 取單卡資訊
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public BaseQueryModel<ProductList> GetProductInfo(int id)
         {
             try 
             {
-                var baseQueryModel = _productRepository.GetProductInfo(id);
+                var productInfo = _productRepository.GetProductInfo(id);
                 return new BaseQueryModel<ProductList>
                 {
-                    Results = baseQueryModel.Results,
+                    Results = new List<ProductList> { productInfo },
                     Message = String.Empty,
                     StatusCode = HttpStatusCode.OK
                 };
@@ -108,7 +123,11 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        //更改資料
+        /// <summary>
+        /// 更改卡片資訊
+        /// </summary>
+        /// <param name="productReqModel"></param>
+        /// <returns></returns>
         public BaseResponseModel PatchProductAllInfo(ProductReqModel productReqModel)
         {
             try
@@ -117,13 +136,13 @@ namespace AliveStoreTemplate.Services
                 var fileName = productReqModel.ImgUrl;
 
                 if (
-                    //productReqModel.ImgUrl != null 
                     productReqModel.CardImg.FileName != null)
-                    //&& string.Empty is var fileName
-                    //&& productReqModel.ImgUrl.Split("/").TakeLast(1).FirstOrDefault() != productReqModel.CardImg.FileName)
                 {
+                    //新檔案的類別名稱
                     var fileExtension = productReqModel.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
+                    //設置新增卡片名稱 有舊的→取代 沒有→新增
                     fileName = !string.IsNullOrWhiteSpace(fileName) ? fileName :$"img/{Guid.NewGuid().ToString()}.{fileExtension}";
+                    //新增圖片進檔案
                     using (var stream = new FileStream($"./wwwroot/" + fileName, FileMode.Create))
                     {
                         productReqModel.CardImg.CopyTo(stream);
@@ -143,10 +162,10 @@ namespace AliveStoreTemplate.Services
                     UpdateTime = DateTime.Now
                 };
 
-                var baseResponseModel = _productRepository.PatchProduct(productList);
+                _productRepository.PatchProduct(productList);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "修改完成",
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -167,7 +186,7 @@ namespace AliveStoreTemplate.Services
                 //取出所有的卡片清單
                 var category = "";
                 var subcategory = "";
-                var cardList = _productRepository.SearchProduct(category, subcategory).Results;
+                var cardList = _productRepository.SearchProduct(category, subcategory);
                 var NewcardPathInDb = "";
                 if (Req.CardImg != null)
                 {
@@ -204,10 +223,10 @@ namespace AliveStoreTemplate.Services
                     RealseTime = DateTime.Now,
                     UpdateTime = DateTime.Now
                 };
-                var baseResponseModel = _productRepository.InsertProduct(product);
+                _productRepository.InsertProduct(product);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "修改完成",
                     StatusCode = HttpStatusCode.OK
                 };
             }
@@ -228,16 +247,17 @@ namespace AliveStoreTemplate.Services
                 var productId = Req.productId;
                 var ImgUrl = Req.ImgUrl;
 
+                //刪除卡片路徑的卡
                 if (ImgUrl != null)
                 {
                     var path = $"./wwwroot/" + ImgUrl;
                     File.Delete(path);
                 }
                 
-                var baseResponseModel = _productRepository.DeleteProduct(productId);
+                _productRepository.DeleteProduct(productId);
                 return new BaseResponseModel
                 {
-                    Message = baseResponseModel.Message,
+                    Message = "修改完成",
                     StatusCode = HttpStatusCode.OK
                 };
             }
