@@ -16,6 +16,11 @@ namespace AliveStoreTemplate.Repositories
             _dbShop = shopContext;
         }
 
+        /// <summary>
+        /// 更新最近三筆訂單地址
+        /// </summary>
+        /// <param name="AddressUpserCondi"></param>
+        /// <returns></returns>
         public int UpsertAddress(AddressUpserConditionModel AddressUpserCondi)
         {
             try
@@ -78,17 +83,17 @@ namespace AliveStoreTemplate.Repositories
             
         }
 
-        public BaseResponseModel AddOrderDetail(OrderProduct orderProduct)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderProduct"></param>
+        /// <returns></returns>
+        public void AddOrderDetail(OrderProduct orderProduct)
         {
             try
             {
                 _dbShop.OrderProducts.Add(orderProduct);
                 _dbShop.SaveChanges();
-                return new BaseResponseModel
-                {
-                    Message = "已購買",
-                    StatusCode = HttpStatusCode.OK
-                };
             }
             catch
             {
@@ -111,25 +116,13 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public BaseQueryModel<OrderList> GetOrderList(int id)
+        public List<OrderList> GetOrderList(int id)
         {
             try
             {
                 var result = _dbShop.OrderLists.Where(x => x.Uid == id);
-                if(!result.Any())
-                {
-                    return new BaseQueryModel<OrderList>
-                    {
-                        Results = null,
-                        Message = "暫無歷史訂單",
-                        StatusCode = HttpStatusCode.OK
-                    };
-                }
-                return new BaseQueryModel<OrderList> {
-                    Results = result,
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
+
+                return new List<OrderList> result;
             }
             catch
             {

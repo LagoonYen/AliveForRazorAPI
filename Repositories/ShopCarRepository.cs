@@ -7,18 +7,8 @@ namespace AliveStoreTemplate.Repositories
 {
     public interface ShopCarRepository
     {
-        /// <summary>
-        /// 新增商品至購物車
-        /// </summary>
-        /// <param name="ProductShopcar"></param>
-        /// <returns></returns>
-        public BaseResponseModel AddToCart(ProductShopcar ProductShopcar);
+        public void AddToCart(ProductShopcar ProductShopcar);
 
-        /// <summary>
-        /// 讀取購物車清單
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
         public BaseQueryModel<ShopcarListConditionModel> GetUserShopcartList(int uid);
 
         /// <summary>

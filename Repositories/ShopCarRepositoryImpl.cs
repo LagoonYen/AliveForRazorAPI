@@ -17,7 +17,12 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        public BaseResponseModel AddToCart(ProductShopcar ProductShopcar)
+        /// <summary>
+        /// 新增商品至購物車
+        /// </summary>
+        /// <param name="ProductShopcar"></param>
+        /// <returns></returns>
+        public void AddToCart(ProductShopcar ProductShopcar)
         {
             try
             {
@@ -29,21 +34,11 @@ namespace AliveStoreTemplate.Repositories
                     result.Num = ProductShopcar.Num;
                     result.UpdateTime = ProductShopcar.UpdateTime;
                     _shopContext.SaveChanges();
-                    return new BaseResponseModel()
-                    {
-                        Message = "已更新購物車",
-                        StatusCode = HttpStatusCode.OK
-                    };
                 };
 
                 //無同商品 新增
                 _shopContext.ProductShopcars.Add(ProductShopcar);
                 _shopContext.SaveChanges();
-                return new BaseResponseModel()
-                {
-                    Message = "已加入購物車",
-                    StatusCode = HttpStatusCode.OK
-                };
             }
             catch
             {
@@ -51,6 +46,11 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
+        /// <summary>
+        /// 讀取購物車清單
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public BaseQueryModel<ShopcarListConditionModel> GetUserShopcartList(int uid)
         {
             try
