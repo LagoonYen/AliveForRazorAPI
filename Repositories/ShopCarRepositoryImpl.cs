@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System;
 using AliveStoreTemplate.Model.DTOModel;
-using System.Collections.Generic;
 
 namespace AliveStoreTemplate.Repositories
 {
@@ -18,12 +17,7 @@ namespace AliveStoreTemplate.Repositories
             _shopContext = shopContext;
         }
 
-        /// <summary>
-        /// 新增商品至購物車
-        /// </summary>
-        /// <param name="ProductShopcar"></param>
-        /// <returns></returns>
-        public void AddToCart(ProductShopcar ProductShopcar)
+        public BaseResponseModel AddToCart(ProductShopcar ProductShopcar)
         {
             try
             {
@@ -35,12 +29,21 @@ namespace AliveStoreTemplate.Repositories
                     result.Num = ProductShopcar.Num;
                     result.UpdateTime = ProductShopcar.UpdateTime;
                     _shopContext.SaveChanges();
-                    return;
+                    return new BaseResponseModel()
+                    {
+                        Message = "已更新購物車",
+                        StatusCode = HttpStatusCode.OK
+                    };
                 };
 
                 //無同商品 新增
                 _shopContext.ProductShopcars.Add(ProductShopcar);
                 _shopContext.SaveChanges();
+                return new BaseResponseModel()
+                {
+                    Message = "已加入購物車",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch
             {
@@ -48,21 +51,30 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        /// <summary>
-        /// 讀取購物車清單
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public List<ShopcarListConditionModel> GetUserShopcartList(int uid)
+        public BaseQueryModel<ShopcarListConditionModel> GetUserShopcartList(int uid)
         {
             try
             {
                 //製作ShopcarListConditionModel
-                var dbData = _shopContext.ProductShopcars.Where(x => x.Uid == uid).Join(_shopContext.ProductLists,
+                var result = _shopContext.ProductShopcars.Where(x => x.Uid == uid).Join(_shopContext.ProductLists,
                     x => x.ProductId,
                     o => o.Id,
                     (x, o) => new ShopcarListConditionModel { uid = x.Uid, product_id = x.ProductId, cardName = o.CardName, num = x.Num, imgUrl = o.ImgUrl, price = o.Price, inventory = o.Inventory }).ToList();
-                return dbData;
+                if (result.Count ==0 )
+                {
+                    return new BaseQueryModel<ShopcarListConditionModel>
+                    {
+                        Results = null,
+                        Message = "目前購物車無商品",
+                        StatusCode = HttpStatusCode.OK
+                    };
+                }
+                return new BaseQueryModel<ShopcarListConditionModel>
+                {
+                    Results = result,
+                    Message = string.Empty,
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch
             {
@@ -86,7 +98,7 @@ namespace AliveStoreTemplate.Repositories
                     return new BaseQueryModel<MemberShopcar>
                     {
                         Results = null,
-                        Message = "查無此商品",
+                        Message = "目前購物車無商品",
                         StatusCode = HttpStatusCode.OK
                     };
                 }
@@ -103,7 +115,7 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public void DelFromCart(DelFromCartReqModel Req)
+        public BaseResponseModel DelFromCart(DelFromCartReqModel Req)
         {
             try
             {
@@ -113,6 +125,11 @@ namespace AliveStoreTemplate.Repositories
                     throw new Exception("查無此商品");
                 }
                 _shopContext.SaveChanges();
+                return new BaseResponseModel
+                {
+                    Message = "資料已刪除",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch
             {
@@ -120,7 +137,7 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public void UpsertCart(UpsertCartReqModel Req)
+        public BaseResponseModel UpsertCart(UpsertCartReqModel Req)
         {
             try
             {
@@ -132,6 +149,11 @@ namespace AliveStoreTemplate.Repositories
                 result.UpdateTime = Req.UpdateTime;
                 result.Num = Req.num;
                 _shopContext.SaveChanges();
+                return new BaseResponseModel
+                {
+                    Message = "資料已更新",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch
             {
@@ -139,7 +161,7 @@ namespace AliveStoreTemplate.Repositories
             }
         }
 
-        public void CleanShopcar(int Uid)
+        public BaseResponseModel CleanShopcar(int Uid)
         {
             try
             {
@@ -150,6 +172,12 @@ namespace AliveStoreTemplate.Repositories
                 }
                 _shopContext.ProductShopcars.RemoveRange(result);
                 _shopContext.SaveChanges();
+
+                return new BaseResponseModel
+                {
+                    Message = "已清空購物車",
+                    StatusCode = HttpStatusCode.OK
+                };
             }
             catch
             {
