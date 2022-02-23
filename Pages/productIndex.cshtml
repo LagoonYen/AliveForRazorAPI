@@ -41,42 +41,44 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.CardList)
-                        {
+                        @if(Model.CardList != null){
+                            @foreach (var item in Model.CardList)
+                            {
 
-                            <tr class="table-warning">
-                                <td>
-                                    @item.Category
-                                </td>
-                                <td>
-                                    @item.Subcategory
-                                </td>
-                                <td>
-                                    @item.CardName
-                                </td>
-                                <td>
-                                    @item.ImgUrl
-                                    <img asp-append-version="true" src="@item.ImgUrl"  style="max-width:42px; max-height:150px"/>
-                                </td>
-                                <td>
-                                    @item.Price
-                                </td>
-                                <td>
-                                    @item.Inventory
-                                </td>
-                                <td>
-                                    @item.UpdateTime
-                                </td>
-                                <td>
-                                    <button class="btn btn-success"><a asp-page="./productEdit" asp-route-productId="@item.Id"  style="color:white;text-decoration:none;">編輯</a></button> |
-                                    @*ToDo 不知道是不是只能用button 不能統一用a*@
-                                    <form method="post">
-                                        <button class="btn btn-danger" asp-page-handler="DeleteProduct">刪除</button>
-                                        <input name="productId" value="@item.Id" type="hidden">
-                                        <input name="ImgUrl" value="@item.ImgUrl" type="hidden">
-                                    </form>
-                                </td>
-                            </tr>
+                                <tr class="table-warning">
+                                    <td>
+                                        @item.Category
+                                    </td>
+                                    <td>
+                                        @item.Subcategory
+                                    </td>
+                                    <td>
+                                        @item.CardName
+                                    </td>
+                                    <td>
+                                        @item.ImgUrl
+                                        <img asp-append-version="true" src="@item.ImgUrl"  style="max-width:42px; max-height:150px"/>
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                    <td>
+                                        @item.Inventory
+                                    </td>
+                                    <td>
+                                        @item.UpdateTime
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success"><a asp-page="./productEdit" asp-route-productId="@item.Id"  style="color:white;text-decoration:none;">編輯</a></button> |
+                                        @*ToDo 不知道是不是只能用button 不能統一用a*@
+                                        <form method="post">
+                                            <button class="btn btn-danger" asp-page-handler="DeleteProduct">刪除</button>
+                                            <input name="productId" value="@item.Id" type="hidden">
+                                            <input name="ImgUrl" value="@item.ImgUrl" type="hidden">
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

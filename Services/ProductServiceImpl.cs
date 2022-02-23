@@ -162,6 +162,7 @@ namespace AliveStoreTemplate.Services
                     UpdateTime = DateTime.Now
                 };
 
+
                 _productRepository.PatchProduct(productList);
                 return new BaseResponseModel
                 {
@@ -183,33 +184,33 @@ namespace AliveStoreTemplate.Services
         {
             try
             {
-                //取出所有的卡片清單
-                var category = "";
-                var subcategory = "";
-                var cardList = _productRepository.SearchProduct(category, subcategory);
-                var NewcardPathInDb = "";
-                if (Req.CardImg != null)
-                {
-                    Req.ImgUrl = Req.CardImg.FileName;
-                    //比對是否有重複的圖片名稱
-                    //var fileName = Req.CardImg.FileName;
-                    var fileName = Guid.NewGuid().ToString();
-                    foreach (var item in cardList)
-                    {
-                        var dbfileName = item.ImgUrl.Split(".").TakeLast(1).FirstOrDefault();
-                        fileName = (fileName == dbfileName) ? Guid.NewGuid().ToString() : fileName;
-                    }
+                ////取出所有的卡片清單
+                //var category = "";
+                //var subcategory = "";
+                //var cardList = _productRepository.SearchProduct(category, subcategory);
+                //var NewcardPathInDb = "";
+                //if (Req.CardImg != null)
+                //{
+                //    Req.ImgUrl = Req.CardImg.FileName;
+                //    //比對是否有重複的圖片名稱
+                //    //var fileName = Req.CardImg.FileName;
+                //    var fileName = Guid.NewGuid().ToString();
+                //    foreach (var item in cardList)
+                //    {
+                //        var dbfileName = item.ImgUrl.Split(".").TakeLast(1).FirstOrDefault();
+                //        fileName = (fileName == dbfileName) ? Guid.NewGuid().ToString() : fileName;
+                //    }
 
-                    //建造儲存路徑
-                    var fileExtension = Req.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
-                    NewcardPathInDb = $"img/{fileName}.{fileExtension}";
+                //    //建造儲存路徑
+                //    var fileExtension = Req.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
+                //    NewcardPathInDb = $"img/{fileName}.{fileExtension}";
 
-                    //感謝Kevin指引 [走丟的] 路徑要加在哪邊www
-                    using (var stream = new FileStream($"./wwwroot/" + NewcardPathInDb, FileMode.Create))
-                    {
-                        Req.CardImg.CopyTo(stream);
-                    }
-                }
+                //    //感謝Kevin指引 [走丟的] 路徑要加在哪邊www
+                //    using (var stream = new FileStream($"./wwwroot/" + NewcardPathInDb, FileMode.Create))
+                //    {
+                //        Req.CardImg.CopyTo(stream);
+                //    }
+                //}
 
                 ProductList product = new ProductList
                 {
@@ -219,7 +220,7 @@ namespace AliveStoreTemplate.Services
                     Description = Req.Description,
                     Price = Req.Price,
                     Inventory = Req.Inventory,
-                    ImgUrl = NewcardPathInDb,
+                    //ImgUrl = NewcardPathInDb,
                     RealseTime = DateTime.Now,
                     UpdateTime = DateTime.Now
                 };

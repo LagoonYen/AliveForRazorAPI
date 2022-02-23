@@ -82,7 +82,7 @@ namespace AliveStoreTemplate
             services.AddScoped<MemberService, MemberServiceImpl>();
             services.AddScoped<MemberRepository, MemberRepositoryImpl>();
             services.AddScoped<ProductService, ProductServiceImpl>();
-            services.AddScoped<ProductRepository, ProductRepositoryImpl>();
+            services.AddScoped<ProductRepository, ProductRepositoryNo2DBImpl>();
             services.AddScoped<ShopCarService, ShopCarServiceImpl>();
             services.AddScoped<ShopCarRepository, ShopCarRepositoryImpl>();
             services.AddScoped<OrderService, OrderServiceImpl>();

@@ -37,6 +37,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Node.js" Version="5.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.IO" Version="4.3.0" />
   </ItemGroup>
 
@@ -48,6 +49,16 @@
 
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Library\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="No2DB">
+      <HintPath>Library\No2DB.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
