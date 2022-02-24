@@ -21,13 +21,6 @@ namespace AliveStoreTemplate.Services
         public BaseQueryModel<ShopcarListConditionModel> User_shopcart_list(int uid);
         
         /// <summary>
-        /// 廢棄用
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid);
-
-        /// <summary>
         /// 刪除某一項購物車清單
         /// </summary>
         /// <param name="Req"></param>

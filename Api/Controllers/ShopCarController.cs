@@ -69,28 +69,6 @@ namespace AliveStoreTemplate.Api.Controllers
         }
 
         /// <summary>
-        /// 取得Member購物車內清單
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("[action]")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult User_shopcart_listByView()
-        {
-            try
-            {
-                var uid = int.Parse(Request.Cookies["id"]);
-                var result = _shopCarService.User_shopcart_listByView(uid);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        /// <summary>
         /// 刪除某一項商品
         /// </summary>
         /// <param name="Req"></param>

@@ -20,9 +20,9 @@
             @*product-photo 产品照片*@
             <section class="product-photo">
                 <figure class="photo-view">
-                    @*<img class="product_img"/>*@
+                    
                     <img src="img/ill_prod1.png" />
-                    @*<img src="<%=MainImage %>" alt="" />*@
+                    
                 </figure>
             </section>
             @*product-info 產品資訊*@
@@ -41,14 +41,10 @@
                                 <option value="@x">@x</option>
                             }
                         </select>
-                        @*<h4>优惠活动</h4>
-                        <p>
-                            全站买1111减111<br />
-                            11/1-11/11,拍即享原价75折
-                        </p>*@
+                        
                         <section class="info-action">
-                            <button class="ui blue button" type="submit" asp-page-handler="AddToCart">加入購物車</button>
-                            <button class="ui blue button" type="submit" asp-page-handler="AddToCartBySession">加入購物車BySession</button>
+                            <button class="ui blue button" type="submit" asp-page-handler="AddToCart">加入購物車(DB)</button>
+                            <button class="ui blue button" type="submit" asp-page-handler="AddToCartBySession">加入購物車(Session)</button>
                         </section>
                     </form>
                 </div>
@@ -64,83 +60,7 @@
                     </p>
                 </div>
             </section>
-            @*product-related 相關商品*@
-            @*<section class="product-related">
-                <h3><em>相關商品</em><span></span></h3>
-                <ul class="list-related">
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-orignal">500</span>
-                                    <span class="price-discount">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-orignal">500</span>
-                                    <span class="price-discount">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod3.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-orignal">500</span>
-                                    <span class="price-discount">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod4.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-count">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod1.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-orignal">500</span>
-                                    <span class="price-discount">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="prod">
-                            <a href="product" class="prod-photo" style="background-image: url(img/ill_prod2.png);"></a>
-                            <section class="prod-info">
-                                <a href="product" class="prod-name">产品名称</a>
-                                <p class="prod-price">
-                                    <span class="price-orignal">500</span>
-                                    <span class="price-discount">300</span>
-                                </p>
-                            </section>
-                        </div>
-                    </li>
-                </ul>
-            </section>*@
+            
         </article>
         @*/product 产品*@
     </div>

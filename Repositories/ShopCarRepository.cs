@@ -12,13 +12,6 @@ namespace AliveStoreTemplate.Repositories
 
         public List<ShopcarListConditionModel> GetUserShopcartList(int uid);
 
-        /// <summary>
-        /// 廢棄用
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid);
-
         public void DelFromCart(DelFromCartReqModel Req);
 
         public void UpsertCart(UpsertCartReqModel Req);

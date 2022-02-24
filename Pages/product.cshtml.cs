@@ -110,7 +110,7 @@ namespace AliveStoreTemplate.Pages
                 }
                 Common.CommonUtil.SessionSetObject(HttpContext.Session, "cart", cart);
             }
-            //return NoContent();
+
             Response.Redirect("product?productId=" + CardInfo.Id);
         }
     }

@@ -102,29 +102,6 @@ namespace AliveStoreTemplate.Services
             }
         }
 
-        /// <summary>
-        /// 廢棄用
-        /// </summary>
-        /// <param name="UID"></param>
-        /// <returns></returns>
-        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int UID)
-        {
-            try
-            {
-                return _shopCarRepository.User_shopcart_listByView(UID);
-                //return result;
-            }
-            catch (Exception ex)
-            {
-                return new BaseQueryModel<MemberShopcar>()
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
-            }
-        }
-
         public BaseResponseModel DelFromCart(DelFromCartReqModel Req)
         {
             try

@@ -51,13 +51,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK,
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -97,14 +93,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseQueryModel<MemberInfo>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -143,14 +134,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseQueryModel<MemberInfo>
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -171,14 +157,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseQueryModel<MemberInfo>()
-                {
-                    Results = null,
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -208,13 +189,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch (Exception ex)
+            catch
             {
-                return new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode = HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 
@@ -239,13 +216,9 @@ namespace AliveStoreTemplate.Services
                     StatusCode = HttpStatusCode.OK
                 };
             }
-            catch(Exception ex)
+            catch
             {
-                return new BaseResponseModel
-                {
-                    Message = ex.Message,
-                    StatusCode= HttpStatusCode.BadRequest
-                };
+                throw;
             }
         }
 

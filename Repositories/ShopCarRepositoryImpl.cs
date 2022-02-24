@@ -71,38 +71,6 @@ namespace AliveStoreTemplate.Repositories
         }
 
         /// <summary>
-        /// 廢棄用
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public BaseQueryModel<MemberShopcar> User_shopcart_listByView(int uid)
-        {
-            try
-            {
-                var result = _shopContext.MemberShopcars.Where(x => x.Uid == uid).ToList();
-                if (result.Count == 0)
-                {
-                    return new BaseQueryModel<MemberShopcar>
-                    {
-                        Results = null,
-                        Message = "目前購物車無商品",
-                        StatusCode = HttpStatusCode.OK
-                    };
-                }
-                return new BaseQueryModel<MemberShopcar>
-                {
-                    Results = result,
-                    Message = string.Empty,
-                    StatusCode = HttpStatusCode.OK
-                };
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
         /// 刪除單項商品
         /// </summary>
         /// <param name="Req"></param>
