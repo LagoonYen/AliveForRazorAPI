@@ -1,17 +1,16 @@
 ﻿using AliveStoreTemplate.Model;
 using AliveStoreTemplate.Model.DTOModel;
-using AliveStoreTemplate.Model.ViewModel;
+using No2DB.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 
 namespace AliveStoreTemplate.Repositories
 {
-    public class OrderRepositoryImpl : OrderRepository
+    public class OrderRepositoryNo2DBImpl : OrderRepository
     {
         private readonly ShopContext _dbShop;
-        public OrderRepositoryImpl(ShopContext shopContext)
+        public OrderRepositoryNo2DBImpl(ShopContext shopContext)
         {
             _dbShop = shopContext;
         }
@@ -99,7 +98,7 @@ namespace AliveStoreTemplate.Repositories
             {
                 throw;
             }
-            
+
         }
 
         /// <summary>
@@ -150,7 +149,7 @@ namespace AliveStoreTemplate.Repositories
             try
             {
                 var result = _dbShop.OrderLists.Find(orderId);
-                if(result == null)
+                if (result == null)
                 {
                     throw new Exception("查無商品");
                 }
@@ -178,7 +177,7 @@ namespace AliveStoreTemplate.Repositories
             catch
             {
                 throw;
-            }            
+            }
         }
 
         /// <summary>
@@ -191,7 +190,7 @@ namespace AliveStoreTemplate.Repositories
             try
             {
                 var result = _dbShop.OrderProducts.Where(x => x.OrderId == orderId).ToList();
-                if(result == null)
+                if (result == null)
                 {
                     throw new Exception("找不到訂單資訊，請重新搜尋");
                 }

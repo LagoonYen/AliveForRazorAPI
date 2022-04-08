@@ -127,7 +127,7 @@ namespace AliveStoreTemplate.Repositories
             try
             {
                 var collection = new DRole("Member");
-                var DataKeys = collection.Query<ProductList>("UserInfo").DataCount();
+                var DataKeys = collection.Query<MemberInfo>("UserInfo").DataCount();
                 member.Id = DataKeys + 1;
                 collection.GetOp("UserInfo").Update(member.Id + "", member);
             }

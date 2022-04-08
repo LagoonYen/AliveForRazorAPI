@@ -135,8 +135,7 @@ namespace AliveStoreTemplate.Services
                 //先抓舊的ImgUrl
                 var fileName = productReqModel.ImgUrl;
 
-                if (
-                    productReqModel.CardImg.FileName != null)
+                if (productReqModel.CardImg.FileName != null)
                 {
                     //新檔案的類別名稱
                     var fileExtension = productReqModel.CardImg.FileName.Split(".").TakeLast(1).FirstOrDefault();
